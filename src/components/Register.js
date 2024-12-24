@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './Login.css'
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -26,40 +27,46 @@ function Register() {
   };
 
   return (
-    <div>
-      <h1>Registrazione</h1>
-      <form onSubmit={handleRegister}>
-        <div>
-          <input
-            type="text"
-            placeholder="Nome utente"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className="login-container">
+        <div className="login-card">
+            <h1 className="login-title">Registrazione</h1>
+            <form onSubmit={handleRegister}>
+                <div className="form-group">
+                <input
+                    type="text"
+                    placeholder="Nome utente"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="input-field"
+                    required
+                />
+                </div>
+                <div className="form-group">
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="input-field"
+                    required
+                />
+                </div>
+                <div className="form-group">
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-field"
+                    required
+                />
+                </div>
+                <button type="submit" className="submit-button">Registrati</button>
+            </form>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {message && <p>{message}</p>}
+        
         </div>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Registrati</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {message && <p>{message}</p>}
     </div>
   );
 }

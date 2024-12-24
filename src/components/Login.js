@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";  // Per importare gli stili
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -10,7 +11,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    let authUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api/"
+    let authUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api/";
     try {
       const response = await axios.post(authUrl + "auth/login", {
         username,
@@ -26,30 +27,34 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <input
-            type="text"
-            placeholder="Nome utente"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Accedi</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="login-container">
+      <div className="login-card">
+        <h1 className="login-title">Accedi</h1>
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Nome utente"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+          <button type="submit" className="submit-button">Accedi</button>
+        </form>
+        {error && <p className="error-message">{error}</p>}
+      </div>
     </div>
   );
 }
