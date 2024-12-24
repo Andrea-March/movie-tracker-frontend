@@ -10,9 +10,9 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    let authUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api/"
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
+      const response = await axios.post(authUrl + "auth/login", {
         username,
         password,
       });
