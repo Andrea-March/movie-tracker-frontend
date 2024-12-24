@@ -1,0 +1,32 @@
+/* App Container */
+.app-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Content Styles */
+.content {
+  padding: 20px;
+  flex: 1;
+  background-color: #ecf0f1;
+  transition: margin-left 0.3s ease;
+  background-color: var(--background);
+  min-height: 85vh;
+}
+
+.button {
+  background-color: var(--button);
+  color: var(--button-text);
+}
+
+.button hover{
+  color: var(--button-hover-text);
+  background-color: var(--button-hover);
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,64 @@
+/* Stile generale */
+.watched-movies {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Titolo */
+  .title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--text);
+  }
+  
+  /* Griglia dei film */
+  .movie-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  /* Singola card del film */
+  .movie-card {
+    background: #ffebd6; /* Colore caldo */
+    border: 1px solid #ff6f61;
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .movie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Titolo del film */
+  .movie-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Descrizione del film */
+  .movie-description {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Messaggio di errore */
+  .error-message {
+    color: red;
+    text-align: center;
+  }
+  
+  /* Nessun film */
+  .no-movies {
+    font-size: 1.2rem;
+    color: #999;
+    text-align: center;
+  }
