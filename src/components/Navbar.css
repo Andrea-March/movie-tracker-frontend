@@ -121,9 +121,9 @@
   }
 
   .movie-search-slider {
-    position: absolute;
+    position: fixed;
     right: 0;
-    min-width: 300px;
+    min-width: 100%;
     max-width: 90%;
     top: 120px;
     transform: translate(100%, 0);

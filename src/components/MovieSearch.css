@@ -39,6 +39,11 @@
 
 }
 
-@media screen and (max-width : 800px){
-
+@media screen and (max-width : 600px){
+ .search-result img{
+    width: 60px;
+ }
+ .movie-title {
+    font-size: 0.8rem;
+ }
 }

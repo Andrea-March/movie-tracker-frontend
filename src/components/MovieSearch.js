@@ -68,6 +68,7 @@ function MovieSearch() {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {movies.slice(0, 3).map((movie) => (
               <li
+                className="search-result"
                 key={movie.imdbID}
               >
                 {movie.Poster !== "N/A" && (
@@ -78,7 +79,7 @@ function MovieSearch() {
                   />
                 )}
                 <div>
-                  <h3 style={{ margin: 0 }}>
+                  <h3 style={{ margin: 0 }} className="movie-title">
                     {movie.Title}{" "}
                     {movie.Year && `(${movie.Year})`}
                   </h3>
@@ -92,6 +93,7 @@ function MovieSearch() {
                         color: "#4CAF50",
                         fontSize: "24px",
                       }}
+                      className="add-icon"
                       title="Aggiungi ai visti"
                     />
                     <FontAwesomeIcon
