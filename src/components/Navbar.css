@@ -137,6 +137,7 @@
     max-width: 90%;
     top: 120px;
     transform: translate(100%, 0);
+    z-index: 2;
 }
 
 .movie-search-slider-translate {
@@ -147,6 +148,37 @@
   margin-top: 50px;
   justify-content: center;
   display: flex;
+}
+
+
+/* subnavbar */ 
+.sub-navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  padding: 10px;
+}
+
+.sub-navbar button {
+  background: none;
+  border: none;
+  color: white;
+  margin: 0 15px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.sub-navbar button:hover {
+  color: #ff9900;
+}
+
+.sub-navbar button.active {
+  font-weight: bold;
+  color: #ff9900;
+  border-bottom: 2px solid #ff9900;
 }
   
   /* Mobile styles */

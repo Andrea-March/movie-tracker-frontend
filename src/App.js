@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Explore from "./pages/Explore";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<ProtectedRoute element={WatchedMovies} />} />
+            <Route path="/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
           </Routes>

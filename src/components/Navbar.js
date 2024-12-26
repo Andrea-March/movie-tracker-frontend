@@ -10,6 +10,8 @@ import MovieSearch from './MovieSearch';
 
 const Navbar = () => {
 
+  const [activePage, setActivePage] = useState("explore");
+
   const navigate = useNavigate();
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -63,10 +65,31 @@ const logout = () => {
           </div>
           
         </div>
-        
-
-        
       </nav>
+
+          {/* Subnavbar */}
+        <div className="sub-navbar">
+          <button
+            className={activePage === "explore" ? "active" : ""}
+            onClick={() => navigate("explore")}
+          >
+            Esplora
+          </button>
+          <button
+            className={activePage === "watched" ? "active" : ""}
+            onClick={() => navigate("watched")}
+          >
+            Film Visti
+          </button>
+          <button
+            className={activePage === "to-watch" ? "active" : ""}
+            onClick={() => navigate("to-watch")}
+          >
+            Da Vedere
+          </button>
+        </div>
+
+
       <div className={`mobile-menu ${showMobileMenu ? 'mobile-menu-translate' : ''}`}>
       <div className='mobile-dark-toggle'>
         <DarkModeToggle/>
