@@ -15,9 +15,8 @@ const WatchedMovies = () => {
           return;
         }
 
-        const userMovies = await fetchUserMovies(token);
-        const watchedMovies = userMovies.filter((movie) => movie.watched);
-        setMovies(watchedMovies);
+        const movies = await fetchUserMovies(token, 'watched');
+        setMovies(movies);
       } catch (err) {
         setError(err.message);
       }
@@ -42,6 +41,7 @@ const WatchedMovies = () => {
                 alt={movie.movieId.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
+                loading="lazy"
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>
               <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}

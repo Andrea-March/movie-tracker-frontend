@@ -16,10 +16,10 @@ export const searchMovies = async (query) => {
 };
 
 // Funzione per cercare i film tramite il backend
-export const searchPopularMovies = async (query) => {
+export const searchPopularMovies = async (page) => {
   try {
     const response = await axios.get(`${API_URL}movies/popular`, {
-      params: { query },
+      params: { page },
     });
     return response.data; // Restituisce i film trovati
   } catch (error) {
@@ -51,14 +51,14 @@ export const addMovieToList = async (movie, watched) => {
   };
 
 // Recupera i film dell'utente
-export const fetchUserMovies = async (token) => {
+export const fetchUserMovies = async (token, type) => {
     if (!token) {
         throw new Error("Devi essere loggato per aggiungere il film.");
       }
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId;
     try {
-      const response = await axios.get(`${API_URL}users/${userId}/movies`, {
+      const response = await axios.get(`${API_URL}users/${userId}/movies/${type}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;

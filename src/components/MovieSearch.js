@@ -80,6 +80,7 @@ function MovieSearch({onCloseClick}) {
                   <img
                     src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
                     alt={movie.title}
+                    loading="lazy"
                   />
                 )}
                 <div>

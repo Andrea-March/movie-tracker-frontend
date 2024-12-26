@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from "react";
 import './WatchedMovies.css'
+import './Explore.css'
 import {searchPopularMovies} from '../services/movieservice'
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const Explore = () => {
 
     const [popularMovies, setPopularMovies] = useState([]);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(()=>{
         const loadPopularMovies = async () => {
@@ -14,9 +20,10 @@ const Explore = () => {
                 setError("Non sei autenticato.");
                 return;
                 }
-        
-                const movies = await searchPopularMovies(token);
-                setPopularMovies(movies);
+                setPopularMovies([]);
+                const res = await searchPopularMovies(currentPage);
+                setPopularMovies(res.movies);
+                setTotalPages(res.totalPages)
             } catch (err) {
                 setError(err.message);
             }
@@ -24,7 +31,19 @@ const Explore = () => {
         
         loadPopularMovies();
     }
-    ,[]);
+    ,[currentPage]);
+
+    const handleNextPage = () => {
+      if (currentPage < totalPages) {
+        setCurrentPage((prev) => prev + 1);
+      }
+    };
+  
+    const handlePreviousPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage((prev) => prev - 1);
+      }
+    };
 
     return(
      <div className="watched-movies content">
@@ -38,6 +57,7 @@ const Explore = () => {
                 alt={movie.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
+                loading="lazy"
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>
               <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
@@ -48,10 +68,29 @@ const Explore = () => {
               </div>
             </div>
           ))}
+          <div className="pagination">
+            <button 
+              onClick={handlePreviousPage} 
+              disabled={currentPage === 1}
+              className="pagination-button"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <span>{currentPage} / {totalPages}</span>
+            <button 
+              onClick={handleNextPage} 
+              disabled={currentPage === totalPages}
+              className="pagination-button"
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </div>
         </div>
+        
       ) : (
         <p className="no-movies">Non ci sono film da visualizzare.</p>
       )}
+      
     </div>
     );
 }
