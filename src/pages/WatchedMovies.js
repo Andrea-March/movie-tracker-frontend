@@ -36,9 +36,15 @@ const WatchedMovies = () => {
       {movies.length > 0 ? (
         <div className="movie-grid">
           {movies.map((movie) => (
-            <div className="movie-card" key={movie.movieId}>
-              <h3 className="movie-title">{movie.title}</h3>
-              <p className="movie-description">{movie.description}</p>
+            <div className="movie-card" key={movie.movieId.id}>
+              <img 
+                src={movie.movieId.poster_path} 
+                alt={movie.movieId.title} 
+                className="movie-poster" 
+                style={{ width: "150px"}} 
+              />
+             {/*  <p className="movie-title">{movie.movieId.Title}</p>
+              <p className="movie-description">{new Date(movie.movieId.Year).getFullYear()}</p> */}
             </div>
           ))}
         </div>

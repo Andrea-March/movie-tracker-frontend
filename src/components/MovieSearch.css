@@ -38,12 +38,22 @@
     background-color: #f9f9f9;
 
 }
+.close-search-bar-icon{
+    color: black;
+}
+.search-result{
+    height: 120px;
+}
 
 @media screen and (max-width : 600px){
  .search-result img{
-    width: 60px;
+    width: 80px;
  }
  .movie-title {
     font-size: 0.8rem;
+ }
+
+ .movie-search-container h1{
+    font-size: 1rem;
  }
 }

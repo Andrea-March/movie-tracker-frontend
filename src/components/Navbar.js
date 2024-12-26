@@ -35,7 +35,7 @@ const hideMenu = () => {
         </div>
         <FontAwesomeIcon icon={faSearch} size={"2x"} className='search-icon' onClick={() => setShowSearchBar(!showSerachBar)}/>
                 <div className={`movie-search-slider ${showSerachBar ? 'movie-search-slider-translate' : ''}`}>
-                    <MovieSearch />
+                    <MovieSearch onCloseClick={()=>setShowSearchBar(false)}/>
                 </div>
         {/* Link centrali */}
         <ul className="nav-links">

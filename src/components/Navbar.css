@@ -145,6 +145,10 @@
   
     .navbar{
     }
+
+    .logo-container {
+      height: 60px;
+    }
   
     .logo-container h1 {
       display: none;

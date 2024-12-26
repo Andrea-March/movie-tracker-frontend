@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { searchMovies, addMovieToList } from "../services/movieservice";
-import { faCheckCircle, faEye } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
+import { faCheckCircle, faEye, faTimes } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './MovieSearch.css';
 import { useNavigate } from "react-router-dom";
 
-function MovieSearch() {
+function MovieSearch({onCloseClick}) {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -33,6 +33,7 @@ function MovieSearch() {
     // Funzione per aggiungere un film alla lista dell'utente
     const handleAddToList = async (movie, watched) => {
         try {
+          console.log(movie)
           const message = await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
           watched ? navigate("/watched") : navigate("/to-watch");
           window.location.reload();
@@ -44,7 +45,11 @@ function MovieSearch() {
 
   return (
     <div className="movie-search-container">
-      <h1>Ricerca Film</h1>
+      <div className="flex-row justify-between align-items-center">
+        <h1>Ricerca Film</h1>
+        <FontAwesomeIcon className="close-search-bar-icon" icon={faTimes} size="2x" onClick={onCloseClick}/>
+      </div>
+
       <div className="search-wrapper">
         <input
           type="text"
@@ -69,22 +74,20 @@ function MovieSearch() {
             {movies.slice(0, 3).map((movie) => (
               <li
                 className="search-result"
-                key={movie.imdbID}
+                key={movie.id}
               >
                 {movie.Poster !== "N/A" && (
                   <img
-                    src={movie.Poster}
-                    alt={movie.Title}
-                    style={{ borderRadius: "5px", width: "100px" }}
+                    src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
+                    alt={movie.title}
                   />
                 )}
                 <div>
                   <h3 style={{ margin: 0 }} className="movie-title">
-                    {movie.Title}{" "}
-                    {movie.Year && `(${movie.Year})`}
+                    {movie.title}{" "}
+                    {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
                   </h3>
-                  <p style={{ margin: 0 }}>{movie.Plot}</p>
-                </div><div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                </div><div style={{ display: "flex", gap: "10px", marginTop: "10px", marginLeft: "auto" }}>
                 <FontAwesomeIcon
                       icon={faCheckCircle}
                       onClick={() => handleAddToList(movie, true)}
