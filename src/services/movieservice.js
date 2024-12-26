@@ -15,6 +15,18 @@ export const searchMovies = async (query) => {
   }
 };
 
+// Funzione per cercare i film tramite il backend
+export const searchPopularMovies = async (query) => {
+  try {
+    const response = await axios.get(`${API_URL}movies/popular`, {
+      params: { query },
+    });
+    return response.data; // Restituisce i film trovati
+  } catch (error) {
+    throw new Error('Errore durante la ricerca dei film');
+  }
+};
+
 // Funzione per aggiungere un film alla lista dell'utente (visti o da vedere)
 export const addMovieToList = async (movie, watched) => {
     const token = localStorage.getItem("token");
