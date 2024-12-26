@@ -42,6 +42,10 @@
   .movie-card p{
     margin: 0;
   }
+
+  .movie-card img {
+    margin-bottom: auto;
+  }
   
   /* Titolo del film */
   .movie-title {
@@ -55,10 +59,11 @@
     margin: 0;
   }
   
-  /* Descrizione del film */
-  .movie-description {
+  /* Anno di uscita del film */
+  .movie-year {
     font-size: 1rem;
     color: #666;
+    text-align: center;
   }
   
   /* Messaggio di errore */

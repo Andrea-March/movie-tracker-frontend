@@ -44,7 +44,12 @@ const WatchedMovies = () => {
                 style={{ width: "150px"}} 
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>
-              <p className="movie-description">{new Date(movie.movieId.Year).getFullYear()}</p> */}
+              <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
+              
+              <div className="hide-on-mobile">
+                <p className="movie-title">{movie.movieId.title}</p>
+                <p className="movie-year">{new Date(movie.movieId.release_date).getFullYear()}</p>
+              </div>
             </div>
           ))}
         </div>

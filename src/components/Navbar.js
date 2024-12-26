@@ -38,12 +38,9 @@ const logout = () => {
           </div>
           <h1 >MovieTracker</h1>
         </div>
-        <FontAwesomeIcon icon={faSearch} size={"2x"} className='search-icon' onClick={() => setShowSearchBar(!showSerachBar)}/>
-                <div className={`movie-search-slider ${showSerachBar ? 'movie-search-slider-translate' : ''}`}>
-                    <MovieSearch onCloseClick={()=>setShowSearchBar(false)}/>
-                </div>
+        
         {/* Link centrali */}
-        <ul className="nav-links">
+        {/* <ul className="nav-links">
         <li onClick={()=>{navigate('/'); setShowMobileMenu(false);}}>
             Home
           </li>
@@ -54,9 +51,17 @@ const logout = () => {
             Da Vedere
           </li>
           <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>
-        </ul>
-        <div className='desktop-dark-toggle'>
-          <DarkModeToggle/>
+        </ul> */}
+        <div className='icons-container'>
+        <FontAwesomeIcon icon={faSearch} size={"2x"} className='search-icon' onClick={() => setShowSearchBar(!showSerachBar)}/>
+                <div className={`movie-search-slider ${showSerachBar ? 'movie-search-slider-translate' : ''}`}>
+                    <MovieSearch onCloseClick={()=>setShowSearchBar(false)}/>
+                </div>
+          <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout} className='hide-on-mobile'/>
+          <div className='hide-on-mobile'>
+            <DarkModeToggle />
+          </div>
+          
         </div>
         
 

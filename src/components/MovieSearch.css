@@ -44,6 +44,9 @@
 .search-result{
     height: 120px;
 }
+.search-result img{
+    height: 140px;
+ }
 
 @media screen and (max-width : 600px){
  .search-result img{
