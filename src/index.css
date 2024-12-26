@@ -1,6 +1,6 @@
 :root.light-theme {
   /*LIGHT THEME*/
-  --background: #ffe0b2;
+/*   --background: #ffe0b2;
   --secondary: #5d4037;
   --text: #5d4037; 
   --text-hover: #ffab40; 
@@ -15,7 +15,24 @@
   --footer-text: #97a598;
  
   --mobile-menu: #fff3e0;
-  --mobile-menu-text: #5d4037;
+  --mobile-menu-text: #5d4037; */
+
+  --background: #FFFFFF;
+  --secondary: #F3EE76;
+  --text: black; 
+  --text-hover: #ffab40; 
+  --page-title-color: black;
+  --navbar: #79DBFF;
+  
+  --button: black;
+  --button-hover: #F3EE76;
+  --button-text: white;
+  --button-hover-text: black; 
+  --footer: #48676d;
+  --footer-text: #97a598;
+ 
+  --mobile-menu: #79DBFF;
+  --mobile-menu-text: black; 
  
  
  }
