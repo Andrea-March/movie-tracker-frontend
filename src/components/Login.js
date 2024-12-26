@@ -52,6 +52,7 @@ function Login() {
             />
           </div>
           <button type="submit" className="submit-button">Accedi</button>
+          <p className="register-link" onClick={()=>{navigate("/register")}}>Non hai ancora un account? clicca qui per registrarti</p>
         </form>
         {error && <p className="error-message">{error}</p>}
       </div>

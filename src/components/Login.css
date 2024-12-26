@@ -42,7 +42,7 @@
     width: 100%;
     padding: 12px;
     background-color: var(--button);
-    color: ar(--button-text);
+    color: var(--button-text);
     border: none;
     border-radius: 5px;
     font-size: 1.1rem;
@@ -50,8 +50,8 @@
     transition: background-color 0.3s ease;
   }
   
-  .submit-button:hover {
-    background-color: #45a049;
+  .register-link{
+    cursor: pointer;
   }
   
   .error-message {
