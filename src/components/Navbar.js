@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faRightFromBracket, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import DarkModeToggle from './DarkModeToggle';
 import MovieSearch from './MovieSearch';
@@ -17,6 +17,11 @@ const Navbar = () => {
   
 const hideMenu = () => {
   setShowMobileMenu(false);
+}
+
+const logout = () => {
+  localStorage.removeItem("token");
+  window.location.reload();
 }
 
 
@@ -48,6 +53,7 @@ const hideMenu = () => {
           <li onClick={()=>{navigate('/to-watch');}}>
             Da Vedere
           </li>
+          <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>
         </ul>
         <div className='desktop-dark-toggle'>
           <DarkModeToggle/>
@@ -72,6 +78,9 @@ const hideMenu = () => {
             Da Vedere
           </li>
           </ul>
+          <div className='logout-mobile-container'>
+            <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>
+          </div>
           
       </div>
       
