@@ -10,7 +10,7 @@ import MovieSearch from './MovieSearch';
 
 const Navbar = () => {
 
-  const [activePage, setActivePage] = useState("explore");
+  const [activePage, setActivePage] = useState(window.location.pathname);
 
   const navigate = useNavigate();
 
@@ -70,19 +70,19 @@ const logout = () => {
           {/* Subnavbar */}
         <div className="sub-navbar">
           <button
-            className={activePage === "explore" ? "active" : ""}
+            className={activePage === "/explore" ? "active" : ""}
             onClick={() => navigate("explore")}
           >
             Esplora
           </button>
           <button
-            className={activePage === "watched" ? "active" : ""}
+            className={activePage === "/watched" ? "active" : ""}
             onClick={() => navigate("watched")}
           >
             Film Visti
           </button>
           <button
-            className={activePage === "to-watch" ? "active" : ""}
+            className={activePage === "/to-watch" ? "active" : ""}
             onClick={() => navigate("to-watch")}
           >
             Da Vedere

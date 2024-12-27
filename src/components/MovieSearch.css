@@ -2,6 +2,8 @@
     padding: 20px;
     border-radius: 10px;
     background-color: var(--secondary);
+    overflow: auto;
+    max-height: 75vh;
 }
 
 .search-wrapper{

@@ -4,6 +4,7 @@ import './Explore.css'
 import {searchPopularMovies} from '../services/movieservice'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import MovieDetailPopup from "../components/MovieDetailPopup";
 
 const Explore = () => {
 
@@ -11,6 +12,10 @@ const Explore = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+
+    const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
+    const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
+  
 
     useEffect(()=>{
         const loadPopularMovies = async () => {
@@ -33,6 +38,19 @@ const Explore = () => {
     }
     ,[currentPage]);
 
+      // Funzione per aprire il popup con i dettagli del film
+    const handleMovieClick = (movie) => {
+      setSelectedMovie(movie);
+      setIsPopupOpen(true); // Apri il popup
+    };
+
+    // Funzione per chiudere il popup
+    const closePopup = () => {
+      setIsPopupOpen(false);
+      setSelectedMovie(null);
+    };
+
+
     const handleNextPage = () => {
       if (currentPage < totalPages) {
         setCurrentPage((prev) => prev + 1);
@@ -51,7 +69,7 @@ const Explore = () => {
       {popularMovies.length > 0 ? (
         <div className="movie-grid">
           {popularMovies.map((movie) => (
-            <div className="movie-card" key={movie.id}>
+            <div className="movie-card" key={movie.id} onClick={() => handleMovieClick(movie)}>
               <img 
                 src={"https://image.tmdb.org/t/p/original"+movie.poster_path} 
                 alt={movie.title} 
@@ -89,6 +107,14 @@ const Explore = () => {
         
       ) : (
         <p className="no-movies">Non ci sono film da visualizzare.</p>
+      )}
+
+      {/* Popup per i dettagli del film */}
+      {isPopupOpen && selectedMovie && (
+        <MovieDetailPopup
+          movie={selectedMovie}
+          closePopup={closePopup} // Passa la funzione per chiudere il popup
+        />
       )}
       
     </div>
