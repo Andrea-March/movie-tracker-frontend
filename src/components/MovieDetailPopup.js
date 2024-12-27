@@ -16,7 +16,7 @@ const MovieDetailPopup = ({ movie, closePopup }) => {
         <h2>{movie.title}</h2>
         <p><strong>Data di uscita:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
         <p><strong>Descrizione:</strong> {movie.overview}</p>
-        <p><strong>Voto:</strong> {movie.vote_average} / 10</p>
+        <p><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
       </div>
     </div>
   );

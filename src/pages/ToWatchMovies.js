@@ -2,35 +2,52 @@ import React, {useState, useEffect} from "react";
 import {fetchUserMovies} from '../services/movieservice'
 import '../App.css'
 import './WatchedMovies.css'
+import MovieDetailPopup from "../components/MovieDetailPopup";
 
 
 const ToWatchMovies = () => {
 
-    const [movies, setMovies] = useState([]);
-    const [error, setError] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState("");
+
+  const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
+  const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
   
-    useEffect(() => {
-      const loadWatchedMovies = async () => {
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            setError("Non sei autenticato.");
-            return;
-          }
-  
-          const movies = await fetchUserMovies(token, 'to-watch');
-          setMovies(movies);
-        } catch (err) {
-          setError(err.message);
+  useEffect(() => {
+    const loadWatchedMovies = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Non sei autenticato.");
+          return;
         }
-      };
+
+        const movies = await fetchUserMovies(token, 'to-watch');
+        setMovies(movies);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    loadWatchedMovies();
+  }, []);
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
+  // Funzione per aprire il popup con i dettagli del film
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie);
+    setIsPopupOpen(true); // Apri il popup
+  };
+
+  // Funzione per chiudere il popup
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedMovie(null);
+  };
   
-      loadWatchedMovies();
-    }, []);
-  
-    if (error) {
-      return <p className="error-message">{error}</p>;
-    }
   
   return (
     <div className="watched-movies content">
@@ -38,7 +55,7 @@ const ToWatchMovies = () => {
       {movies.length > 0 ? (
         <div className="movie-grid">
           {movies.map((movie) => (
-            <div className="movie-card" key={movie.movieId.id}>
+            <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
               <img 
                 src={movie.movieId.poster_path} 
                 alt={movie.movieId.title} 
@@ -58,6 +75,13 @@ const ToWatchMovies = () => {
         </div>
       ) : (
         <p className="no-movies">Non hai ancora aggiunto film da vedere.</p>
+      )}
+      {/* Popup per i dettagli del film */}
+      {isPopupOpen && selectedMovie && (
+        <MovieDetailPopup
+          movie={selectedMovie}
+          closePopup={closePopup} // Passa la funzione per chiudere il popup
+        />
       )}
     </div>
   );
