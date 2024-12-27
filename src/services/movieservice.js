@@ -27,6 +27,17 @@ export const searchPopularMovies = async (page) => {
   }
 };
 
+export const searchTopRatedMovies = async (page) => {
+  try {
+    const response = await axios.get(`${API_URL}movies/top_rated`, {
+      params: { page },
+    });
+    return response.data; // Restituisce i film trovati
+  } catch (error) {
+    throw new Error('Errore durante la ricerca dei film');
+  }
+};
+
 // Funzione per aggiungere un film alla lista dell'utente (visti o da vedere)
 export const addMovieToList = async (movie, watched) => {
     const token = localStorage.getItem("token");

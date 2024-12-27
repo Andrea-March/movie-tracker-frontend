@@ -21,7 +21,8 @@
     width: 90%;
     text-align: center;
     color: white;
-    overflow: hidden;
+    overflow: scroll;
+    max-height: 90vh;
   }
   
   .movie-popup img {

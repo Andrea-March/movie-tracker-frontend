@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './WatchedMovies.css'
 import './Explore.css'
-import {searchPopularMovies} from '../services/movieservice'
+import {searchPopularMovies, searchTopRatedMovies} from '../services/movieservice'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
@@ -12,6 +12,7 @@ const Explore = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [filter, setFilter] = useState("popular"); // Stato per il filtro selezionato
 
     const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
     const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
@@ -26,7 +27,10 @@ const Explore = () => {
                 return;
                 }
                 setPopularMovies([]);
-                const res = await searchPopularMovies(currentPage);
+                const res =
+                filter === "popular"
+                  ? await searchPopularMovies(currentPage)
+                  : await searchTopRatedMovies(currentPage);
                 setPopularMovies(res.movies);
                 setTotalPages(res.totalPages)
             } catch (err) {
@@ -36,7 +40,7 @@ const Explore = () => {
         
         loadPopularMovies();
     }
-    ,[currentPage]);
+    ,[currentPage, filter]);
 
       // Funzione per aprire il popup con i dettagli del film
     const handleMovieClick = (movie) => {
@@ -63,9 +67,21 @@ const Explore = () => {
       }
     };
 
+    const handleFilterChange = (e) => {
+      setFilter(e.target.value);
+      setCurrentPage(1); // Resetta alla prima pagina quando cambia il filtro
+    };
+
     return(
      <div className="watched-movies content">
-      <h1 className="title">Film Popolari</h1>
+      <select
+          className="filter-select"
+          value={filter}
+          onChange={handleFilterChange}
+        >
+          <option value="popular">Popolari</option>
+          <option value="top_rated">Top Rated</option>
+        </select>
       {popularMovies.length > 0 ? (
         <div className="movie-grid">
           {popularMovies.map((movie) => (

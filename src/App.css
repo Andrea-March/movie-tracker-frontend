@@ -12,6 +12,8 @@
   transition: margin-left 0.3s ease;
   background-color: var(--background);
   min-height: 85vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .button {

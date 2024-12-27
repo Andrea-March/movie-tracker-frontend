@@ -156,14 +156,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #333;
+  background-color: var(--sub-navbar);
   padding: 10px;
 }
 
 .sub-navbar button {
   background: none;
   border: none;
-  color: white;
+  color: var(--text);
   margin: 0 15px;
   font-size: 16px;
   cursor: pointer;
@@ -172,13 +172,13 @@
 }
 
 .sub-navbar button:hover {
-  color: #ff9900;
+  color: white;
 }
 
 .sub-navbar button.active {
   font-weight: bold;
-  color: #ff9900;
-  border-bottom: 2px solid #ff9900;
+  color: transparent;
+  border-bottom: 2px solid var(--secondary);
 }
   
   /* Mobile styles */
