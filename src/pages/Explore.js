@@ -6,6 +6,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
+import CustomSelect from "../components/CustomSelect";
 
 const Explore = () => {
 
@@ -13,7 +14,12 @@ const Explore = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+
     const [filter, setFilter] = useState("popular"); // Stato per il filtro selezionato
+    const options = [
+      { value: "popular", label: "Popolari" },
+      { value: "top_rated", label: "Top Rated" }
+  ];
     
     const [loading, setLoading] = useState(false);
 
@@ -73,22 +79,22 @@ const Explore = () => {
       }
     };
 
-    const handleFilterChange = (e) => {
-      setFilter(e.target.value);
-      setCurrentPage(1); // Resetta alla prima pagina quando cambia il filtro
-    };
+    const handleFilterChange = (newFilter) => {
+      setFilter(newFilter);
+      setCurrentPage(1);
+  };
 
     return(
      <div className="watched-movies content">
       {loading && <Loader />}
-      <select
-          className="filter-select"
-          value={filter}
-          onChange={handleFilterChange}
-        >
-          <option value="popular">Popolari</option>
-          <option value="top_rated">Top Rated</option>
-        </select>
+      <div style={{marginLeft: "15px"}}>
+      <CustomSelect
+                options={options}
+                value={filter}
+                onChange={handleFilterChange}
+            />
+      </div>
+     
       {popularMovies.length > 0 ? (
         <div className="movie-grid">
           {popularMovies.map((movie) => (
