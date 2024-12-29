@@ -54,3 +54,26 @@
     line-height: 1.6;
     margin-top: 10px;
   }
+
+  .movie-status {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-icon {
+    font-size: 1.5em;
+    color: var(--secondary);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.status-icon:hover {
+    color: var(--text-hover); /* Un colore più vivace */
+}
+
+.status-label {
+    font-size: 1em;
+    color: #fff;
+}

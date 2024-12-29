@@ -77,3 +77,22 @@ export const fetchUserMovies = async (token, type) => {
       throw new Error(err.response?.data?.error || "Errore nella chiamata API");
     }
   };
+
+  // Recupera i film dell'utente
+export const changeMovieStatus = async (token, movieId, status) => {
+  if (!token) {
+      throw new Error("Devi essere loggato per aggiungere il film.");
+    }
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+  try {
+    const response = await axios.put(`${API_URL}users/${userId}/movies/${movieId}`, 
+      { watched:status },
+      {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.error || "Errore nella chiamata API");
+  }
+};

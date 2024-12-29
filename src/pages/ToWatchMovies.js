@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {fetchUserMovies} from '../services/movieservice'
+import {fetchUserMovies, changeMovieStatus} from '../services/movieservice'
 import '../App.css'
 import './WatchedMovies.css'
 import MovieDetailPopup from "../components/MovieDetailPopup";
@@ -54,6 +54,23 @@ const ToWatchMovies = () => {
     setSelectedMovie(null);
   };
   
+    const changeStatus = async (selectedMovie) => {
+      setLoading(true);
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            setError("Non sei autenticato.");
+            return;
+          }
+  
+          await changeMovieStatus(token, selectedMovie._id,  true);
+          window.location.reload()
+        } catch (err) {
+          setError(err.message);
+        }finally {
+          setLoading(false);
+        }
+    }
   
   return (
     <div className="watched-movies content">
@@ -87,6 +104,8 @@ const ToWatchMovies = () => {
       {isPopupOpen && selectedMovie && (
         <MovieDetailPopup
           movie={selectedMovie}
+          movieStatus="to-watch"
+          changeMovieStatus={()=>changeStatus(selectedMovie)}
           closePopup={closePopup} // Passa la funzione per chiudere il popup
         />
       )}
