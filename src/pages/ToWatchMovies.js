@@ -3,6 +3,7 @@ import {fetchUserMovies} from '../services/movieservice'
 import '../App.css'
 import './WatchedMovies.css'
 import MovieDetailPopup from "../components/MovieDetailPopup";
+import Loader from "../components/Loader";
 
 
 const ToWatchMovies = () => {
@@ -10,11 +11,14 @@ const ToWatchMovies = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
   const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
   
   useEffect(() => {
     const loadWatchedMovies = async () => {
+      setLoading(true);
       try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -26,6 +30,8 @@ const ToWatchMovies = () => {
         setMovies(movies);
       } catch (err) {
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,6 +57,7 @@ const ToWatchMovies = () => {
   
   return (
     <div className="watched-movies content">
+      {loading && <Loader />}
       <h1 className="title">Film Da Vedere</h1>
       {movies.length > 0 ? (
         <div className="movie-grid">

@@ -5,6 +5,7 @@ import {searchPopularMovies, searchTopRatedMovies} from '../services/movieservic
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
+import Loader from "../components/Loader";
 
 const Explore = () => {
 
@@ -13,6 +14,8 @@ const Explore = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [filter, setFilter] = useState("popular"); // Stato per il filtro selezionato
+    
+    const [loading, setLoading] = useState(false);
 
     const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
     const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
@@ -20,6 +23,7 @@ const Explore = () => {
 
     useEffect(()=>{
         const loadPopularMovies = async () => {
+          setLoading(true);
             try {
                 const token = localStorage.getItem("token");
                 if (!token) {
@@ -35,6 +39,8 @@ const Explore = () => {
                 setTotalPages(res.totalPages)
             } catch (err) {
                 setError(err.message);
+            }finally{
+              setLoading(false);
             }
         };
         
@@ -74,6 +80,7 @@ const Explore = () => {
 
     return(
      <div className="watched-movies content">
+      {loading && <Loader />}
       <select
           className="filter-select"
           value={filter}

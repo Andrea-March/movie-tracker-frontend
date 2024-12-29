@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { fetchUserMovies } from "../services/movieservice";
 import "./WatchedMovies.css"; // File CSS dedicato
 import MovieDetailPopup from "../components/MovieDetailPopup";
+import Loader from "../components/Loader";
 
 const WatchedMovies = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
 
   const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
@@ -13,6 +16,7 @@ const WatchedMovies = () => {
 
   useEffect(() => {
     const loadWatchedMovies = async () => {
+      setLoading(true);
       try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -24,6 +28,8 @@ const WatchedMovies = () => {
         setMovies(movies);
       } catch (err) {
         setError(err.message);
+      }finally {
+        setLoading(false);
       }
     };
 
@@ -49,6 +55,7 @@ const WatchedMovies = () => {
 
   return (
     <div className="watched-movies content">
+      {loading && <Loader />}
       <h1 className="title">Film Visti</h1>
       {movies.length > 0 ? (
         <div className="movie-grid">

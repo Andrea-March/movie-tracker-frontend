@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Explore from "./pages/Explore";
 
 function App() {
+
   return (
     <Router>
       <div>
