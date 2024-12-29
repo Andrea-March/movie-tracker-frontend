@@ -102,7 +102,6 @@
     transition: none;
     display: flex;
     justify-content: space-between;
-    height: 100px;
     align-items: center;
     width: 25%;
   }

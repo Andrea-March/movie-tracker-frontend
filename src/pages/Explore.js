@@ -96,11 +96,15 @@ const Explore = () => {
       </div>
      
       {popularMovies.length > 0 ? (
+        <>
         <div className="movie-grid">
           {popularMovies.map((movie) => (
             <div className="movie-card" key={movie.id} onClick={() => handleMovieClick(movie)}>
               <img 
-                src={"https://image.tmdb.org/t/p/original"+movie.poster_path} 
+                srcSet={`https://image.tmdb.org/t/p/w200${movie.poster_path} 200w, 
+                https://image.tmdb.org/t/p/w400${movie.poster_path} 400w,
+                https://image.tmdb.org/t/p/w800${movie.poster_path} 800w`} 
+                sizes="(max-width: 768px) 200px, 400px, 800px"
                 alt={movie.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
@@ -115,25 +119,26 @@ const Explore = () => {
               </div>
             </div>
           ))}
-          <div className="pagination">
-            <button 
-              onClick={handlePreviousPage} 
-              disabled={currentPage === 1}
-              className="pagination-button"
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-            <span>{currentPage} / {totalPages}</span>
-            <button 
-              onClick={handleNextPage} 
-              disabled={currentPage === totalPages}
-              className="pagination-button"
-            >
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-          </div>
+          
         </div>
-        
+        <div className="pagination">
+        <button 
+          onClick={handlePreviousPage} 
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <span>{currentPage} / {totalPages}</span>
+        <button 
+          onClick={handleNextPage} 
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </div>
+      </>
       ) : (
         <p className="no-movies">Non ci sono film da visualizzare.</p>
       )}

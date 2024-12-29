@@ -21,7 +21,6 @@
     width: 90%;
     text-align: center;
     color: white;
-    overflow: scroll;
     max-height: 90vh;
   }
   
@@ -76,4 +75,10 @@
 .status-label {
     font-size: 1em;
     color: #fff;
+}
+
+@media screen and (max-width : 800px){
+  .movie-popup{
+    overflow: scroll;
+  }
 }
