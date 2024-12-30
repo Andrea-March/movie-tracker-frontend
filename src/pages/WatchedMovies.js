@@ -3,8 +3,8 @@ import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
 import "./WatchedMovies.css"; // File CSS dedicato
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+/* import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css"; */
 
 const WatchedMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -80,14 +80,14 @@ const WatchedMovies = () => {
         <div className="movie-grid">
           {movies.map((movie) => (
             <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
-              <LazyLoadImage 
+              <img 
                 srcSet={`https://image.tmdb.org/t/p/w200${movie.movieId.poster_path} 200w, 
                 https://image.tmdb.org/t/p/w400${movie.movieId.poster_path} 400w,
                 https://image.tmdb.org/t/p/w800${movie.movieId.poster_path} 800w`} 
                 sizes="(max-width: 768px) 200px, 400px, 800px"
                 alt={movie.movieId.title} 
                 className="movie-poster" 
-                effect="blur"
+                loading="lazy"
                 style={{ width: "150px"}} 
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>

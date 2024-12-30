@@ -4,8 +4,8 @@ import '../App.css'
 import './WatchedMovies.css'
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+/* import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css"; */
 
 
 const ToWatchMovies = () => {
@@ -82,7 +82,7 @@ const ToWatchMovies = () => {
         <div className="movie-grid">
           {movies.map((movie) => (
             <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
-              <LazyLoadImage 
+              <img 
                 srcSet={`https://image.tmdb.org/t/p/w200${movie.movieId.poster_path} 200w, 
                 https://image.tmdb.org/t/p/w400${movie.movieId.poster_path} 400w,
                 https://image.tmdb.org/t/p/w800${movie.movieId.poster_path} 800w`} 
@@ -90,7 +90,7 @@ const ToWatchMovies = () => {
                 alt={movie.movieId.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
-                effect="blur"
+                loading="lazy"
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>
               <p className="movie-description">{new Date(movie.movieId.Year).getFullYear()}</p> */}

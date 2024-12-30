@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
 import CustomSelect from "../components/CustomSelect";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+/* import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css"; */
 
 const Explore = () => {
 
@@ -103,7 +103,7 @@ const Explore = () => {
         <div className="movie-grid">
           {popularMovies.map((movie) => (
             <div className="movie-card" key={movie.id} onClick={() => handleMovieClick(movie)}>
-              <LazyLoadImage 
+              <img 
                 srcSet={`https://image.tmdb.org/t/p/w200${movie.poster_path} 200w, 
                 https://image.tmdb.org/t/p/w400${movie.poster_path} 400w,
                 https://image.tmdb.org/t/p/w800${movie.poster_path} 800w`} 
@@ -111,7 +111,7 @@ const Explore = () => {
                 alt={movie.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
-                effect="blur"
+                loading="lazy"
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>
               <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
