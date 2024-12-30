@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './WatchedMovies.css'
 import './Explore.css'
-import {searchPopularMovies, searchTopRatedMovies} from '../services/movieservice'
+import {searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies} from '../services/movieservice'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
@@ -20,7 +20,8 @@ const Explore = () => {
     const [filter, setFilter] = useState("popular"); // Stato per il filtro selezionato
     const options = [
       { value: "popular", label: "Popolari" },
-      { value: "top_rated", label: "Top Rated" }
+      { value: "top_rated", label: "Top Rated" },
+      { value: "upcoming", label: "In arrivo"}
   ];
     
     const [loading, setLoading] = useState(false);
@@ -42,7 +43,7 @@ const Explore = () => {
                 const res =
                 filter === "popular"
                   ? await searchPopularMovies(currentPage)
-                  : await searchTopRatedMovies(currentPage);
+                  : filter === "top_rated" ? await searchTopRatedMovies(currentPage) : await searchUpcomingMovies(currentPage)
                 setPopularMovies(res.movies);
                 setTotalPages(res.totalPages)
             } catch (err) {

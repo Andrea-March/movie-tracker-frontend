@@ -38,6 +38,17 @@ export const searchTopRatedMovies = async (page) => {
   }
 };
 
+export const searchUpcomingMovies  = async (page) => {
+  try {
+    const response = await axios.get(`${API_URL}movies/upcoming`, {
+      params: { page },
+    });
+    return response.data; // Restituisce i film trovati
+  } catch (error) {
+    throw new Error('Errore durante la ricerca dei film');
+  }
+};
+
 // Funzione per aggiungere un film alla lista dell'utente (visti o da vedere)
 export const addMovieToList = async (movie, watched) => {
     const token = localStorage.getItem("token");
@@ -62,7 +73,7 @@ export const addMovieToList = async (movie, watched) => {
   };
 
 // Recupera i film dell'utente
-export const fetchUserMovies = async (token, type, page) => {
+export const fetchUserMovies = async (token, type) => {
   console.log("called with type " + {type})
     if (!token) {
         throw new Error("Devi essere loggato per aggiungere il film.");
@@ -70,7 +81,7 @@ export const fetchUserMovies = async (token, type, page) => {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId;
     try {
-      const response = await axios.get(`${API_URL}users/${userId}/movies/${type}/${page}`, {
+      const response = await axios.get(`${API_URL}users/${userId}/movies/${type}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -79,7 +90,7 @@ export const fetchUserMovies = async (token, type, page) => {
     }
   };
 
-  // Recupera i film dell'utente
+  // Cambia stato del film
 export const changeMovieStatus = async (token, movieId, status) => {
   if (!token) {
       throw new Error("Devi essere loggato per aggiungere il film.");
