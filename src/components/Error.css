@@ -1,0 +1,12 @@
+.error-popup {
+    position: fixed;
+    left: 25%;
+    top: 50%;
+    z-index: 3;
+    color: red;
+    background-color: var(--background);
+    width: 250px;
+    height: 100px;
+    align-content: center;
+    padding: 10px;
+}

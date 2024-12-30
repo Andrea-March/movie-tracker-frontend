@@ -57,19 +57,20 @@ export const addMovieToList = async (movie, watched) => {
       );
       return response.data.message || "Film aggiunto con successo!";
     } catch (err) {
-      throw new Error("Errore durante l'aggiunta del film");
+      throw new Error(err.response.data.error);
     }
   };
 
 // Recupera i film dell'utente
-export const fetchUserMovies = async (token, type) => {
+export const fetchUserMovies = async (token, type, page) => {
+  console.log("called with type " + {type})
     if (!token) {
         throw new Error("Devi essere loggato per aggiungere il film.");
       }
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId;
     try {
-      const response = await axios.get(`${API_URL}users/${userId}/movies/${type}`, {
+      const response = await axios.get(`${API_URL}users/${userId}/movies/${type}/${page}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;

@@ -40,23 +40,23 @@
  
  :root.dark-theme{
    /*DARK THEME*/
-   --background: #223240;
-   --secondary: #3B8C66;
-   --text: #9FD948; 
+   --background: #0A0A0A;
+   --secondary: #212121;
+   --text: #F8F8F8; 
    --text-hover: #60BF81; 
    --page-title-color: #347355;
 
-   --navbar: #223240;
+   --navbar: #0A0A0A;
  
    --button: #357367;
    --button-hover: #347355;
-   --button-text: #9FD948;
+   --button-text: #212121;
    --button-hover-text: #60BF81;
    --footer: #1e3333;
-   --footer-text: #3B8C66;
+   --footer-text: #212121;
  
-   --mobile-menu: #223240;
-   --mobile-menu-text: #9FD948;
+   --mobile-menu: #0A0A0A;
+   --mobile-menu-text: #F8F8F8;
  }
 
 *{
@@ -76,6 +76,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+svg {
+  color: var(--text);
 }
 
 

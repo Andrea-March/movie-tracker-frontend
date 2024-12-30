@@ -19,7 +19,6 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             return;
           }
           const provs = await getMovieProviders(token, movie.id);
-          console.log(provs)
           setProviders(provs);
         } catch (err) {
           console.log(err);

@@ -37,7 +37,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: var(--background);
 
 }
 .close-search-bar-icon{

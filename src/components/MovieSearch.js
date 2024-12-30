@@ -4,11 +4,15 @@ import { faCheckCircle, faEye, faTimes } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './MovieSearch.css';
 import { useNavigate } from "react-router-dom";
+import MovieDetailPopup from "./MovieDetailPopup";
+import Error from './Error.js'
 
 function MovieSearch({onCloseClick}) {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
+  const [movie, setMovie] = useState(undefined);
+  const [showDetail, setShowDetail] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,10 +42,14 @@ function MovieSearch({onCloseClick}) {
           watched ? navigate("/watched") : navigate("/to-watch");
           window.location.reload();
         } catch (err) {
-          console.error("Errore durante l'aggiunta del film:", err);
-          alert("Errore durante l'aggiunta del film.");
+          setError(err.message);
         }
       };
+
+    const handleMovieClick = (movie) => {
+      setMovie(movie);
+      setShowDetail(true);
+    }
 
   return (
     <div className="movie-search-container">
@@ -64,7 +72,6 @@ function MovieSearch({onCloseClick}) {
         >
         Cerca
         </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <div>
          {/* Lista dei film */}
       {movies.length > 0 && (
@@ -75,23 +82,25 @@ function MovieSearch({onCloseClick}) {
               <li
                 className="search-result"
                 key={movie.id}
+                onClick={()=>{handleMovieClick(movie)}}
               >
-                {movie.Poster !== "N/A" && (
-                  <img
-                    src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
-                    alt={movie.title}
-                    loading="lazy"
-                  />
-                )}
-                <div>
-                  <h3 style={{ margin: 0 }} className="movie-title">
-                    {movie.title}{" "}
-                    {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
-                  </h3>
-                </div><div style={{ display: "flex", gap: "10px", marginTop: "10px", marginLeft: "auto" }}>
+                  {movie.poster_path && (
+                    <img
+                      src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
+                      alt={movie.title}
+                      loading="lazy"
+                    />
+                  )}
+                  <div>
+                    <h3 style={{ margin: 0 }} className="movie-title">
+                      {movie.title}{" "}
+                      {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
+                    </h3>
+                  </div>
+                <div style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
                 <FontAwesomeIcon
                       icon={faCheckCircle}
-                      onClick={() => handleAddToList(movie, true)}
+                      onClick={(e) => {handleAddToList(movie, true)}}
                       style={{
                         cursor: "pointer",
                         color: "#4CAF50",
@@ -102,7 +111,7 @@ function MovieSearch({onCloseClick}) {
                     />
                     <FontAwesomeIcon
                       icon={faEye}
-                      onClick={() => handleAddToList(movie, false)}
+                      onClick={(e) => {handleAddToList(movie, false)}}
                       style={{
                         cursor: "pointer",
                         color: "#FF9800",
@@ -114,9 +123,11 @@ function MovieSearch({onCloseClick}) {
               </li>
             ))}
           </ul>
+          {showDetail && <MovieDetailPopup movie={movie} closePopup={()=>setShowDetail(false)}/>}
         </div>
       )}
       </div>
+      {/* <Error error={error}/> */}
     </div>
   );
 }

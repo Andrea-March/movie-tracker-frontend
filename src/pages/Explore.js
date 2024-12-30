@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
 import CustomSelect from "../components/CustomSelect";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Explore = () => {
 
@@ -100,7 +102,7 @@ const Explore = () => {
         <div className="movie-grid">
           {popularMovies.map((movie) => (
             <div className="movie-card" key={movie.id} onClick={() => handleMovieClick(movie)}>
-              <img 
+              <LazyLoadImage 
                 srcSet={`https://image.tmdb.org/t/p/w200${movie.poster_path} 200w, 
                 https://image.tmdb.org/t/p/w400${movie.poster_path} 400w,
                 https://image.tmdb.org/t/p/w800${movie.poster_path} 800w`} 
@@ -108,7 +110,7 @@ const Explore = () => {
                 alt={movie.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
-                loading="lazy"
+                effect="blur"
               />
              {/*  <p className="movie-title">{movie.movieId.Title}</p>
               <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
@@ -122,21 +124,21 @@ const Explore = () => {
           
         </div>
         <div className="pagination">
-        <button 
-          onClick={handlePreviousPage} 
-          disabled={currentPage === 1}
-          className="pagination-button"
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <span>{currentPage} / {totalPages}</span>
-        <button 
-          onClick={handleNextPage} 
-          disabled={currentPage === totalPages}
-          className="pagination-button"
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
-        </button>
+          <button 
+            onClick={handlePreviousPage} 
+            disabled={currentPage === 1}
+            className="pagination-button"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <span>{currentPage} / {totalPages}</span>
+          <button 
+            onClick={handleNextPage} 
+            disabled={currentPage === totalPages}
+            className="pagination-button"
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
       </div>
       </>
       ) : (
