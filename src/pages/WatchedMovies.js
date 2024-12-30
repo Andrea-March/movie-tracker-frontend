@@ -81,10 +81,9 @@ const WatchedMovies = () => {
           {movies.map((movie) => (
             <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
               <img 
-                srcSet={`https://image.tmdb.org/t/p/w200${movie.movieId.poster_path} 200w, 
-                https://image.tmdb.org/t/p/w400${movie.movieId.poster_path} 400w,
-                https://image.tmdb.org/t/p/w800${movie.movieId.poster_path} 800w`} 
-                sizes="(max-width: 768px) 200px, 400px, 800px"
+                srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
+                https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
+                sizes="(max-width: 768px) 200px, 400px"
                 alt={movie.movieId.title} 
                 className="movie-poster" 
                 loading="lazy"
