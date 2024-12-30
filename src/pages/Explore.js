@@ -107,7 +107,7 @@ const Explore = () => {
                 srcSet={`https://image.tmdb.org/t/p/w200${movie.poster_path} 200w, 
                 https://image.tmdb.org/t/p/w400${movie.poster_path} 400w,
                 https://image.tmdb.org/t/p/w800${movie.poster_path} 800w`} 
-                sizes="(max-width: 768px) 200px, 400px, 800px"
+                sizes="(max-width: 768px) 200px, (max-width: 1024px) 400px, 800px" 
                 alt={movie.title} 
                 className="movie-poster" 
                 style={{ width: "150px"}} 
