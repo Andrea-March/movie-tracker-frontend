@@ -82,7 +82,7 @@
 
 /* Titolo della categoria */
 .provider-category h4 {
-  margin-bottom: 10px;
+  margin: 0;
   color: black;
 }
 

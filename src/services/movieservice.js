@@ -124,3 +124,13 @@ export const changeMovieStatus = async (token, movieId, status) => {
       throw new Error(err.response?.data?.error || "Errore nella chiamata API");
     }
   };
+
+  // Funzione per cercare il trailer di un film tramite il backend
+export const searchTrailerurl = async (movieId) => {
+  try {
+    const response = await axios.get(`${API_URL}movies/${movieId}/trailer`);
+    return response.data.trailer_url; // Restituisce il link del trailer su youtube
+  } catch (error) {
+    throw new Error('Errore durante la ricerca del trailer');
+  }
+};

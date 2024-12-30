@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faEye, faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { getMovieProviders } from '../services/movieservice';
+import { getMovieProviders, searchTrailerurl } from '../services/movieservice';
 
 
 const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus }) => {
 
   const [providers, setProviders] = useState(undefined);
+  const [trailerurl, setTrailerUrl] = useState(movie.trailer_url)
 
-  const wantedProviders = [119, 337, 3, 8, 2, 10, 35, 39, 222, 1726, 188]
+  const wantedProviders = [119, 337, 359, 3, 8, 2, 10, 35, 39, 222, 1726, 188, 109]
 
   useEffect(()=>{
       const getProviders = async () => {
@@ -25,7 +26,21 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         }
       }
 
+      const getTrailerUrl = async () => {
+        if(trailerurl){
+          return;
+        }
+        try{
+          const url = await searchTrailerurl(movie.id);
+          setTrailerUrl(url);
+        }catch (err){
+          console.log(err.message)
+        }
+
+      }
+
       getProviders();
+      getTrailerUrl();
 
   }
   ,[])
@@ -47,19 +62,32 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
       : movieStatus === 'to-watch'
       ? "Segna come visto"
       : "Aggiungi alla lista";
-
-
+  const backgroundImage = 
+     `linear-gradient(to top, rgba(0, 0, 0, 1) 0%,  rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
 
   return (
     <div className="movie-popup-overlay">
-      <div
-        className="movie-popup"
-        style={{
-          backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1) 0%,  rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`,
-        }}
-      >
+      
+        <div
+          className="movie-popup"
+          style={{
+            backgroundImage: backgroundImage,
+          }}
+        >        
         <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" />
         <h2>{movie.title}</h2>
+        {trailerurl && 
+          <iframe 
+            width="100%" 
+            height="315" 
+            src={trailerurl} 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen
+          ></iframe>
+        }
         <p><strong>Data di uscita:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
         <p><strong>Descrizione:</strong> {movie.overview}</p>
         <p><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
