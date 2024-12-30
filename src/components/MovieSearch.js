@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { searchMovies, addMovieToList } from "../services/movieservice";
 import { faCheckCircle, faEye, faTimes } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,19 +8,28 @@ import MovieDetailPopup from "./MovieDetailPopup";
 import Error from './Error.js'
 
 function MovieSearch({onCloseClick}) {
-  const [query, setQuery] = useState("");
+  /* const [query, setQuery] = useState(""); */
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
   const [movie, setMovie] = useState(undefined);
+  const [typingTimeout, setTypingTimeout] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
 
   const navigate = useNavigate();
 
+  const DEBOUNCE_TIME_MS = 500;
+
+  useEffect(() => {
+    // Cleanup il timeout precedente se l'utente continua a scrivere
+    return () => clearTimeout(typingTimeout);
+  }, [typingTimeout]);
+
+
   // Funzione per cercare i film
-  const handleSearch = async () => {
-    console.log(query)
+  const handleSearch = async (query) => {
     if (!query.trim()) {
       setError("Inserisci un titolo da cercare.");
+      setMovies([]);
       return;
     }
 
@@ -32,6 +41,17 @@ function MovieSearch({onCloseClick}) {
       console.error("Errore nella ricerca:", err);
       setError("Errore durante la ricerca. Riprova.");
     }
+  };
+
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+
+    clearTimeout(typingTimeout);
+
+
+    setTypingTimeout(
+      setTimeout(async () => handleSearch(query), DEBOUNCE_TIME_MS) // Attendi 500ms dopo che l'utente smette di scrivere
+    );
   };
 
     // Funzione per aggiungere un film alla lista dell'utente
@@ -62,8 +82,7 @@ function MovieSearch({onCloseClick}) {
         <input
           type="text"
           placeholder="Cerca un film..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleInputChange}
         />
           
       </div>
