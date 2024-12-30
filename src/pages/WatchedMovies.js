@@ -42,7 +42,6 @@ const WatchedMovies = () => {
 
   // Funzione per aprire il popup con i dettagli del film
   const handleMovieClick = (movie) => {
-    console.log(movie)
     setSelectedMovie(movie);
     setIsPopupOpen(true); // Apri il popup
   };

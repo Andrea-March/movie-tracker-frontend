@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faEye, faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { getMovieProviders } from '../services/movieservice';
 
 
 const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus }) => {
+
+  const [providers, setProviders] = useState(undefined);
+
+  const wantedProviders = [119, 337, 3, 8, 2, 10, 35, 39, 222, 1726, 188]
+
+  useEffect(()=>{
+      const getProviders = async () => {
+        try{
+          const token = localStorage.getItem("token");
+          if (!token) {
+            return;
+          }
+          const provs = await getMovieProviders(token, movie.id);
+          console.log(provs)
+          setProviders(provs);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      getProviders();
+
+  }
+  ,[])
 
 
   const handleStatusChange = () => {
@@ -40,7 +65,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         <p><strong>Descrizione:</strong> {movie.overview}</p>
         <p><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
 
-       { movieStatus === 'watched' || movieStatus==='to-watch' && <div className="movie-status">
+       <div className="movie-status">
                     <FontAwesomeIcon
                         icon={statusIcon}
                         onClick={handleStatusChange}
@@ -48,7 +73,33 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                         title={statusLabel}
                     />
                     <span className="status-label">{statusLabel}</span>
-        </div>}
+        </div>
+        <div className="movie-providers">
+          {providers &&
+            ["buy", "flatrate", "rent"].map((category) => (
+              <div key={category} className={`provider-category ${category}`}>
+                {providers[category] &&
+                  <>
+                    <h4>{category === "buy" ? "Compra" : category === "flatrate" ? "Abbonamento" : "Noleggia"}</h4>
+                    <div className="provider-logos">
+                    {providers[category].map((provider) => (
+                     wantedProviders.includes(provider.provider_id) && 
+                    <img
+                      key={provider.provider_id}
+                      src={`/provider-logos/${provider.provider_id}.jpg`} // Percorso locale
+                      alt={provider.provider_name}
+                      title={provider.provider_name}
+                      className="provider-logo"
+                    />
+                  ))}
+                </div>
+                  </>
+                }
+                
+                  
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

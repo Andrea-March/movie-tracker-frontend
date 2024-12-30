@@ -96,3 +96,19 @@ export const changeMovieStatus = async (token, movieId, status) => {
     throw new Error(err.response?.data?.error || "Errore nella chiamata API");
   }
 };
+
+  // Recupera i providers per un film
+  export const getMovieProviders = async (token, movieId) => {
+    if (!token) {
+        throw new Error("Devi essere loggato per accedere ai provider del film.");
+      }
+    try {
+      const response = await axios.get(`${API_URL}movies/providers/${movieId}`, 
+        {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (err) {
+      throw new Error(err.response?.data?.error || "Errore nella chiamata API");
+    }
+  };
