@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './WatchedMovies.css'
 import './Explore.css'
-import {searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies} from '../services/movieservice'
+import {searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, addMovieToList} from '../services/movieservice'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
@@ -28,7 +28,6 @@ const Explore = () => {
 
     const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
     const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
-  
 
     useEffect(()=>{
         const loadPopularMovies = async () => {
@@ -86,6 +85,25 @@ const Explore = () => {
       setFilter(newFilter);
       setCurrentPage(1);
   };
+    
+  const changeStatus = async (selectedMovie, status) => {
+    setLoading(true);
+    const watched = status === 'watched' ? true : false;
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Non sei autenticato.");
+          return;
+        }
+
+        await addMovieToList(selectedMovie,  watched);
+        closePopup();
+      } catch (err) {
+        setError(err.message);
+      }finally {
+        setLoading(false);
+      }
+  }
 
     return(
      <div className="watched-movies content">
@@ -149,7 +167,8 @@ const Explore = () => {
       {isPopupOpen && selectedMovie && (
         <MovieDetailPopup
           movie={selectedMovie}
-          closePopup={closePopup} // Passa la funzione per chiudere il popup
+          closePopup={closePopup}
+          changeMovieStatus={changeStatus}
         />
       )}
       

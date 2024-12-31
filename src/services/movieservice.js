@@ -90,7 +90,7 @@ export const fetchUserMovies = async (token, type) => {
     }
   };
 
-  // Cambia stato del film
+// Cambia stato del film
 export const changeMovieStatus = async (token, movieId, status) => {
   if (!token) {
       throw new Error("Devi essere loggato per aggiungere il film.");
@@ -109,6 +109,7 @@ export const changeMovieStatus = async (token, movieId, status) => {
   }
 };
 
+//Delete a movie from user's lists
 export const deleteMovie = async (token, movieId) => {
   if (!token) {
       throw new Error("Devi essere loggato per eliminare il film.");
@@ -127,7 +128,7 @@ export const deleteMovie = async (token, movieId) => {
 };
 
 
-  // Recupera i providers per un film
+// Recupera i providers per un film
   export const getMovieProviders = async (token, movieId) => {
     if (!token) {
         throw new Error("Devi essere loggato per accedere ai provider del film.");

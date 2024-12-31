@@ -49,8 +49,6 @@
 
   .movie-status {
     margin-top: 20px;
-    display: flex;
-    align-items: center;
     gap: 10px;
 }
 
@@ -68,6 +66,11 @@
 .status-label {
     font-size: 1em;
     color: #fff;
+}
+
+.status-choice-container{
+  margin-left: 30px;
+  margin-right: auto;
 }
 
 
@@ -117,6 +120,10 @@
 .delete-icon{
   color: var(--secondary);
   margin-left: auto;
+}
+
+.add-to-list-container {
+  margin-right: auto;
 }
 /* Stile per la categoria "Compra", "Abbonamento", "Noleggia" */
 

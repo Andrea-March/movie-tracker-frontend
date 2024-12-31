@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEye, faPlus, faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEye, faPlus, faCheck, faTrash, faE } from "@fortawesome/free-solid-svg-icons";
 import { getMovieProviders, searchTrailerurl, deleteMovie } from '../services/movieservice';
 
 
@@ -9,6 +9,8 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
 
   const [providers, setProviders] = useState(undefined);
   const [trailerurl, setTrailerUrl] = useState(movie.trailer_url)
+
+  const[showStatusChoice, setShowStatusChoice] = useState(false);
 
   const wantedProviders = [119, 337, 359, 3, 8, 2, 10, 35, 39, 222, 1726, 188, 109]
 
@@ -46,8 +48,8 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
   ,[])
 
 
-  const handleStatusChange = () => {
-    changeMovieStatus(movie.id);
+  const handleStatusChange = (status = null) => {
+    status ? changeMovieStatus(movie, status) : changeMovieStatus(movie.id)
   };
 
   const handleMovieDelete = async () => {
@@ -107,15 +109,51 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         <p><strong>Descrizione:</strong> {movie.overview}</p>
         <p><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
 
-       <div className="movie-status">
-                    <FontAwesomeIcon
+       <div className="movie-status flex-column align-items-center">
+                    {movieStatus && 
+                      <>
+                        <div className='flex-row margin-right-auto'>
+                          <FontAwesomeIcon
+                            icon={statusIcon}
+                            onClick={handleStatusChange}
+                            className="status-icon"
+                            title={statusLabel}
+                          />
+                          <span className="status-label padding-left-10">{statusLabel}</span>
+                        </div>
+                        <FontAwesomeIcon className='delete-icon' size="2x" icon={faTrash} onClick={handleMovieDelete}/>
+                      </>
+                    }
+                    {!movieStatus && 
+                    <div className='add-to-list-container' onClick={()=>{setShowStatusChoice(!showStatusChoice)}}>
+                      <FontAwesomeIcon
                         icon={statusIcon}
-                        onClick={handleStatusChange}
                         className="status-icon"
                         title={statusLabel}
-                    />
-                    <span className="status-label">{statusLabel}</span>
-                    {movieStatus && <FontAwesomeIcon className='delete-icon' size="2x" icon={faTrash} onClick={handleMovieDelete}/>}
+                      />
+                      <span className="status-label padding-left-10">{statusLabel}</span>
+                    </div>
+                    }
+                    {showStatusChoice && 
+                      <div className='flex-column status-choice-container'>
+                        <div className='flex-row margin-top-10' onClick={()=>{handleStatusChange("watched")}}>
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            className="status-icon"
+                            title="Segna come visto"
+                          />
+                          <span className="status-label padding-left-10">Segna come visto</span>
+                        </div>
+                        <div className='flex-row margin-top-10' onClick={()=>{handleStatusChange("to-watch")}}>
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            className="status-icon"
+                            title="Segna come da vedere"
+                          />
+                          <span className="status-label padding-left-10">Segna come da vedere</span>
+                        </div>
+                      </div>
+                    }
         </div>
         
         <div className="movie-providers">
