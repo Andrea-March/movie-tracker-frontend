@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEye, faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { getMovieProviders, searchTrailerurl } from '../services/movieservice';
+import { faTimes, faEye, faPlus, faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { getMovieProviders, searchTrailerurl, deleteMovie } from '../services/movieservice';
 
 
 const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus }) => {
@@ -50,6 +50,20 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
     changeMovieStatus(movie.id);
   };
 
+  const handleMovieDelete = async () => {
+    try{
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      await deleteMovie(token, movie._id);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
   // Icona basata sullo stato del film
   const statusIcon = movieStatus === 'watched'
       ? faEye // Film visto
@@ -86,7 +100,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
             referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         }
         <p><strong>Data di uscita:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
@@ -101,7 +115,9 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                         title={statusLabel}
                     />
                     <span className="status-label">{statusLabel}</span>
+                    {movieStatus && <FontAwesomeIcon className='delete-icon' size="2x" icon={faTrash} onClick={handleMovieDelete}/>}
         </div>
+        
         <div className="movie-providers">
           {providers &&
             ["buy", "flatrate", "rent"].map((category) => (

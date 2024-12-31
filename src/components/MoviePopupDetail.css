@@ -114,6 +114,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.delete-icon{
+  color: var(--secondary);
+  margin-left: auto;
+}
 /* Stile per la categoria "Compra", "Abbonamento", "Noleggia" */
 
 

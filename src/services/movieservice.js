@@ -109,6 +109,24 @@ export const changeMovieStatus = async (token, movieId, status) => {
   }
 };
 
+export const deleteMovie = async (token, movieId) => {
+  if (!token) {
+      throw new Error("Devi essere loggato per eliminare il film.");
+    }
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+  try {
+    const response = await axios.delete(`${API_URL}users/${userId}/movies/${movieId}`,
+      {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.error || "Errore nella chiamata API");
+  }
+};
+
+
   // Recupera i providers per un film
   export const getMovieProviders = async (token, movieId) => {
     if (!token) {
