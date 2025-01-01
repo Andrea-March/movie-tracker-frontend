@@ -3,6 +3,8 @@ import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
 import "./WatchedMovies.css"; // File CSS dedicato
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 /* import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css"; */
 
@@ -11,6 +13,8 @@ const WatchedMovies = () => {
   const [error, setError] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(undefined);
 
 
   const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
@@ -26,8 +30,11 @@ const WatchedMovies = () => {
           return;
         }
 
-        const movies = await fetchUserMovies(token, 'watched');
-        setMovies(movies);
+        const res = await fetchUserMovies(token, 'watched', page, !totalPages);
+        setMovies(res.movies);
+        if(!totalPages){
+          setTotalPages(res.totalPages);
+        }
       } catch (err) {
         setError(err.message);
       }finally {
@@ -36,7 +43,7 @@ const WatchedMovies = () => {
     };
 
     loadWatchedMovies();
-  }, []);
+  }, [page]);
 
   if (error) {
     return <p className="error-message">{error}</p>;
@@ -72,6 +79,19 @@ const WatchedMovies = () => {
       }
   }
 
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
+
   return (
     <div className="watched-movies content">
       {loading && <Loader />}
@@ -98,10 +118,29 @@ const WatchedMovies = () => {
               </div>
             </div>
           ))}
+          
         </div>
       ) : (
         <p className="no-movies">Non hai ancora aggiunto film visti.</p>
       )}
+
+        <div className="pagination">
+          <button 
+            onClick={handlePreviousPage} 
+            disabled={page === 1}
+            className="pagination-button"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <span>{page} / {totalPages}</span>
+          <button 
+            onClick={handleNextPage} 
+            disabled={page === totalPages}
+            className="pagination-button"
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
+          </div>
 
       {/* Popup per i dettagli del film */}
       {isPopupOpen && selectedMovie && (

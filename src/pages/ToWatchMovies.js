@@ -4,6 +4,8 @@ import '../App.css'
 import './WatchedMovies.css'
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 /* import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css"; */
 
@@ -12,6 +14,9 @@ const ToWatchMovies = () => {
 
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(undefined);
 
   const [loading, setLoading] = useState(false);
 
@@ -28,8 +33,11 @@ const ToWatchMovies = () => {
           return;
         }
 
-        const movies = await fetchUserMovies(token, 'to-watch');
-        setMovies(movies);
+        const res = await fetchUserMovies(token, 'to-watch', page, !totalPages);
+                setMovies(res.movies);
+                if(!totalPages){
+                  setTotalPages(res.totalPages);
+                }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -38,7 +46,7 @@ const ToWatchMovies = () => {
     };
 
     loadWatchedMovies();
-  }, []);
+  }, [page]);
 
   if (error) {
     return <p className="error-message">{error}</p>;
@@ -56,23 +64,35 @@ const ToWatchMovies = () => {
     setSelectedMovie(null);
   };
   
-    const changeStatus = async (selectedMovie) => {
-      setLoading(true);
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            setError("Non sei autenticato.");
-            return;
-          }
-  
-          await changeMovieStatus(token, selectedMovie._id,  true);
-          window.location.reload()
-        } catch (err) {
-          setError(err.message);
-        }finally {
-          setLoading(false);
+  const changeStatus = async (selectedMovie) => {
+    setLoading(true);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Non sei autenticato.");
+          return;
         }
+
+        await changeMovieStatus(token, selectedMovie._id,  true);
+        window.location.reload()
+      } catch (err) {
+        setError(err.message);
+      }finally {
+        setLoading(false);
+      }
+  }
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1);
     }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  };
   
   return (
     <div className="watched-movies content">
@@ -104,6 +124,24 @@ const ToWatchMovies = () => {
       ) : (
         <p className="no-movies">Non hai ancora aggiunto film da vedere.</p>
       )}
+
+      <div className="pagination">
+                <button 
+                  onClick={handlePreviousPage} 
+                  disabled={page === 1}
+                  className="pagination-button"
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                <span>{page} / {totalPages}</span>
+                <button 
+                  onClick={handleNextPage} 
+                  disabled={page === totalPages}
+                  className="pagination-button"
+                >
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+        </div>
       {/* Popup per i dettagli del film */}
       {isPopupOpen && selectedMovie && (
         <MovieDetailPopup

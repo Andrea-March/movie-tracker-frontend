@@ -73,8 +73,8 @@ export const addMovieToList = async (movie, watched) => {
   };
 
 // Recupera i film dell'utente
-export const fetchUserMovies = async (token, type) => {
-  console.log("called with type " + {type})
+export const fetchUserMovies = async (token, type, page = 1, countPages = false) => {
+  console.log(countPages)
     if (!token) {
         throw new Error("Devi essere loggato per aggiungere il film.");
       }
@@ -83,6 +83,7 @@ export const fetchUserMovies = async (token, type) => {
     try {
       const response = await axios.get(`${API_URL}users/${userId}/movies/${type}`, {
         headers: { Authorization: `Bearer ${token}` },
+        params: { page, countPages },
       });
       return response.data;
     } catch (err) {
