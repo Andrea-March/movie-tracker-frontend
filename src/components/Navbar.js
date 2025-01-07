@@ -96,7 +96,7 @@ const logout = () => {
         <FontAwesomeIcon icon={faXmark} size="2x" onClick={()=>{setShowMobileMenu(false)}} className='mobile-menu-close-icon'/>
       </div>
           <ul className='mobile-nav-links flex-column'>
-          <li onClick={()=>{navigate('/'); hideMenu()}}>
+          <li onClick={()=>{navigate('/explore'); hideMenu()}}>
             Home
           </li>
           <li onClick={()=>{navigate('/watched');hideMenu()}}>

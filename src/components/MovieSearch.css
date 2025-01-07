@@ -1,6 +1,6 @@
 .movie-search-container {
     padding: 20px;
-    background-color: var(--secondary);
+    background-color: var(--navbar);
     overflow: auto;
     height: 100%;
 }

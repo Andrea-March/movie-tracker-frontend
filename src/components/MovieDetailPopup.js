@@ -79,7 +79,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
       ? "Segna come visto"
       : "Aggiungi alla lista";
   const backgroundImage = 
-     `linear-gradient(to top, rgba(0, 0, 0, 1) 0%,  rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.6) 75%, rgba(0, 0, 0, 0) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
+     `linear-gradient(to top, rgba(0, 0, 0, 1) 0%,  rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 0.8) 75%, rgba(0, 0, 0, 0.6) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
 
   return (
     <div className="movie-popup-overlay">
