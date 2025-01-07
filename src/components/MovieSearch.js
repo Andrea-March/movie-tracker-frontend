@@ -86,18 +86,18 @@ function MovieSearch({onCloseClick}) {
         />
           
       </div>
-      <button className="button search-button"
+      {/* <button className="button search-button"
           onClick={handleSearch}
         >
         Cerca
-        </button>
+        </button> */}
       <div>
          {/* Lista dei film */}
       {movies.length > 0 && (
         <div className="found-movies-container">
           <h2>Risultati della ricerca:</h2>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {movies.slice(0, 3).map((movie) => (
+          <ul style={{ listStyle: "none", padding: 0 }} className="search-results-list">
+            {movies.map((movie) => (
               <li
                 className="search-result"
                 key={movie.id}

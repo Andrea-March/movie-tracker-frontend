@@ -1,9 +1,8 @@
 .movie-search-container {
     padding: 20px;
-    border-radius: 10px;
     background-color: var(--secondary);
     overflow: auto;
-    max-height: 75vh;
+    height: 100%;
 }
 
 .search-wrapper{
@@ -48,6 +47,10 @@
 }
 .search-result img{
     height: 140px;
+ }
+
+ .search-results-list:last-child {
+    margin-bottom: 30px;
  }
 
 @media screen and (max-width : 600px){
