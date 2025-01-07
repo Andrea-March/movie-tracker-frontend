@@ -24,6 +24,8 @@
   --page-title-color: black;
   --navbar: #79DBFF;
   --sub-navbar: #78FDDF;
+  --error: red;
+  --error-text: white;
   
   --button: black;
   --button-hover: #F3EE76;
@@ -47,6 +49,9 @@
    --page-title-color: #347355;
 
    --navbar: #0A0A0A;
+   --sub-navbar: #78FDDF;
+   --error: red;
+   --error-text: white;
  
    --button: #357367;
    --button-hover: #347355;

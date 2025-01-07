@@ -5,6 +5,7 @@ import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import Error from "../components/Error";
 /* import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css"; */
 
@@ -123,6 +124,7 @@ const WatchedMovies = () => {
       ) : (
         <p className="no-movies">Non hai ancora aggiunto film visti.</p>
       )}
+      <Error error={error} />
 
         <div className="pagination">
           <button 
