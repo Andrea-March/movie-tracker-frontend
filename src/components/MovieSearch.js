@@ -11,6 +11,7 @@ function MovieSearch({onCloseClick}) {
   /* const [query, setQuery] = useState(""); */
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState(undefined);
   const [typingTimeout, setTypingTimeout] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -54,21 +55,42 @@ function MovieSearch({onCloseClick}) {
     );
   };
 
-    // Funzione per aggiungere un film alla lista dell'utente
-    const handleAddToList = async (movie, watched) => {
+  // Funzione per aggiungere un film alla lista dell'utente
+  const handleAddToList = async (movie, watched) => {
+      try {
+        console.log(movie)
+        const message = await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
+        watched ? navigate("/watched") : navigate("/to-watch");
+        window.location.reload();
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+  const handleMovieClick = (movie) => {
+    setMovie(movie);
+    setShowDetail(true);
+  }
+
+  const closePopup = () => setShowDetail(false)
+
+  const changeStatus = async (selectedMovie, status) => {
+      setLoading(true);
+      const watched = status === 'watched' ? true : false;
         try {
-          console.log(movie)
-          const message = await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
-          watched ? navigate("/watched") : navigate("/to-watch");
-          window.location.reload();
+          const token = localStorage.getItem("token");
+          if (!token) {
+            setError("Non sei autenticato.");
+            return;
+          }
+  
+          await addMovieToList(selectedMovie,  watched);
+          closePopup();
         } catch (err) {
           setError(err.message);
+        }finally {
+          setLoading(false);
         }
-      };
-
-    const handleMovieClick = (movie) => {
-      setMovie(movie);
-      setShowDetail(true);
     }
 
   return (
@@ -142,7 +164,14 @@ function MovieSearch({onCloseClick}) {
               </li>
             ))}
           </ul>
-          {showDetail && <MovieDetailPopup movie={movie} closePopup={()=>setShowDetail(false)}/>}
+          {showDetail && 
+            <MovieDetailPopup 
+              movie={movie} 
+              closePopup={closePopup}
+              changeMovieStatus={changeStatus}
+            />
+            
+            }
         </div>
       )}
       </div>
