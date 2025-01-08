@@ -95,9 +95,9 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         >        
         <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" />
         <h2>{movie.title}</h2>
-        <p className='display-flex justify-center align-items-center'><FontAwesomeIcon icon={faCalendarAlt} className="detail-icon" /><strong>Data di uscita:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
-        <p className='movie-overview'><strong>Descrizione:</strong> {movie.overview}</p>
-        <p className='display-flex justify-center align-items-center'> <FontAwesomeIcon icon={faStar} className="detail-icon" /><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
+        <p className='display-flex justify-center align-items-center'><FontAwesomeIcon icon={faCalendarAlt} className="detail-icon" />{new Date(movie.release_date).toLocaleDateString()}</p>
+        <p className='movie-overview'><strong>Descrizione: </strong> {movie.overview}</p>
+        <p className='display-flex justify-center align-items-center'> <FontAwesomeIcon icon={faStar} className="detail-icon" />{movie.vote_average?.toFixed(1) ? movie.vote_average.toFixed(1) + "/ 10": "not rated"} </p>
 
         <div className='section-divider'></div>
         <div className="movie-status flex-column align-items-center">
