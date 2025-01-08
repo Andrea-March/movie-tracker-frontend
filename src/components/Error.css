@@ -1,13 +1,27 @@
 .error-popup {
     position: fixed;
-    right: 0;
-    bottom: 0;
-    z-index: 3;
-    background-color: var(--error);
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    background-color: var(--error, #ff4d4f);
     color: white;
-    width: 250px;
-    height: 100px;
-    align-content: center;
+    width: 300px;
+    min-height: 80px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 10px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(150px);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+}
+
+.error-popup.show {
+    opacity: 1;
+    transform: translateY(0);
 }

@@ -39,7 +39,6 @@ function MovieSearch({onCloseClick}) {
       const data = await searchMovies(query); // Chiamata al servizio
       setMovies(data); // Imposta i risultati dei film
     } catch (err) {
-      console.error("Errore nella ricerca:", err);
       setError("Errore durante la ricerca. Riprova.");
     }
   };
@@ -123,16 +122,16 @@ function MovieSearch({onCloseClick}) {
               <li
                 className="search-result"
                 key={movie.id}
-                onClick={()=>{handleMovieClick(movie)}}
               >
                   {movie.poster_path && (
                     <img
+                      onClick={()=>{handleMovieClick(movie)}}
                       src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
                       alt={movie.title}
                       loading="lazy"
                     />
                   )}
-                  <div>
+                  <div onClick={()=>{handleMovieClick(movie)}}>
                     <h3 style={{ margin: 0 }} className="movie-title">
                       {movie.title}{" "}
                       {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
@@ -175,7 +174,7 @@ function MovieSearch({onCloseClick}) {
         </div>
       )}
       </div>
-      {/* <Error error={error}/> */}
+      <Error error={error} setError={setError}/>
     </div>
   );
 }

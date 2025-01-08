@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
 import CustomSelect from "../components/CustomSelect";
+import Error from "../components/Error";
 /* import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css"; */
 
@@ -95,7 +96,6 @@ const Explore = () => {
           setError("Non sei autenticato.");
           return;
         }
-
         await addMovieToList(selectedMovie,  watched);
         closePopup();
       } catch (err) {
@@ -162,6 +162,7 @@ const Explore = () => {
       ) : (
         <p className="no-movies">Non ci sono film da visualizzare.</p>
       )}
+      <Error error={error} setError={setError} />
 
       {/* Popup per i dettagli del film */}
       {isPopupOpen && selectedMovie && (

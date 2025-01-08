@@ -8,14 +8,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2;
   }
   
   .movie-popup {
     position: relative;
     background-size: cover;
     background-position: center;
-    padding: 32px;
+    padding: 42px 10px;
     max-width: 800px;
     width: 100%;
     text-align: center;
@@ -36,7 +36,7 @@
   }
   
   .movie-popup h2 {
-    margin-top: 20px;
+    margin-top: 65px;
     font-size: 2em;
   }
   
@@ -118,7 +118,6 @@
 
 .delete-icon{
   color: var(--secondary);
-  margin-left: auto;
 }
 
 .add-to-list-container {

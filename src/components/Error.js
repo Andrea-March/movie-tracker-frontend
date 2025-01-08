@@ -1,29 +1,29 @@
-import React, {useEffect, useState} from 'react'
-import './Error.css'
+import React, { useEffect, useState } from 'react';
+import './Error.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
-const Error = ({error}) => {
-
+const Error = ({ error, setError }) => {
     const [showSelf, setShowSelf] = useState(false);
-    
-    useEffect(()=>{
-        const showError = () => {
+
+    useEffect(() => {
+        if (error) {
             setShowSelf(true);
-            setTimeout(() => {
+            const timer = setTimeout(() => {
                 setShowSelf(false);
+                setTimeout(() => setError(''), 300); // Attendi la fine dell'animazione prima di pulire l'errore
             }, 3000);
+
+            return () => clearTimeout(timer);
         }
-        error && showError();
-    },[error]);
+    }, [error, setError]);
 
     return (
-        <>
-        {showSelf &&
-            <div className='error-popup'>
-                {error}
-            </div>
-        }
-        </>
-    )
-}
+        <div className={`error-popup ${showSelf ? 'show' : ''}`}>
+            <span style={{ marginRight: '8px', color: 'var(--error-text)' }}><FontAwesomeIcon icon={faCircleXmark} size="2x"/></span>
+            {error}
+        </div>
+    );
+};
 
 export default Error;

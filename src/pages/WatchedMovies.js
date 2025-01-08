@@ -124,7 +124,7 @@ const WatchedMovies = () => {
       ) : (
         <p className="no-movies">Non hai ancora aggiunto film visti.</p>
       )}
-      <Error error={error} />
+      <Error error={error} setError={setError}/>
 
         <div className="pagination">
           <button 
