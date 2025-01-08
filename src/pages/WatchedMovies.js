@@ -44,7 +44,7 @@ const WatchedMovies = () => {
     };
 
     loadWatchedMovies();
-  }, [page]);
+  }, [page, totalPages]);
 
   if (error) {
     return <p className="error-message">{error}</p>;

@@ -8,6 +8,9 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Explore from "./pages/Explore";
+import Challenges from "./pages/Challenges";
+import Groups from "./pages/Groups";
+import NotFound from "./pages/NotFound";
 
 function App() {
 
@@ -22,6 +25,13 @@ function App() {
             <Route path="/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
+            <Route path="/challenges" element={<ProtectedRoute element={Challenges} />} />
+            <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
+
+
+
+             {/* La route 404 va alla fine per gestire tutte le altre URL non corrispondenti */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
       </div>
     </Router>

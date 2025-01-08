@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faRightFromBracket, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faFilm, faRightFromBracket, faSearch, faTrophy, faUsers, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import DarkModeToggle from './DarkModeToggle';
 import MovieSearch from './MovieSearch';
@@ -70,19 +70,19 @@ const logout = () => {
           {/* Subnavbar */}
         <div className="sub-navbar">
           <button
-            className={activePage === "/explore" ? "active" : ""}
+            className={activePage === "explore" ? "active" : ""}
             onClick={() => {navigate("explore"); setActivePage("explore")}}
           >
             Esplora
           </button>
           <button
-            className={activePage === "/watched" ? "active" : ""}
+            className={activePage === "watched" || activePage === "/" ? "active" : ""}
             onClick={() => {navigate("watched"); setActivePage("watched")}}
           >
             Film Visti
           </button>
           <button
-            className={activePage === "/to-watch" ? "active" : ""}
+            className={activePage === "to-watch" ? "active" : ""}
             onClick={() => {navigate("to-watch"); setActivePage("to-watch")}}
           >
             Da Vedere
@@ -91,20 +91,23 @@ const logout = () => {
 
 
       <div className={`mobile-menu ${showMobileMenu ? 'mobile-menu-translate' : ''}`}>
-      <div className='mobile-dark-toggle'>
-        <DarkModeToggle/>
-        <FontAwesomeIcon icon={faXmark} size="2x" onClick={()=>{setShowMobileMenu(false)}} className='mobile-menu-close-icon'/>
-      </div>
-          <ul className='mobile-nav-links flex-column'>
-          <li onClick={()=>{navigate('/explore'); hideMenu()}}>
-            Home
-          </li>
-          <li onClick={()=>{navigate('/watched');hideMenu()}}>
-            Visti
-          </li>
-          <li onClick={()=>{navigate('/to-watch'); hideMenu()}}>
-            Da Vedere
-          </li>
+        <div className='mobile-dark-toggle'>
+          <DarkModeToggle/>
+          <FontAwesomeIcon icon={faXmark} size="2x" onClick={()=>{setShowMobileMenu(false)}} className='mobile-menu-close-icon'/>
+        </div>
+          <ul className='mobile-nav-links flex-column align-items-center'>
+            <li onClick={()=>{navigate('/'); hideMenu()}}>
+              <FontAwesomeIcon icon={faFilm} size='lg' style={{marginRight: '20px'}}/>
+              Home
+            </li>
+            <li onClick={() => { navigate('/challenges'); hideMenu() }} aria-label="Sfide mensili">
+              <FontAwesomeIcon icon={faTrophy} size="lg" style={{marginRight: '20px'}}/>
+              Sfide Mensili
+            </li>
+            <li onClick={() => { navigate('/groups'); hideMenu() }}>
+              <FontAwesomeIcon icon={faUsers} size="lg" style={{marginRight: '20px'}}/>
+              Gruppi
+            </li>
           </ul>
           <div className='logout-mobile-container'>
             <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>

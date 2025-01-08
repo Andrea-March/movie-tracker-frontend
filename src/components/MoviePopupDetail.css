@@ -20,7 +20,12 @@
     width: 100%;
     text-align: center;
     color: white;
-    max-height: 90vh;
+    height: 90vh;
+  }
+
+  .movie-popup .section-divider {
+    margin: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
   
   .close-popup-btn {
@@ -38,6 +43,9 @@
   .movie-popup h2 {
     margin-top: 65px;
     font-size: 2em;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
   }
   
   .movie-popup p {
@@ -46,6 +54,16 @@
     margin-top: 10px;
   }
 
+  .movie-overview {
+    text-align: justify;
+  }
+
+  .detail-icon {
+    margin-right: 8px;
+    color: var(--secondary); /* Giallo per le icone */
+    font-size: 1.2em;
+    vertical-align: middle;
+  }
   .movie-status {
     margin-top: 20px;
     gap: 10px;
@@ -80,6 +98,12 @@
   background-color: #f5f5f5; /* Colore chiaro per il contrasto */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-providers {
+  color: var(--text);
+  font-size: 1em;
+  margin-top: 10px;
 }
 
 /* Titolo della categoria */

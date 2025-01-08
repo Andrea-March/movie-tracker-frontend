@@ -75,11 +75,7 @@
     display: none;
   }
   
-  .mobile-menu {
-    display: none;
-    background-color: var(--mobile-menu);
-  }
-  
+
   .didattica-dropdown-menu {
     display: block;
     position: absolute;
@@ -106,20 +102,6 @@
     width: 25%;
   }
 
-  .mobile-dark-toggle{
-    background-color: inherit;
-    transition: none;
-    display: flex;
-    justify-content: space-around;
-    height: 100px;
-  }
-
-  .mobile-menu-icon-container{
-    display: flex;
-    align-items: center;
-    width: 100px;
-  }
-
   .navbar-container {
     background-color: var(--navbar);
   }
@@ -143,11 +125,6 @@
     transform: translate(0, 0);
 }
 
-.logout-mobile-container{
-  margin-top: 50px;
-  justify-content: center;
-  display: flex;
-}
 
 
 /* subnavbar */ 
@@ -170,17 +147,39 @@
   transition: color 0.3s ease;
 }
 
-.sub-navbar button:hover {
-  color: white;
-}
-
 .sub-navbar button.active {
   font-weight: bold;
-  color: transparent;
   border-bottom: 2px solid var(--secondary);
 }
   
   /* Mobile styles */
+
+  .logout-mobile-container{
+    margin-top: 50px;
+    justify-content: center;
+    display: flex;
+  }
+  
+
+  .mobile-menu {
+    display: none;
+    background-color: var(--mobile-menu);
+  }
+
+  .mobile-dark-toggle{
+    background-color: inherit;
+    transition: none;
+    display: flex;
+    justify-content: space-around;
+    height: 100px;
+  }
+
+  .mobile-menu-icon-container{
+    display: flex;
+    align-items: center;
+    width: 100px;
+  }
+  
   
   @media screen and (max-width : 800px){
     .nav-links {
@@ -232,51 +231,28 @@
   
     .mobile-nav-links {
       list-style: none;
-      background-color: inherit;
-      transition: none;
     }
   
-    .mobile-nav-sub-links{
-      list-style: none;
-      background-color: inherit;
-    }
+
   
     .mobile-nav-links li {
-      text-decoration: none;
       color: var(--mobile-menu-text);
-      background-color: inherit;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+
       height: 100px;
       width: 75%;
-      font-size: 1.5rem;
+      padding: 15px;
+      font-size: 1.3rem;
       transition: none;
     }
+
   
-    .mobile-nav-sub-links li {
-      text-decoration: none;
-      color: var(--mobile-menu-text);
-      background-color: inherit;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 50px;
-      width: 75%;
-      font-size: 1.5rem;
-    }
-  
-    .mobile-nav-sub-links li::after{
-      content: none;
-    }
-    
-    .mobile-nav-links li::after{
+    .mobile-nav-links li::after {
       content: '';
+      margin-top: 5px;
       display: block;
-      width: 90%;
-      transform: translate(5%, 0);
-      height: 1px;
-      background-color: var(--mobile-menu-text); /* Colore marrone chiaro */
+      width: 70%;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 0.1); /* Colore più soft per il separatore */
     }
 
     .icons-container{

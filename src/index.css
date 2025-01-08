@@ -42,26 +42,26 @@
  
  :root.dark-theme{
    /*DARK THEME*/
-   --background: #0A0A0A;
-   --secondary: #212121;
-   --text: #F8F8F8; 
-   --text-hover: #60BF81; 
-   --page-title-color: #347355;
+    --background: #1E1E2C;       /* Un blu notte profondo e soffice */
+    --secondary: #FFB86C;       /* Arancione pesca caldo */
+    --text: #EAEAEA;            /* Un bianco sporco per il testo principale */
+    --text-hover: #FFD700;      /* Giallo oro per il testo interattivo */
+    --page-title-color: #F8F8F2; /* Un bianco morbido per i titoli */
+    --navbar: #44475A;          /* Un grigio-blu scuro per la barra di navigazione */
+    --sub-navbar: #3E3A50;      /* Un blu desaturato per sezioni secondarie */
+    --error: #FF5555;           /* Un rosso tenue e accogliente */
+    --error-text: #F8F8F2;      /* Bianco morbido per il testo di errore */
 
-   --navbar: #0A0A0A;
-   --sub-navbar: #78FDDF;
-   --error: red;
-   --error-text: white;
- 
-   --button: #357367;
-   --button-hover: #347355;
-   --button-text: #212121;
-   --button-hover-text: #60BF81;
-   --footer: #1e3333;
-   --footer-text: #212121;
- 
-   --mobile-menu: #0A0A0A;
-   --mobile-menu-text: #F8F8F8;
+    --button: #282A36;          /* Grigio scurissimo per i pulsanti */
+    --button-hover: #44475A;    /* Grigio-blu per il passaggio del mouse */
+    --button-text: #FFB86C;     /* Arancione pesca */
+    --button-hover-text: #F8F8F2; /* Bianco morbido per il testo del pulsante al passaggio del mouse */
+
+    --footer: #21222C;          /* Grigio carbone per il footer */
+    --footer-text: #6272A4;     /* Blu desaturato per il testo del footer */
+
+    --mobile-menu: #282A36;     /* Grigio scurissimo per il menu mobile */
+    --mobile-menu-text: #EAEAEA; /* Testo chiaro per il menu mobile */
  }
 
 *{
@@ -102,6 +102,11 @@ svg {
 .justify-between {
   justify-content: space-between;
 }
+
+.justify-center {
+  justify-content: center;
+}
+
 
 .align-items-center{
   align-items: center;

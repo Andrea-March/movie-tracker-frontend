@@ -1,0 +1,56 @@
+.error404-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background); /* Colore di sfondo coerente con il resto dell'app */
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .error404-content {
+    max-width: 600px;
+    background-color: var(--secondary); /* Colore coerente con la tua app */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error404-title {
+    font-size: 3rem;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  
+  .error404-description {
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 30px;
+  }
+  
+  .error404-button {
+    background-color: var(--primary);
+    color: var(--text);
+    font-size: 1.2rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .error404-button:hover {
+    background-color: var(--text);
+  }
+  
+  .error404-button:focus {
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  }
+  
+  .error404-button svg {
+    font-size: 18px;
+    color: var(--text);
+  }

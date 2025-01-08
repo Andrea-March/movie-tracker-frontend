@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEye, faPlus, faCheck, faTrash, faE } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEye, faPlus, faCheck, faTrash, faCalendarAlt, faStar } from "@fortawesome/free-solid-svg-icons";
 import { getMovieProviders, searchTrailerurl, deleteMovie } from '../services/movieservice';
 import Error from './Error';
 
@@ -46,8 +46,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
       getProviders();
       getTrailerUrl();
 
-  }
-  ,[])
+  })
 
 
   const handleStatusChange = (status = null) => {
@@ -91,29 +90,17 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           className="movie-popup"
           style={{
             backgroundImage: backgroundImage,
+            /* backdropFilter: 'blur(5px)' */
           }}
         >        
         <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" />
         <h2>{movie.title}</h2>
-        <p><strong>Data di uscita:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
-        <p><strong>Descrizione:</strong> {movie.overview}</p>
-        <p><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
+        <p className='display-flex justify-center align-items-center'><FontAwesomeIcon icon={faCalendarAlt} className="detail-icon" /><strong>Data di uscita:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
+        <p className='movie-overview'><strong>Descrizione:</strong> {movie.overview}</p>
+        <p className='display-flex justify-center align-items-center'> <FontAwesomeIcon icon={faStar} className="detail-icon" /><strong>Voto:</strong> {movie.vote_average?.toFixed(1) || "?"} / 10</p>
 
-        {trailerurl && 
-          <iframe 
-            width="100%" 
-            height="315" 
-            src={trailerurl} 
-            loading='lazy'
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowFullScreen
-          ></iframe>
-        }
-
-       <div className="movie-status flex-column align-items-center">
+        <div className='section-divider'></div>
+        <div className="movie-status flex-column align-items-center">
                     {movieStatus && 
                       <div className='flex-row width-90 justify-between margin-bottom-10'>
                         <div className='flex-row align-items-center'>
@@ -159,9 +146,28 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                       </div>
                     }
         </div>
+        <div className='section-divider'></div>
+        {trailerurl && 
+          <iframe 
+            width="100%" 
+            height="315" 
+            src={trailerurl} 
+            loading='lazy'
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowFullScreen
+            style={{marginTop: '20px'}}
+          ></iframe>
+        }
+        {!trailerurl && <p className="no-providers">Trailer non disponibile per questo film</p>}
+
+        <div className='section-divider'></div>
         <Error error={error}  setError={setError}/>
+        {providers &&
           <div className="movie-providers">
-            {providers &&
+            {
               ["buy", "flatrate", "rent"].map((category) => (
                   <div key={category} className={`provider-category ${category}`}>
                       {providers[category] &&
@@ -176,14 +182,21 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                                   alt={provider.provider_name}
                                   title={provider.provider_name}
                                   className="provider-logo"
+                                  loading='lazy'
                                 />
-                              ))}              
+                              ))}          
                           </div>
                         </>
                       }   
-                </div>
-              ))}
-          </div>
+                  </div>
+                ))}
+            </div>
+        }
+        {
+          !providers && 
+            <p className="no-providers">Acocora nessun provider disponibile per questo film</p>
+        }
+          
       </div>
     </div>
   );

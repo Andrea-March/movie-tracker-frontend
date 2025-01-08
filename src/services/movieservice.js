@@ -74,7 +74,6 @@ export const addMovieToList = async (movie, watched) => {
 
 // Recupera i film dell'utente
 export const fetchUserMovies = async (token, type, page = 1, countPages = false) => {
-  console.log(countPages)
     if (!token) {
         throw new Error("Devi essere loggato per aggiungere il film.");
       }

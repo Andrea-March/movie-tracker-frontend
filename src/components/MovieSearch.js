@@ -11,7 +11,6 @@ function MovieSearch({onCloseClick}) {
   /* const [query, setQuery] = useState(""); */
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState(undefined);
   const [typingTimeout, setTypingTimeout] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -58,7 +57,7 @@ function MovieSearch({onCloseClick}) {
   const handleAddToList = async (movie, watched) => {
       try {
         console.log(movie)
-        const message = await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
+        await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
         watched ? navigate("/watched") : navigate("/to-watch");
         window.location.reload();
       } catch (err) {
@@ -74,7 +73,6 @@ function MovieSearch({onCloseClick}) {
   const closePopup = () => setShowDetail(false)
 
   const changeStatus = async (selectedMovie, status) => {
-      setLoading(true);
       const watched = status === 'watched' ? true : false;
         try {
           const token = localStorage.getItem("token");
@@ -87,8 +85,6 @@ function MovieSearch({onCloseClick}) {
           closePopup();
         } catch (err) {
           setError(err.message);
-        }finally {
-          setLoading(false);
         }
     }
 
