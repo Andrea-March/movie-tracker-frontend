@@ -2,12 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh; /* Altezza schermo intera */
-    position: absolute;
-    top: 190px;
-    backdrop-filter: blur(10px);
-    left: 2.5%;
-    width: 95%;
+    height: 100vh;
+    position: fixed;
+    backdrop-filter: blur(5px);
+    width: 100%;
 }
 
 .loader {
