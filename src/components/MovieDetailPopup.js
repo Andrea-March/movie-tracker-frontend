@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEye, faPlus, faCheck, faTrash, faCalendarAlt, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEye, faCheck, faTrash, faCalendarAlt, faStar, faList, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { getMovieProviders, searchTrailerurl, deleteMovie } from '../services/movieservice';
 import Error from './Error';
 
@@ -10,6 +10,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
 
   const [providers, setProviders] = useState(undefined);
   const [trailerurl, setTrailerUrl] = useState(movie.trailer_url);
+  const [showTrailer, setShowTrailer] = useState(false);
   const [error, setError] = useState(null);
 
   const[showStatusChoice, setShowStatusChoice] = useState(false);
@@ -30,23 +31,17 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         }
       }
 
-      const getTrailerUrl = async () => {
-        if(trailerurl){
-          return;
-        }
-        try{
-          const url = await searchTrailerurl(movie.id);
-          setTrailerUrl(url);
-        }catch (err){
-          console.log(err.message)
-        }
-
-      }
-
       getProviders();
       getTrailerUrl();
 
-  })
+  }, []);
+
+  useEffect(()=>{
+    if(!showTrailer){
+      return;
+    }
+    getTrailerUrl();
+  },[showTrailer])
 
 
   const handleStatusChange = (status = null) => {
@@ -68,12 +63,25 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
 
   }
 
+  const getTrailerUrl = async () => {
+    if(trailerurl){
+      return;
+    }
+    try{
+      const url = await searchTrailerurl(movie.id);
+      setTrailerUrl(url);
+    }catch (err){
+      console.log(err.message)
+    }
+
+  }
+
   // Icona basata sullo stato del film
   const statusIcon = movieStatus === 'watched'
       ? faEye // Film visto
       : movieStatus === 'to-watch'
       ? faCheck // Da vedere
-      : faPlus; // Modalità esplora
+      : faList; // Modalità esplora
 
   const statusLabel =  movieStatus === 'watched'
       ? "Segna come da vedere"
@@ -147,7 +155,31 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                     }
         </div>
         <div className='section-divider'></div>
-        {trailerurl && 
+        {
+          !showTrailer && 
+          <div 
+            style={{width: "100%", height: "315px", marginTop: "20px"}} 
+            className='flex-column justify-center align-items-center'
+            onClick={()=>{
+              if(!showTrailer){
+                setShowTrailer(true);
+              }
+            }} 
+          >           
+            {/* <FontAwesomeIcon 
+              icon={faPlay} 
+              size="2x" 
+              onClick={()=>{
+                if(!showTrailer){
+                  setShowTrailer(true);
+                }
+              }} 
+              style={{color:"#79DBFF"}}/> */}
+              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="68" viewBox="0 0 576 512"><path fill="#79dbff" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
+            <p>Guarda il trailer</p>
+         </div>
+        }
+        {trailerurl && showTrailer && 
           <iframe 
             width="100%" 
             height="315" 
@@ -161,7 +193,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             style={{marginTop: '20px'}}
           ></iframe>
         }
-        {!trailerurl && <p className="no-providers">Trailer non disponibile per questo film</p>}
+        {!trailerurl && showTrailer && <p className="no-providers">Trailer non disponibile per questo film</p>}
 
         <div className='section-divider'></div>
         <Error error={error}  setError={setError}/>
@@ -194,7 +226,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         }
         {
           !providers && 
-            <p className="no-providers">Acocora nessun provider disponibile per questo film</p>
+            <p className="no-providers">Ancora nessun provider disponibile per questo film</p>
         }
           
       </div>

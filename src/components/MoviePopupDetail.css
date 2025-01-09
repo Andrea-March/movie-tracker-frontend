@@ -101,7 +101,7 @@
 }
 
 .no-providers {
-  color: var(--text);
+  color: white;
   font-size: 1em;
   margin-top: 10px;
 }
