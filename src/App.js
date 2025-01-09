@@ -14,10 +14,12 @@ import NotFound from "./pages/NotFound";
 
 function App() {
 
+  const token = localStorage.getItem('token')
+
   return (
     <Router>
       <div>
-        <Navbar />
+        {token && <Navbar />}
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

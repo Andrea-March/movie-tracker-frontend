@@ -127,31 +127,7 @@
 
 
 
-/* subnavbar */ 
-.sub-navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--sub-navbar);
-  padding: 10px;
-}
 
-.sub-navbar button {
-  background: none;
-  border: none;
-  color: var(--text);
-  margin: 0 15px;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px 10px;
-  transition: color 0.3s ease;
-}
-
-.sub-navbar button.active {
-  font-weight: bold;
-  border-bottom: 2px solid var(--secondary);
-}
-  
   /* Mobile styles */
 
   .logout-mobile-container{

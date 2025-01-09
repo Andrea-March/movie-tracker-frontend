@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";  // Per importare gli stili
+import "../App.css"
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -21,6 +22,7 @@ function Login() {
       localStorage.setItem("token", response.data.token);
       setError("");
       navigate("/"); // Redirect dopo login
+      window.location.reload();
     } catch (err) {
       setError(err.response.data.error);
     }
@@ -52,9 +54,10 @@ function Login() {
             />
           </div>
           <button type="submit" className="submit-button">Accedi</button>
+          {error && <p className="error-message">{error}</p>}
           <p className="register-link" onClick={()=>{navigate("/register")}}>Non hai ancora un account? clicca qui per registrarti</p>
         </form>
-        {error && <p className="error-message">{error}</p>}
+        
       </div>
     </div>
   );

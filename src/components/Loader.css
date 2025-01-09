@@ -2,7 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Altezza schermo intera */
+    height: 90vh; /* Altezza schermo intera */
+    position: absolute;
+    top: 190px;
+    backdrop-filter: blur(10px);
+    left: 2.5%;
+    width: 95%;
 }
 
 .loader {

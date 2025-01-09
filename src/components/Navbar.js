@@ -6,11 +6,10 @@ import { faBars, faFilm, faRightFromBracket, faSearch, faTrophy, faUsers, faXmar
 
 import DarkModeToggle from './DarkModeToggle';
 import MovieSearch from './MovieSearch';
+import SubNavbar from './SubNavbar';
 
 
 const Navbar = () => {
-
-  const [activePage, setActivePage] = useState(window.location.pathname);
 
   const navigate = useNavigate();
 
@@ -67,27 +66,7 @@ const logout = () => {
         </div>
       </nav>
 
-          {/* Subnavbar */}
-        <div className="sub-navbar">
-          <button
-            className={activePage === "explore" ? "active" : ""}
-            onClick={() => {navigate("explore"); setActivePage("explore")}}
-          >
-            Esplora
-          </button>
-          <button
-            className={activePage === "watched" || activePage === "/" ? "active" : ""}
-            onClick={() => {navigate("watched"); setActivePage("watched")}}
-          >
-            Film Visti
-          </button>
-          <button
-            className={activePage === "to-watch" ? "active" : ""}
-            onClick={() => {navigate("to-watch"); setActivePage("to-watch")}}
-          >
-            Da Vedere
-          </button>
-        </div>
+        <SubNavbar />
 
 
       <div className={`mobile-menu ${showMobileMenu ? 'mobile-menu-translate' : ''}`}>
