@@ -3,10 +3,17 @@ import {jwtDecode} from "jwt-decode";
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/'; // Backend in esecuzione sulla porta 5000
 
+
+const token = localStorage.getItem("token");
+
+
 // Funzione per cercare i film tramite il backend
 export const searchMovies = async (query) => {
   try {
     const response = await axios.get(`${API_URL}movies/search`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
       params: { query },
     });
     return response.data; // Restituisce i film trovati
@@ -19,6 +26,9 @@ export const searchMovies = async (query) => {
 export const searchPopularMovies = async (page) => {
   try {
     const response = await axios.get(`${API_URL}movies/popular`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
       params: { page },
     });
     return response.data; // Restituisce i film trovati
@@ -30,6 +40,9 @@ export const searchPopularMovies = async (page) => {
 export const searchTopRatedMovies = async (page) => {
   try {
     const response = await axios.get(`${API_URL}movies/top_rated`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
       params: { page },
     });
     return response.data; // Restituisce i film trovati
@@ -41,6 +54,9 @@ export const searchTopRatedMovies = async (page) => {
 export const searchUpcomingMovies  = async (page) => {
   try {
     const response = await axios.get(`${API_URL}movies/upcoming`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
       params: { page },
     });
     return response.data; // Restituisce i film trovati
@@ -147,9 +163,26 @@ export const deleteMovie = async (token, movieId) => {
   // Funzione per cercare il trailer di un film tramite il backend
 export const searchTrailerurl = async (movieId) => {
   try {
-    const response = await axios.get(`${API_URL}movies/${movieId}/trailer`);
+    const response = await axios.get(`${API_URL}movies/${movieId}/trailer`, 
+      {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data.trailer_url; // Restituisce il link del trailer su youtube
   } catch (error) {
     throw new Error('Errore durante la ricerca del trailer');
+  }
+};
+
+// Funzione per ottenere i film in base al decennio e alla pagina
+export const getMoviesByDecade = async (decade, page) => {
+  try {
+    const response = await axios.get(`${API_URL}movies/movies-by-decade?decade=${decade}&page=${page}`, 
+      {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Errore nella chiamata all'API", error);
+    throw error;
   }
 };

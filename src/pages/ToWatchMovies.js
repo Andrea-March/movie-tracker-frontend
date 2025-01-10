@@ -98,6 +98,7 @@ const ToWatchMovies = () => {
     <div className="watched-movies content">
       {loading && <Loader />}
       <h1 className="title">Film Da Vedere</h1>
+      {loading && <div className="movies-grid-placeholder"></div>}
       {movies.length > 0 ? (
         <div className="movie-grid">
           {movies.map((movie) => (

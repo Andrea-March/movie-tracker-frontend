@@ -58,7 +58,7 @@ function MovieSearch({onCloseClick}) {
       try {
         console.log(movie)
         await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
-        watched ? navigate("/watched") : navigate("/to-watch");
+        watched ? navigate("/movies/watched") : navigate("/movies/watched");
         window.location.reload();
       } catch (err) {
         setError(err.message);

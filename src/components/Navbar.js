@@ -15,6 +15,7 @@ const Navbar = () => {
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showSerachBar, setShowSearchBar] = useState(false);
+  const [showSubNavbar, setShowSubNavbar] = useState(window.location.pathname.includes("movies"));
   
 const hideMenu = () => {
   setShowMobileMenu(false);
@@ -22,7 +23,7 @@ const hideMenu = () => {
 
 const logout = () => {
   localStorage.removeItem("token");
-  window.location.reload();
+  window.location.navigate("/login");
 }
 
 
@@ -33,7 +34,7 @@ const logout = () => {
         <FontAwesomeIcon icon={faBars} size='2x' className='menu-icon' onClick={()=>{setShowMobileMenu(true)}}/>
         </div>
         {/* Logo a sinistra */}
-        <div className="logo-container" onClick={()=>{setShowSearchBar(false);navigate('/');}}>
+        <div className="logo-container" onClick={()=>{setShowSearchBar(false);navigate('/movies/watched');}}>
           <div className="logo-img">
               <img src="/logo.png" alt="movie-tracker Logo" />
           </div>
@@ -66,7 +67,7 @@ const logout = () => {
         </div>
       </nav>
 
-        <SubNavbar />
+        {showSubNavbar && <SubNavbar />}
 
 
       <div className={`mobile-menu ${showMobileMenu ? 'mobile-menu-translate' : ''}`}>
@@ -75,15 +76,15 @@ const logout = () => {
           <FontAwesomeIcon icon={faXmark} size="2x" onClick={()=>{setShowMobileMenu(false)}} className='mobile-menu-close-icon'/>
         </div>
           <ul className='mobile-nav-links flex-column align-items-center'>
-            <li onClick={()=>{navigate('/'); hideMenu()}}>
+            <li onClick={()=>{navigate('/movies/watched'); setShowSubNavbar(true);  hideMenu()}}>
               <FontAwesomeIcon icon={faFilm} size='lg' style={{marginRight: '20px'}}/>
               Home
             </li>
-            <li onClick={() => { navigate('/challenges'); hideMenu() }} aria-label="Sfide mensili">
+            <li onClick={() => { navigate('/challenges'); setShowSubNavbar(false); hideMenu() }} aria-label="Sfide mensili">
               <FontAwesomeIcon icon={faTrophy} size="lg" style={{marginRight: '20px'}}/>
               Sfide Mensili
             </li>
-            <li onClick={() => { navigate('/groups'); hideMenu() }}>
+            <li onClick={() => { navigate('/groups'); setShowSubNavbar(false); hideMenu() }}>
               <FontAwesomeIcon icon={faUsers} size="lg" style={{marginRight: '20px'}}/>
               Gruppi
             </li>

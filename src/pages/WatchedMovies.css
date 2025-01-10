@@ -20,6 +20,11 @@
     gap: 3px;
     justify-content: center;
   }
+
+  .movies-grid-placeholder{
+    width: 100%;
+    height: 75vh;
+  }
   
   /* Singola card del film */
   .movie-card {

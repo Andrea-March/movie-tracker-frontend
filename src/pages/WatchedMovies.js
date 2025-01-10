@@ -53,7 +53,7 @@ const WatchedMovies = () => {
   // Funzione per aprire il popup con i dettagli del film
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
-    setIsPopupOpen(true); // Apri il popup
+    setIsPopupOpen(true);
   };
 
   // Funzione per chiudere il popup
@@ -97,6 +97,7 @@ const WatchedMovies = () => {
     <div className="watched-movies content">
       {loading && <Loader />}
       <h1 className="title">Film Visti</h1>
+      {loading && <div className="movies-grid-placeholder"></div>}
       {movies.length > 0 ? (
         <div className="movie-grid">
           {movies.map((movie) => (
@@ -142,7 +143,7 @@ const WatchedMovies = () => {
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
-          </div>
+         </div>
 
       {/* Popup per i dettagli del film */}
       {isPopupOpen && selectedMovie && (

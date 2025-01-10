@@ -115,7 +115,7 @@ const Explore = () => {
                 onChange={handleFilterChange}
             />
       </div>
-     
+      {loading && <div className="movies-grid-placeholder"></div>}
       {popularMovies.length > 0 ? (
         <>
         <div className="movie-grid">

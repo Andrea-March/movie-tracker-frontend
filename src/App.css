@@ -26,7 +26,7 @@
   background-color: var(--button-hover);
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width : 800px){
   .content {
     margin-left: 0;
   }

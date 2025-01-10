@@ -8,7 +8,7 @@ const NotFound = () => {
     const navigate = useNavigate();
 
     const handleRedirectHome = () => {
-      navigate('/');
+      navigate('/movies/watched');
     };
 
   return (

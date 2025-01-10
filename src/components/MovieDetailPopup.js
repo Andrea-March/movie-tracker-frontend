@@ -134,8 +134,8 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                     </div>
                     }
                     {showStatusChoice && 
-                      <div className='flex-column status-choice-container'>
-                        <div className='flex-row margin-top-10' onClick={()=>{handleStatusChange("watched")}}>
+                      <div className="flex-column status-choice-container">
+                        <div className='flex-row margin-top-20' onClick={()=>{handleStatusChange("watched")}}>
                           <FontAwesomeIcon
                             icon={faCheck}
                             className="status-icon"
@@ -143,7 +143,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                           />
                           <span className="status-label padding-left-10">Segna come visto</span>
                         </div>
-                        <div className='flex-row margin-top-10' onClick={()=>{handleStatusChange("to-watch")}}>
+                        <div className='flex-row margin-top-20' onClick={()=>{handleStatusChange("to-watch")}}>
                           <FontAwesomeIcon
                             icon={faEye}
                             className="status-icon"
