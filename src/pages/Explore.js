@@ -116,7 +116,7 @@ const Explore = () => {
             />
       </div>
       {loading && <div className="movies-grid-placeholder"></div>}
-      {popularMovies.length > 0 ? (
+      {!loading && popularMovies.length > 0 ? (
         <>
         <div className="movie-grid">
           {popularMovies.map((movie) => (
