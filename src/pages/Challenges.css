@@ -79,7 +79,7 @@
   /* Media Queries per dispositivi mobili */
 @media (max-width: 768px) {
 
-    .movie-card, .badge {
+    .challenge-movie-card, .badge {
       padding: 10px;
     }
     .challenge-card {

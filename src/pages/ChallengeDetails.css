@@ -40,13 +40,3 @@
     color: #777;
   }
 
-  /* Media Queries per dispositivi mobili */
-  @media screen and (max-width : 800px){
-    .movie-grid {
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    }
-    .movie-poster {
-      width: 100%;
-    }
-
-  }
