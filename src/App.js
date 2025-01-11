@@ -10,7 +10,7 @@ import Explore from "./pages/Explore";
 import Challenges from "./pages/Challenges";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
-import Test from "./pages/Test";
+/* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
       <div>
         {token && <Navbar />}
           <Routes>
-            <Route path="/test" element={<ProtectedRoute element={Test} />}/>
+         {/*    <Route path="/test" element={<ProtectedRoute element={Test} />}/> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             {/* <Route path="/" element={<ProtectedRoute element={Navigate("/movies/watched")} />} /> */}
