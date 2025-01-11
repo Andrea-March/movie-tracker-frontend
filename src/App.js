@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { onMessage, getToken } from 'firebase/messaging';
 import WatchedMovies from "./pages/WatchedMovies";
 import ToWatchMovies from "./pages/ToWatchMovies";
 import Navbar from "./components/Navbar";
@@ -15,8 +16,49 @@ import ChallengeDetail from "./pages/ChallengeDetails";
 
 function App() {
 
-  const token = localStorage.getItem('token')
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api/"
 
+  const token = localStorage.getItem('token');
+
+ /*  useEffect(()=>{
+    console.log("called app.js useEffect")
+
+     // Chiedi il permesso per ricevere notifiche
+    Notification.requestPermission().then(async permission => {
+        if (permission === 'granted') {
+            console.log('Notification permission granted.');
+
+            try {
+              const fcmToken = await getToken(messaging, {
+                  vapidKey: process.env.REACT_APP_VAPID_KEY,
+              });
+      
+              if (fcmToken) {
+                  // Invia il token al backend
+                  await fetch(`${API_URL}users/${userId}/fcm-token`, {
+                      method: "POST",
+                      headers: {
+                          "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ fcmToken }),
+                  });
+              }
+          } catch (error) {
+              console.error("Errore durante il recupero del token FCM:", error);
+          }
+        } else {
+            console.log('Notification permission denied.');
+        }
+    });
+
+    // Gestione della ricezione delle notifiche
+    onMessage(payload => {
+        console.log('Notification received. ', payload);
+        // Puoi mostrare una notifica o fare altre operazioni
+    });
+
+  },[])
+ */
   return (
     <Router>
       <div>
