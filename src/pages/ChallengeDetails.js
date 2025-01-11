@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getChallengeDetails, markMovieAsWatched } from "../services/challengesservice";
 import '../App.css';
 import Loader from "../components/Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const ChallengeDetail = () => {
   const { challengeId } = useParams();
   const [challenge, setChallenge] = useState(null);
   const [selectedMovies, setSelectedMovies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("jwtToken");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChallengeDetails = async () => {
@@ -42,6 +46,18 @@ const ChallengeDetail = () => {
     }
   };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
   return (
     <div className="content">
       {loading ? (
@@ -58,11 +74,15 @@ const ChallengeDetail = () => {
             {selectedMovies.length > 0 ? (
               selectedMovies.map((movie) => (
                 <div className="ch-details-movie-card" key={movie.movieId}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w200${movie.movieId.poster_path}`}
-                    alt={movie.movieId.title}
-                    className="ch-details-movie-poster"
-                  />
+                  <img 
+                    srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
+                    https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
+                    sizes="(max-width: 768px) 200px, 400px"
+                    alt={movie.movieId.title} 
+                    className=".ch-details-movie-poster" 
+                    loading="lazy"
+                    style={{ width: "150px"}} 
+                />
                   <div className="ch-details-movie-details">
                     <h3>{movie.movieId.title}</h3>
                     <p>{new Date(movie.movieId.release_date).getFullYear()}</p>
@@ -76,9 +96,27 @@ const ChallengeDetail = () => {
                   </div>
                 </div>
               ))
+              
             ) : (
               <p>Non ci sono film selezionati per questa sfida.</p>
             )}
+          </div>
+          <div className="pagination">
+            <button 
+              onClick={handlePreviousPage} 
+              disabled={currentPage === 1}
+              className="pagination-button"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <span>{currentPage} / {totalPages}</span>
+            <button 
+              onClick={handleNextPage} 
+              disabled={currentPage === totalPages}
+              className="pagination-button"
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
           </div>
         </>
       )}

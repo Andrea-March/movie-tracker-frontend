@@ -2,22 +2,23 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getChallenges, getUserBadges } from "../services/challengesservice";
 import '../App.css';
+import './Challenges.css'
 
 const Challenges = () => {
   const [challenges, setChallenges] = useState([]);
-  const [badges, setBadges] = useState([]);
+ /*  const [badges, setBadges] = useState([]); */
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("jwtToken");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
+        setLoading(true);
         const challengesData = await getChallenges(); // Usa il service per ottenere le sfide
         setChallenges(challengesData);
 
-        const badgesData = await getUserBadges(); // Usa il service per ottenere i badge
-        setBadges(badgesData);
+        /* const badgesData = await getUserBadges(); // Usa il service per ottenere i badge
+        setBadges(badgesData); */
       } catch (error) {
         console.error("Errore durante il recupero delle sfide e dei badge", error);
       } finally {
@@ -26,10 +27,10 @@ const Challenges = () => {
     };
 
     fetchChallenges();
-  }, [token]);
+  },[]);
 
   const handleChallengeClick = (challengeId) => {
-    navigate(`/challenge/${challengeId}`);
+    navigate(`${challengeId}`);
   };
 
   return (
@@ -63,7 +64,7 @@ const Challenges = () => {
             </div>
           </div>
 
-          <div className="badges">
+         {/*  <div className="badges">
             <h2>Badge Vinti</h2>
             <div className="badge-list">
               {badges.length > 0 ? (
@@ -77,7 +78,7 @@ const Challenges = () => {
                 <p>Non hai ancora vinto badge.</p>
               )}
             </div>
-          </div>
+          </div> */}
         </>
       )}
     </div>

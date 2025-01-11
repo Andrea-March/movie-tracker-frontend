@@ -2,12 +2,24 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/'; // Backend in esecuzione sulla porta 5000
 
-const token = localStorage.getItem("jwtToken");
+const token = localStorage.getItem("token");
+
+// Funzione per creare una nuova sfida
+export const createChallenge = async (challengeData, decade) => {
+    try {
+      // decade viene passato come query, il resto è nel body
+      const response = await axios.post(`${API_URL}challenges?decade=${decade}`, challengeData);
+      return response.data; // Restituisce la risposta del server
+    } catch (error) {
+      console.error("Errore durante la creazione della sfida:", error);
+      throw error; // Lancia un'eccezione per la gestione degli errori
+    }
+  };
 
 // Funzione per ottenere tutte le sfide
 export const getChallenges = async () => {
     try {
-      const response = await axios.get(`${API_URL}/challenges`, {
+      const response = await axios.get(`${API_URL}challenges`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -22,7 +34,7 @@ export const getChallenges = async () => {
 // Funzione per ottenere i dettagli della sfida
 export const getChallengeDetails = async (challengeId) => {
     try {
-        const response = await axios.get(`${API_URL}/challenges/${challengeId}/progress`, {
+        const response = await axios.get(`${API_URL}challenges/${challengeId}/progress`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

@@ -10,28 +10,46 @@
   }
   
   .challenge-card {
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    padding: 15px;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .challenge-card:hover {
     background-color: var(--secondary);
-    transform: translateY(-5px);
+    color: var(--text);
+    border: 2px solid var(--navbar);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
   }
   
   .challenge-card h3 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-hover);
   }
   
   .challenge-card p {
-    font-size: 0.9em;
     margin: 5px 0;
+    font-size: 1rem;
+    line-height: 1.4;
   }
+  
+  .challenge-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    background-color: var(--button-hover);
+    color: var(--button-hover-text);
+  }
+  
+  .challenge-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+  
+
   
   /* Badge */
   .badges {
@@ -61,8 +79,20 @@
   /* Media Queries per dispositivi mobili */
 @media (max-width: 768px) {
 
-    .challenge-card, .movie-card, .badge {
+    .movie-card, .badge {
       padding: 10px;
+    }
+    .challenge-card {
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+  
+    .challenge-card h3 {
+      font-size: 1.2rem;
+    }
+  
+    .challenge-card p {
+      font-size: 0.85rem;
     }
   
 }

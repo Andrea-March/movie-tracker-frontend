@@ -11,6 +11,7 @@ import Challenges from "./pages/Challenges";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 import Test from "./pages/Test";
+import ChallengeDetail from "./pages/ChallengeDetails";
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
             <Route path="/challenges" element={<ProtectedRoute element={Challenges} />} />
-            <Route path="/challenges/:challengeId" element={<ProtectedRoute element={Challenges} />} />
+            <Route path="/challenges/:challengeId" element={<ProtectedRoute element={ChallengeDetail} />} />
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
 
 

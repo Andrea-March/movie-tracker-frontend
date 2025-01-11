@@ -157,7 +157,7 @@ const Explore = () => {
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
-      </div>
+        </div>
       </>
       ) : (
         <p className="no-movies">Non ci sono film da visualizzare.</p>
