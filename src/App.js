@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { onMessage, getToken } from 'firebase/messaging';
+import {messaging} from './config/firebaseConfig'
 import WatchedMovies from "./pages/WatchedMovies";
 import ToWatchMovies from "./pages/ToWatchMovies";
 import Navbar from "./components/Navbar";
@@ -13,6 +14,7 @@ import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
+import {jwtDecode} from "jwt-decode";
 
 function App() {
 
@@ -20,13 +22,15 @@ function App() {
 
   const token = localStorage.getItem('token');
 
- /*  useEffect(()=>{
+/*   useEffect(()=>{
     console.log("called app.js useEffect")
 
      // Chiedi il permesso per ricevere notifiche
     Notification.requestPermission().then(async permission => {
-        if (permission === 'granted') {
+        if (permission === 'granted' && token) {
             console.log('Notification permission granted.');
+            const decodedToken = jwtDecode(token);
+            const userId = decodedToken.userId;
 
             try {
               const fcmToken = await getToken(messaging, {
@@ -35,12 +39,12 @@ function App() {
       
               if (fcmToken) {
                   // Invia il token al backend
-                  await fetch(`${API_URL}users/${userId}/fcm-token`, {
+                  await fetch(`${API_URL}users/fcm-token`, {
                       method: "POST",
                       headers: {
                           "Content-Type": "application/json",
                       },
-                      body: JSON.stringify({ fcmToken }),
+                      body: JSON.stringify({ userId, token: fcmToken }),
                   });
               }
           } catch (error) {
@@ -57,8 +61,8 @@ function App() {
         // Puoi mostrare una notifica o fare altre operazioni
     });
 
-  },[])
- */
+  },[]) */
+
   return (
     <Router>
       <div>

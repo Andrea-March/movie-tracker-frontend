@@ -24,7 +24,7 @@ export const getChallenges = async () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data.challenges;
+      return response.data;
     } catch (error) {
       console.error("Errore durante il recupero delle sfide", error);
       throw error;
@@ -45,6 +45,23 @@ export const getChallengeDetails = async (challengeId) => {
         throw error;
     }
 };
+
+export const getChallengeMovies = async (challengeId, page) => {
+  try {
+    const response = await axios.get(`${API_URL}challenges/${challengeId}/movies`, {
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+    params: {
+      page
+    }
+    });
+    return response.data;
+} catch (error) {
+    console.error("Errore durante il recupero dei dettagli della sfida", error);
+    throw error;
+}
+}
   
 // Funzione per segnare un film come visto
 export const markMovieAsWatched = async (challengeId, movieId) => {

@@ -28,7 +28,6 @@ function MovieSearch({onCloseClick}) {
   // Funzione per cercare i film
   const handleSearch = async (query) => {
     if (!query.trim()) {
-      setError("Inserisci un titolo da cercare.");
       setMovies([]);
       return;
     }
