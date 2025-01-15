@@ -6,8 +6,7 @@
     background-color: var(--navbar);
     display: flex;
     justify-content: space-between;
-    z-index: 1000;
-    width: 94vw;
+    z-index: 4;
   }
   
   .logo-container { 
@@ -16,7 +15,6 @@
     justify-content: center;
     cursor: pointer;
     height: 90px;
-    margin-right: auto;
   }
   
   .logo-img img{
@@ -76,15 +74,6 @@
   }
   
 
-  .didattica-dropdown-menu {
-    display: block;
-    position: absolute;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    padding-left: 0;
-    margin-top: 20px;
-  }
   
   .desktop-dark-toggle {
     margin-top: 5px;
@@ -97,9 +86,9 @@
     background-color: inherit;
     transition: none;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 25%;
+    width: 100px;
   }
 
   .navbar-container {
@@ -153,6 +142,7 @@
   .mobile-menu-icon-container{
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 100px;
   }
   
@@ -168,7 +158,6 @@
 
     .logo-container {
       height: 60px;
-      margin-right: 13%;
     }
   
     .logo-container h1 {
@@ -177,7 +166,6 @@
   
     .menu-icon {
       display: flex;
-      margin-left: 20px;
     }
   
     .mobile-menu {
@@ -229,10 +217,6 @@
       width: 70%;
       height: 2px;
       background-color: rgba(0, 0, 0, 0.1); /* Colore più soft per il separatore */
-    }
-
-    .icons-container{
-      width: auto;
     }
 
   }

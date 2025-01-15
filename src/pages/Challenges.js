@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getChallenges, getUserBadges } from "../services/challengesservice";
+import { getChallenges, getUserBadges, joinChallenge } from "../services/challengesservice";
 import '../App.css';
 import './Challenges.css'
 import Loader from "../components/Loader";
+import Error from "../components/Error";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJoint, faRocket } from "@fortawesome/free-solid-svg-icons";
+import { faHourglassEnd, faRocket } from "@fortawesome/free-solid-svg-icons";
+import ChallengeSubNavbar from "../components/ChallengesSubNavbar";
 
 const Challenges = () => {
   const [availableChallenges, setAvailableChallenges] = useState([]);
   const [joinedChallenges, setJoinedChallenges] = useState([]);
- /*  const [badges, setBadges] = useState([]); */
+  const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const types = {
+    JOINED_CHALLENGES: "joined",
+    AVAILABLE_CHALLENGES: "available",
+    BADGES: "badges"
+  }
+
+  const[component, setComponent] = useState(types.JOINED_CHALLENGES)
+
+
 
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
         setLoading(true);
         const challengesData = await getChallenges(); // Usa il service per ottenere le sfide
-        console.log(challengesData)
         setAvailableChallenges(challengesData.availableChallenges);
         setJoinedChallenges(challengesData.joinedChallenges);
 
@@ -39,14 +51,26 @@ const Challenges = () => {
     navigate(`${challengeId}`);
   };
 
-  const handleJoinChallenge = () => {
-
+  const handleJoinChallenge = async (event, challengeId) => {
+    event.stopPropagation();
+      try{
+        setLoading(true);
+        await joinChallenge(challengeId);
+        handleChallengeClick(challengeId);
+        /* window.location.reload(); */
+      }catch(err){
+        console.log(err)
+        setError(err.message);
+      }finally{
+        setLoading(false);
+      }
   }
 
   return (
+    <>
+    <ChallengeSubNavbar setComponent={setComponent}/>
     <div className="content ch-content">
-      <h1>Le tue Sfide e Badge</h1>
-
+      <Error error={error} setError={setError}/>
       {loading ? (
         <Loader />
       ) : (
@@ -54,50 +78,63 @@ const Challenges = () => {
 
           <div className="challenges">
 
-          <h2>Sfide a cui partecipi</h2>
-              <div className="challenge-lsit">
-              {joinedChallenges.length > 0 ? (
-                joinedChallenges.map((challenge) => (
-                  <div
-                    className="challenge-card"
-                    key={challenge.challengeId}
-                    onClick={() => handleChallengeClick(challenge.challengeId)}
-                  >
-                    <h3>{challenge.title}</h3>
-                    <p>{challenge.theme}</p>
-                    <p>Obiettivo: {challenge.goal}</p>
-                    <p>Data di fine: {new Date(challenge.endDate).toLocaleDateString()}</p>
-                  </div>
-                ))
-              ) : (
-                <p>Non partecipi ad alcuna sfida al momento.</p>
-              )}
-            </div>
-            <h2>Sfide Disponibili</h2>
+          { component === types.JOINED_CHALLENGES && 
+                <div className="challenge-list">
+                {joinedChallenges.length > 0 ? (
+                  joinedChallenges.map((challenge) => (
+                    <div
+                      className="challenge-card flex-row"
+                      key={challenge.challengeId}
+                      onClick={() => handleChallengeClick(challenge.challengeId)}
+                    >
+                      <img src="https://picsum.photos/id/237/200/300" style={{width: "100px", height: "150px"}}/>
+                      <div className="flex-column width-100 margin-left-10">
+                        <h3>{challenge.title}</h3>
+                        <p>{challenge.theme}</p>
+                        <p><FontAwesomeIcon icon={faHourglassEnd} size="lg" className="margin-right-10"/> 
+                          {new Date(challenge.endDate).toLocaleDateString("it-IT", {
+                                                                                      day: "numeric",
+                                                                                      month: "long",
+                                                                                      year: "numeric",
+                                                                                    })}
+                        </p>
+                      </div>  
+                    </div>
+                  ))
+                ) : (
+                  <p>Non partecipi ad alcuna sfida al momento.</p>
+                )}
+              </div>
+          }
+            
+            { component === types.AVAILABLE_CHALLENGES && 
             <div className="challenge-list">
               {availableChallenges.length > 0 ? (
                 availableChallenges.map((challenge) => (
                   <div
-                    className="challenge-card flex-column"
+                    className="challenge-card flex-row"
                     key={challenge.challengeId}
                     onClick={() => handleChallengeClick(challenge.challengeId)}
                   >
-                    <h3>{challenge.title}</h3>
-                    <p>{challenge.theme}</p>
-                    <p>Obiettivo: {challenge.goal}</p>
-                    <p>Data di fine: {new Date(challenge.endDate).toLocaleDateString()}</p>
-                    <FontAwesomeIcon onClick={handleJoinChallenge} icon={faRocket} className="challenge-join-icon" size="2x" /> 
+                     <img src="https://picsum.photos/id/237/200/300" style={{width: "100px", height: "150px"}}/>
+                     <div className="flex-column width-100 margin-left-10">
+                        <h3>{challenge.title}</h3>
+                        <p>{challenge.theme}</p>
+                      {/*  <p>Obiettivo: {challenge.goal}</p> */}
+                        <p>Data di fine: {new Date(challenge.endDate).toLocaleDateString()}</p>
+                        <FontAwesomeIcon onClick={(e)=>{handleJoinChallenge(e, challenge.challengeId)}} icon={faRocket} className="challenge-join-icon" size="2x" /> 
+                    </div>
                   </div>
                 ))
               ) : (
                 <p>Non ci sono nuove sfide attive al momento.</p>
               )}
               </div>
-              
-          </div>
 
-         {/*  <div className="badges">
-            <h2>Badge Vinti</h2>
+          }
+          </div>
+          { component === types.BADGES &&
+          <div className="badges">
             <div className="badge-list">
               {badges.length > 0 ? (
                 badges.map((badge) => (
@@ -110,10 +147,12 @@ const Challenges = () => {
                 <p>Non hai ancora vinto badge.</p>
               )}
             </div>
-          </div> */}
+          </div>
+          }
         </>
       )}
     </div>
+    </>
   );
 };
 

@@ -1,8 +1,7 @@
 /* Stile generale */
 .watched-movies {
-    padding-top: 10px;
-    margin: 0 auto;
-    padding: 10px 0 !important;
+    padding: 10px 0;
+    width: 100%
   }
   
   /* Titolo */
@@ -16,9 +15,9 @@
   /* Griglia dei film */
   .movie-grid {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 3px;
-    justify-content: center;
   }
 
   .movies-grid-placeholder{

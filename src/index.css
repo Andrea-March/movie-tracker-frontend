@@ -18,7 +18,8 @@
   --mobile-menu-text: #5d4037; */
 
   --background: #FFFFFF;
-  --secondary: #B2D7B5;
+  /* --secondary: #B2D7B5; */
+  --secondary: #4ce3cf;
   --text: black; 
   --text-hover: #ffab40; 
   --page-title-color: black;
@@ -135,9 +136,18 @@ svg {
   margin-right: auto;
 }
 
+.margin-right-10 {
+  margin-right: 10px;
+}
+
 .width-90{
   width: 90%;
 }
+
+.width-100{
+  width: 100%;
+}
+
 
 .padding-left-10 {
   padding-left: 10px;

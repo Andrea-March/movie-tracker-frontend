@@ -5,7 +5,7 @@ import '../App.css';
 import './ChallengeDetails.css'
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Error from "../components/Error";
 
 const ChallengeDetail = () => {
@@ -25,7 +25,7 @@ const ChallengeDetail = () => {
       try {
         const challengeData = await getChallengeDetails(challengeId); // Usa il service per ottenere i dettagli della sfida
         setChallenge(challengeData);
-        setSelectedMovies(challengeData.selectedMovies);
+        setSelectedMovies(challengeData.progressDetail.selectedMovies);
         const moviesData = await getChallengeMovies(challengeId, currentPage);
         setSuggestedMovies(moviesData.movies);
         setTotalPages(moviesData.pagination.totalPages);
@@ -84,6 +84,10 @@ const ChallengeDetail = () => {
     
   };
 
+  const handleAddMovieToSelected = (movie) => {
+    setSelectedMovies([...selectedMovies, {movieId: movie, watched: false}])
+  }
+
   return (
     <div className="content padding-lateral ch-detail-content">
       <Error error={error} setError={setError}/>
@@ -91,10 +95,13 @@ const ChallengeDetail = () => {
         <Loader loading={loading} />
       ) : (
         <>
-          <h1 className="margin-left-10">{challenge.title}</h1>
-          <p className="margin-left-10">{challenge.theme}</p>
-          <p className="margin-left-10">Obiettivo: {challenge.goal}</p>
-          <p className="margin-left-10">Data di fine: {new Date(challenge.endDate).toLocaleDateString()}</p>
+          <div>
+            <h1 className="margin-left-10">{challenge.title}</h1>
+            <p className="margin-left-10">{challenge.theme}</p>
+            {/* <p className="margin-left-10">Obiettivo: {challenge.goal}</p> */}
+            <p className="margin-left-10">Data di fine: {new Date(challenge.endDate).toLocaleDateString()}</p>
+          </div>
+          
 
           { challenge.joined && 
               <>
@@ -102,19 +109,21 @@ const ChallengeDetail = () => {
               <div className="ch-details-movie-grid">
                 {selectedMovies.length > 0 ? (
                   selectedMovies.map((movie) => (
-                    <div className="ch-details-movie-card" key={movie.movieId}>
-                      <img 
-                        srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
-                        https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
-                        sizes="(max-width: 768px) 200px, 400px"
-                        alt={movie.movieId.title} 
-                        className=".ch-details-movie-poster" 
-                        loading="lazy"
-                        style={{ width: "150px"}} 
-                    />
-                      <div className="ch-details-movie-details">
-                        <h3>{movie.movieId.title}</h3>
-                        <p>{new Date(movie.movieId.release_date).getFullYear()}</p>
+                    <div className="ch-details-movie-card flex-column" key={movie.movieId.id}>
+                      <div className="movie-image-container">
+                        <img 
+                          srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
+                          https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
+                          sizes="(max-width: 768px) 200px, 400px"
+                          alt={movie.movieId.title} 
+                          className="ch-details-movie-poster" 
+                          loading="lazy"
+                          style={{ width: "150px"}} 
+                      />
+                      </div>
+                      <div className="ch-details-movie-details hide-on-mobile">
+                      <p className="movie-title">{movie.movieId.title}</p>
+                      <p className="movie-year">{new Date(movie.movieId.release_date).getFullYear()}</p>
                         {movie.watched ? (
                           <p>Visto</p>
                         ) : (
@@ -137,16 +146,19 @@ const ChallengeDetail = () => {
           <div className="ch-details-movie-grid">
             {suggestedMovies.map((movie) =>{
             return(
-              <div className="ch-details-movie-card" key={movie.movieId.id} >
-                <img 
-                  srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
-                  https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
-                  sizes="(max-width: 768px) 200px, 400px"
-                  alt={movie.movieId.title} 
-                  className="ch-details-movie-poster" 
-                  loading="lazy"
-                  style={{ width: "150px"}} 
-                />
+              <div className="ch-details-movie-card flex-column" key={movie.movieId.id} >
+                <div className="movie-image-container">
+                  <img 
+                    srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
+                    https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
+                    sizes="(max-width: 768px) 200px, 400px"
+                    alt={movie.movieId.title} 
+                    className="ch-details-movie-poster" 
+                    loading="lazy"
+                    style={{ width: "150px"}} 
+                  />
+                  <FontAwesomeIcon className="challenge-movie-icon" icon={faPlus} onClick={()=>{handleAddMovieToSelected(movie.movieId)}}/>
+                </div>
                 {/* <p className="movie-title">{movie.movieId.title}</p> */}
               {/*  <p className="movie-title">{movie.movieId.Title}</p>
                 <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}

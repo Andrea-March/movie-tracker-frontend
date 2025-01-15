@@ -62,6 +62,22 @@ export const getChallengeMovies = async (challengeId, page) => {
     throw error;
 }
 }
+// Funzione per aggiungere un utente ad una sfida
+export const joinChallenge = async (challengeId) => {
+    try {
+      await axios.post(
+      `${API_URL}challenges/${challengeId}/join`,
+      { challengeId },
+      {
+          headers: {
+          Authorization: `Bearer ${token}`,
+          },
+      }
+      );
+    } catch (error) {
+      throw new Error(error.response.data.error);
+    }
+}
   
 // Funzione per segnare un film come visto
 export const markMovieAsWatched = async (challengeId, movieId) => {

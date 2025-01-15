@@ -101,7 +101,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             /* backdropFilter: 'blur(5px)' */
           }}
         >        
-        <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" />
+        <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" size="2x" />
         <h2>{movie.title}</h2>
         <p className='display-flex justify-center align-items-center'><FontAwesomeIcon icon={faCalendarAlt} className="detail-icon" />{new Date(movie.release_date).toLocaleDateString()}</p>
         <p className='movie-overview'><strong>Descrizione: </strong> {movie.overview}</p>
@@ -183,7 +183,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           <iframe 
             width="100%" 
             height="315" 
-            src={trailerurl} 
+            src={`${trailerurl}?autoplay=1`} 
             loading='lazy'
             title="YouTube video player" 
             frameborder="0" 

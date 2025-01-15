@@ -7,15 +7,16 @@
   }
   
   .ch-details-movie-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
     background-color: var(--secondary);
     transition: transform 0.2s ease-in-out;
     width: 23%;
     max-width: 180px;
     object-fit: cover;
+
+    position: relative;
+    align-items: flex-start;
+    margin-bottom: 20px;
   }
   
   .ch-details-movie-card:hover {
@@ -27,6 +28,7 @@
     max-width: 100%;
     height: auto;
     margin: 0;
+    display: block;
   }
   
   .ch-details-movie-details {
@@ -48,11 +50,10 @@
 
   .ch-detail-content {
     padding: 20px;
-    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    max-width: 800px;
+    max-width: 1000px;
     color: var(--text);
+    justify-self: center;
   }
   
   .ch-detail-content h1 {
@@ -86,6 +87,17 @@
     transition: all 0.3s ease-in-out;
   }
   
+  .challenge-movie-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    background-color: var(--navbar);
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   /* Stile aggiuntivo per mobile */
   @media (max-width: 768px) {
     .ch-detail-content {

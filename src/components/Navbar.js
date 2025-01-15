@@ -7,6 +7,7 @@ import { faBars, faFilm, faRightFromBracket, faSearch, faTrophy, faUsers, faXmar
 import DarkModeToggle from './DarkModeToggle';
 import MovieSearch from './MovieSearch';
 import SubNavbar from './SubNavbar';
+import ChallengeSubNavbar from './ChallengesSubNavbar';
 
 
 const Navbar = () => {
@@ -68,7 +69,6 @@ const logout = () => {
       </nav>
 
         {showSubNavbar && <SubNavbar />}
-
 
       <div className={`mobile-menu ${showMobileMenu ? 'mobile-menu-translate' : ''}`}>
         <div className='mobile-dark-toggle'>

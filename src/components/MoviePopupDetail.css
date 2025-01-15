@@ -30,14 +30,14 @@
   
   .close-popup-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 30px;
+    right: 20px;
     background: none;
     border: none;
     font-size: 20px;
     color: white;
     cursor: pointer;
-    z-index: 1100; /* Metti il pulsante sopra al contenuto */
+    z-index: 3; /* Metti il pulsante sopra al contenuto */
   }
   
   .movie-popup h2 {
@@ -50,7 +50,7 @@
   
   .movie-popup p {
     font-size: 1.1em;
-    line-height: 1.6;
+    line-height: 1.5;
     margin-top: 10px;
   }
 
