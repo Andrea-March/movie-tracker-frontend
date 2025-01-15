@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { onMessage, getToken } from 'firebase/messaging';
-import {messaging} from './config/firebaseConfig'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+/* import { onMessage, getToken } from 'firebase/messaging';
+import {messaging} from './config/firebaseConfig' */
 import WatchedMovies from "./pages/WatchedMovies";
 import ToWatchMovies from "./pages/ToWatchMovies";
 import Navbar from "./components/Navbar";
@@ -14,7 +14,7 @@ import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
-import {jwtDecode} from "jwt-decode";
+/* import {jwtDecode} from "jwt-decode"; */
 
 function App() {
 
@@ -71,7 +71,7 @@ function App() {
          {/*    <Route path="/test" element={<ProtectedRoute element={Test} />}/> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            {/* <Route path="/" element={<ProtectedRoute element={Navigate("/movies/watched")} />} /> */}
+            <Route path="/" element={<ProtectedRoute element={<Navigate to="/movies/watched"/>} />} />
             <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
