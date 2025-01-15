@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,6 +17,8 @@ const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showSerachBar, setShowSearchBar] = useState(false);
   const [showSubNavbar, setShowSubNavbar] = useState(window.location.pathname.includes("movies"));
+
+  useEffect(()=>{setShowSubNavbar(window.location.pathname.includes("movies"))})
   
 const hideMenu = () => {
   setShowMobileMenu(false);
