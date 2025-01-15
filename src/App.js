@@ -71,7 +71,7 @@ function App() {
          {/*    <Route path="/test" element={<ProtectedRoute element={Test} />}/> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<ProtectedRoute element={<Navigate to="/movies/watched"/>} />} />
+            <Route path="/" element={<Navigate to="/movies/watched"/>} />
             <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
