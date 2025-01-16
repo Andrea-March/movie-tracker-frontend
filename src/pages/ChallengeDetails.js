@@ -85,7 +85,20 @@ const ChallengeDetail = () => {
   };
 
   const handleAddMovieToSelected = (movie) => {
+    const isAlreadyAdded = selectedMovies.some(
+      (selectedMovie) => selectedMovie.movieId.id === movie.id
+    );
+    if(isAlreadyAdded){
+      console.log("setting error")
+      setError("Hai già aggiunto "+ movie.title +" alla lista!")
+      return;
+    }
     setSelectedMovies([...selectedMovies, {movieId: movie, watched: false}])
+  }
+
+  const handleRemoveMovieFromSelected = (movieId) => {
+    const updatedMovies = selectedMovies.filter(movie => movie.movieId.id !== movieId);
+    setSelectedMovies(updatedMovies);
   }
 
   return (
@@ -109,17 +122,18 @@ const ChallengeDetail = () => {
               <div className="ch-details-movie-grid">
                 {selectedMovies.length > 0 ? (
                   selectedMovies.map((movie) => (
-                    <div className="ch-details-movie-card flex-column" key={movie.movieId.id}>
-                      <div className="movie-image-container">
+                    <div className="ch-details-movie-card-small flex-column" key={movie.movieId.id}>
+                      <div className="movie-image-container-small">
                         <img 
                           srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
                           https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
                           sizes="(max-width: 768px) 200px, 400px"
-                          alt={movie.movieId.title} 
-                          className="ch-details-movie-poster" 
+                          alt={movie.movieId.title}
+                          className="ch-details-movie-poster"
                           loading="lazy"
                           style={{ width: "150px"}} 
                       />
+                      <FontAwesomeIcon className="challenge-movie-icon" icon={faMinus} onClick={()=>{handleRemoveMovieFromSelected(movie.movieId.id)}}/>
                       </div>
                       <div className="ch-details-movie-details hide-on-mobile">
                       <p className="movie-title">{movie.movieId.title}</p>
@@ -141,35 +155,37 @@ const ChallengeDetail = () => {
               </div>
               </>
           }
-          {suggestedMovies.length && suggestedMovies.map((m) => {<div>test</div>})}
           {suggestedMovies.length && 
-          <div className="ch-details-movie-grid">
-            {suggestedMovies.map((movie) =>{
-            return(
-              <div className="ch-details-movie-card flex-column" key={movie.movieId.id} >
-                <div className="movie-image-container">
-                  <img 
-                    srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
-                    https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
-                    sizes="(max-width: 768px) 200px, 400px"
-                    alt={movie.movieId.title} 
-                    className="ch-details-movie-poster" 
-                    loading="lazy"
-                    style={{ width: "150px"}} 
-                  />
-                  <FontAwesomeIcon className="challenge-movie-icon" icon={faPlus} onClick={()=>{handleAddMovieToSelected(movie.movieId)}}/>
-                </div>
-                {/* <p className="movie-title">{movie.movieId.title}</p> */}
-              {/*  <p className="movie-title">{movie.movieId.Title}</p>
-                <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
-                
-                <div className="hide-on-mobile">
-                  <p className="movie-title">{movie.movieId.title}</p>
-                  <p className="movie-year">{new Date(movie.movieId.release_date).getFullYear()}</p>
-                </div>
-            </div>)
-          })}
-          </div>
+          <>
+            <h2>Film Suggeriti</h2>
+            <div className="ch-details-movie-grid">
+              {suggestedMovies.map((movie) =>{
+              return(
+                <div className="ch-details-movie-card flex-column" key={movie.movieId.id} >
+                  <div className="movie-image-container">
+                    <img 
+                      srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
+                      https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
+                      sizes="(max-width: 768px) 200px, 400px"
+                      alt={movie.movieId.title} 
+                      className="ch-details-movie-poster" 
+                      loading="lazy"
+                      style={{ width: "150px"}} 
+                    />
+                    <FontAwesomeIcon className="challenge-movie-icon" icon={faPlus} onClick={()=>{handleAddMovieToSelected(movie.movieId)}}/>
+                  </div>
+                  {/* <p className="movie-title">{movie.movieId.title}</p> */}
+                {/*  <p className="movie-title">{movie.movieId.Title}</p>
+                  <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
+                  
+                  <div className="hide-on-mobile">
+                    <p className="movie-title">{movie.movieId.title}</p>
+                    <p className="movie-year">{new Date(movie.movieId.release_date).getFullYear()}</p>
+                  </div>
+              </div>)
+            })}
+            </div>
+          </>
           }
           <div className="pagination">
             <button 
