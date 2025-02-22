@@ -99,7 +99,7 @@ const ToWatchMovies = () => {
       {loading && <Loader />}
       {/* <h1 className="title">Film Da Vedere</h1> */}
       {loading && <div className="movies-grid-placeholder"></div>}
-      {!loading && movies.length > 0 ? (
+      {!loading && movies.length > 0 && 
         <div className="movie-grid">
           {movies.map((movie) => (
             <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
@@ -122,9 +122,9 @@ const ToWatchMovies = () => {
             </div>
           ))}
         </div>
-      ) : (
-        <p className="no-movies">Non hai ancora aggiunto film da vedere.</p>
-      )}
+      }
+       
+      { !loading && movies.length < 1 && <p className="no-movies">Non hai ancora aggiunto film da vedere.</p>}
 
       <div className="pagination">
                 <button 
