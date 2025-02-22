@@ -8,6 +8,7 @@ import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
 import CustomSelect from "../components/CustomSelect";
 import Error from "../components/Error";
+import SuccessPopup from "../components/SuccessPopup";
 /* import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css"; */
 
@@ -15,6 +16,7 @@ const Explore = () => {
 
     const [popularMovies, setPopularMovies] = useState([]);
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
 
@@ -97,6 +99,7 @@ const Explore = () => {
           return;
         }
         await addMovieToList(selectedMovie,  watched);
+        setSuccessMessage("Film aggiunto con successo!")
         closePopup();
       } catch (err) {
         setError(err.message);
@@ -163,6 +166,7 @@ const Explore = () => {
         <p className="no-movies">Non ci sono film da visualizzare.</p>
       )}
       <Error error={error} setError={setError} />
+      <SuccessPopup successMessage={successMessage} setSuccessMessage={setSuccessMessage} />
 
       {/* Popup per i dettagli del film */}
       {isPopupOpen && selectedMovie && (

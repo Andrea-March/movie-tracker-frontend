@@ -4,7 +4,7 @@
     bottom: 20px;
     z-index: 1000;
     background-color: var(--error, #ff4d4f);
-    color: white;
+    color: var(--error-text, black);
     width: 300px;
     min-height: 80px;
     border-radius: 8px;

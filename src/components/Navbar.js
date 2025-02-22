@@ -26,7 +26,8 @@ const hideMenu = () => {
 
 const logout = () => {
   localStorage.removeItem("token");
-  window.location.navigate("/login");
+  hideMenu();
+  navigate("/login");
 }
 
 

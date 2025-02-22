@@ -6,11 +6,13 @@ import './MovieSearch.css';
 import { useNavigate } from "react-router-dom";
 import MovieDetailPopup from "./MovieDetailPopup";
 import Error from './Error.js'
+import SuccessPopup from "./SuccessPopup.js";
 
 function MovieSearch({onCloseClick}) {
   /* const [query, setQuery] = useState(""); */
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [movie, setMovie] = useState(undefined);
   const [typingTimeout, setTypingTimeout] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -55,10 +57,9 @@ function MovieSearch({onCloseClick}) {
   // Funzione per aggiungere un film alla lista dell'utente
   const handleAddToList = async (movie, watched) => {
       try {
-        console.log(movie)
         await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
-        watched ? navigate("/movies/watched") : navigate("/movies/watched");
-        window.location.reload();
+        setSuccessMessage("Film aggiunto con successo!")
+        console.log("Called")
       } catch (err) {
         setError(err.message);
       }
@@ -170,6 +171,7 @@ function MovieSearch({onCloseClick}) {
       )}
       </div>
       <Error error={error} setError={setError}/>
+      <SuccessPopup successMessage={successMessage} setSuccessMessage={setSuccessMessage} />
     </div>
   );
 }
