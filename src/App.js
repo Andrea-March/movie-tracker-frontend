@@ -14,6 +14,7 @@ import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
+import ResetPassword from "./components/ResetPassword";
 /* import {jwtDecode} from "jwt-decode"; */
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           <Routes>
          {/*    <Route path="/test" element={<ProtectedRoute element={Test} />}/> */}
             <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Navigate to="/movies/watched"/>} />
             <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />

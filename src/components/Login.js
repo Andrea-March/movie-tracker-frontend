@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Error from "./Error";
 import "./Login.css";  // Per importare gli stili
 import "../App.css"
+import SuccessPopup from "./SuccessPopup";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -25,6 +28,17 @@ function Login() {
       window.location.reload();
     } catch (err) {
       setError(err.response.data.error);
+    }
+  };
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    let authUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api/";
+    try {
+      const response = await axios.post(authUrl + "auth/request-reset", { username });
+      setMessage(response.data.message);
+    } catch (err) {
+      setError(err.response.data.message);
     }
   };
 
@@ -54,7 +68,9 @@ function Login() {
             />
           </div>
           <button type="submit" className="submit-button">Accedi</button>
-          {error && <p className="error-message">{error}</p>}
+          {error && <Error error={error} setError={setError}/>}
+          {message && <SuccessPopup successMessage={message} setSuccessMessage={setMessage}/>}
+          <p className="register-link" onClick={(e)=>{handlePasswordReset(e)}}>Reset password</p>
           <p className="register-link" onClick={()=>{navigate("/register")}}>Non hai ancora un account? clicca qui per registrarti</p>
         </form>
         
