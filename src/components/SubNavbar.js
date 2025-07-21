@@ -11,6 +11,7 @@ const SubNavbar = () => {
     return (
           <div className="sub-navbar">
             <button
+                style={{minWidth: "91px"}}
                 className={activePage === "/movies/explore" ? "active" : ""}
                 onClick={() => {navigate("/movies/explore"); setActivePage("/movies/explore")}}
             >
