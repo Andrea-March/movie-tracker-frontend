@@ -91,11 +91,15 @@ const logout = () => {
               <FontAwesomeIcon icon={faUsers} size="lg" style={{marginRight: '20px'}}/>
               Gruppi
             </li>
+            <li onClick={() => { setShowSubNavbar(false); hideMenu(); logout() }} >
+              <FontAwesomeIcon icon={faRightFromBracket} size="lg" style={{marginRight: '20px', color: "red"}}/>
+              Logout
+            </li>
           </ul>
-          <div className='logout-mobile-container'>
+     {/*      <div className='logout-mobile-container'>
             <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>
           </div>
-          
+           */}
       </div>
       
     </div>

@@ -196,13 +196,17 @@
     .mobile-nav-links {
       list-style: none;
     }
+
+    .mobile-nav-links li:last-child{
+      margin-top: 20px;
+    }
   
 
   
     .mobile-nav-links li {
       color: var(--mobile-menu-text);
 
-      height: 100px;
+      height: 75px;
       width: 75%;
       padding: 15px;
       font-size: 1.3rem;
