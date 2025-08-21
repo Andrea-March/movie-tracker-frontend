@@ -35,7 +35,7 @@ const logout = () => {
     <div className='navbar-container'>
       <nav className="navbar align-items-center">
         <div className='mobile-menu-icon-container'>
-        <FontAwesomeIcon icon={faBars} size='2x' className='menu-icon' onClick={()=>{setShowMobileMenu(true)}}/>
+        <FontAwesomeIcon icon={faBars} size='xl' className='menu-icon' onClick={()=>{setShowMobileMenu(true)}}/>
         </div>
         {/* Logo a sinistra */}
         <div className="logo-container" onClick={()=>{setShowSearchBar(false);navigate('/movies/watched');}}>
@@ -59,7 +59,7 @@ const logout = () => {
           <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>
         </ul> */}
         <div className='icons-container'>
-        <FontAwesomeIcon icon={faSearch} size={"2x"} className='search-icon' onClick={() => setShowSearchBar(!showSerachBar)}/>
+        <FontAwesomeIcon icon={faSearch} size={"xl"} className='search-icon' onClick={() => setShowSearchBar(!showSerachBar)}/>
                 <div className={`movie-search-slider ${showSerachBar ? 'movie-search-slider-translate' : ''}`}>
                     <MovieSearch onCloseClick={()=>setShowSearchBar(false)}/>
                 </div>
