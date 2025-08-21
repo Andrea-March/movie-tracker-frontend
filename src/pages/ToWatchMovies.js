@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {fetchUserMovies, changeMovieStatus} from '../services/movieservice'
+import { useSwipeable } from "react-swipeable";
 import '../App.css'
 import './WatchedMovies.css'
 import MovieDetailPopup from "../components/MovieDetailPopup";
@@ -22,6 +23,23 @@ const ToWatchMovies = () => {
 
   const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
   const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
+
+  const [dragX, setDragX] = useState(0);
+    const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+        setDragX(0); // reset
+        handleNextPage();
+      },
+      onSwipedRight: () => {
+        setDragX(0); // reset
+        handlePreviousPage();
+      },
+      onSwiping: ({ deltaX }) => {
+        // deltaX positivo = swipe verso destra, negativo = verso sinistra
+        setDragX(deltaX / 3); // riduci l'effetto per renderlo più naturale
+      },
+      trackMouse: true
+    });
   
   useEffect(() => {
     const loadWatchedMovies = async () => {
@@ -100,7 +118,14 @@ const ToWatchMovies = () => {
       {/* <h1 className="title">Film Da Vedere</h1> */}
       {loading && <div className="movies-grid-placeholder"></div>}
       {!loading && movies.length > 0 && 
-        <div className="movie-grid">
+        <div 
+          className="movie-grid" 
+          style={{
+            transform: `translateX(${dragX}px)`,
+            transition: dragX === 0 ? 'transform 0.3s ease-out' : 'none'
+          }}
+          {...swipeHandlers} 
+        >
           {movies.map((movie) => (
             <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
               <img 
