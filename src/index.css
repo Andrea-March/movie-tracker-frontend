@@ -76,9 +76,10 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: "Zain",-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -107,6 +108,11 @@ svg {
 .justify-between {
   justify-content: space-between;
 }
+
+.justify-around {
+  justify-content: space-around;
+}
+
 
 .justify-center {
   justify-content: center;
@@ -142,6 +148,14 @@ svg {
 
 .margin-right-10 {
   margin-right: 10px;
+}
+
+.width-50{
+  width: 50%;
+}
+
+.width-30{
+  width: 30%;
 }
 
 .width-90{

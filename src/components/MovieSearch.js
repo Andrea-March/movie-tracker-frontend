@@ -128,7 +128,7 @@ function MovieSearch({onCloseClick}) {
                     />
                   )}
                   <div onClick={()=>{handleMovieClick(movie)}}>
-                    <h3 style={{ margin: 0 }} className="movie-title">
+                    <h3 style={{ margin: 0 }} className="movie-title-search">
                       {movie.title}{" "}
                       {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
                     </h3>

@@ -25,7 +25,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             return;
           }
           const provs = await getMovieProviders(token, movie.id);
-          setProviders(provs);console.log(provs)
+          setProviders(provs);
         } catch (err) {
           console.log(err);
         }
@@ -89,7 +89,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
       ? "Segna come visto"
       : "Aggiungi alla lista";
   const backgroundImage = 
-     `linear-gradient(to top, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0.8) 80%, rgba(0, 0, 0, 0.6) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
+     `linear-gradient(to top, rgba(7, 7, 7, 1) 65%, rgba(7, 7, 7, 0.7) 80%, rgba(7, 7, 7, 0.3) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
 
   return (
     <div className="movie-popup-overlay">
@@ -103,15 +103,19 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         >        
         <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" size="2x" />
         <h2>{movie.title}</h2>
-        <p className='display-flex justify-center align-items-center'><FontAwesomeIcon icon={faCalendarAlt} className="detail-icon" />{new Date(movie.release_date).toLocaleDateString()}</p>
-        <p className='movie-overview'><strong>Descrizione: </strong> {movie.overview}</p>
+        <div className='movie-details display-flex justify-around align-items-center'>
+          <p>{movie.genres[0] || ""}</p>
+          <p>{new Date(movie.release_date).getFullYear()}</p>
+          <p>{movie.runtime} min</p>
+        </div>
+        <p className='movie-overview'>{movie.overview}</p>
         <p className='display-flex justify-center align-items-center'> <FontAwesomeIcon icon={faStar} className="detail-icon" />{movie.vote_average?.toFixed(1) ? movie.vote_average.toFixed(1) + "/ 10": "not rated"} </p>
 
         <div className='section-divider'></div>
         <div className="movie-status flex-column align-items-center">
                     {movieStatus && 
                       <div className='flex-row width-90 justify-between margin-bottom-10'>
-                        <div className='flex-row align-items-center'>
+                        <div className='flex-column align-items-center width-50'>
                           <FontAwesomeIcon
                             icon={statusIcon}
                             onClick={handleStatusChange}
@@ -120,7 +124,15 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                           />
                           <span className="status-label padding-left-10">{statusLabel}</span>
                         </div>
-                        <FontAwesomeIcon className='delete-icon' size="2x" icon={faTrash} onClick={handleMovieDelete}/>
+                        <div className='flex-column align-items-center width-50'>
+                          <FontAwesomeIcon 
+                            className='delete-icon width-30' 
+                            size="lg" 
+                            icon={faTrash} 
+                            onClick={handleMovieDelete}
+                          />
+                          <span className="status-label padding-left-10">Elimina dalla lista</span>
+                        </div>
                       </div>
                     }
                     {!movieStatus && 
@@ -198,7 +210,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         <div className='section-divider'></div>
         <Error error={error}  setError={setError}/>
         {providers &&
-          <div className="movie-providers">
+          <div>
             {
               ["buy", "flatrate", "rent"].map((category) => (
                   <div key={category} className={`provider-category ${category}`}>

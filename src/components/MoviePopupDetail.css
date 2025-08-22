@@ -23,6 +23,15 @@
     height: 90vh;
   }
 
+  .movie-details{
+    margin-top: 30vh;
+    margin-bottom: 5vh;
+  }
+
+  .movie-details p{
+    padding: 0 20px;
+  }
+
   .movie-popup .section-divider {
     margin: 20px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
@@ -45,16 +54,17 @@
     font-weight: bold;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     margin-bottom: 15px;
+    font-size: 2em;
   }
   
   .movie-popup p {
-    font-size: 1.1em;
-    line-height: 1.5;
-    margin-top: 10px;
+    line-height: 1.4;
   }
 
   .movie-overview {
-    text-align: justify;
+    font-size: 1.1em;
+    text-align: center;
+    padding: 0 10px;
   }
 
   .detail-icon {
@@ -70,7 +80,7 @@
 
 .status-icon {
     font-size: 1.5em;
-    color: var(--secondary);
+    color: lightgreen;
     cursor: pointer;
     transition: color 0.3s ease;
 }
@@ -91,14 +101,6 @@
 }
 
 
-/* Contenitore generale dei provider */
-.movie-providers {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f5f5f5; /* Colore chiaro per il contrasto */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
 .no-providers {
   color: white;
@@ -109,7 +111,6 @@
 /* Titolo della categoria */
 .provider-category h4 {
   margin: 0;
-  color: black;
 }
 
 /* Contenitore dei loghi */
@@ -125,11 +126,9 @@
 /* Stile per ogni logo */
 .provider-logo {
   width: 50px;
-  height: 50px;
   object-fit: contain; /* Mantiene le proporzioni del logo */
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  background-color: #fff; /* Sfondo bianco per evidenziare i loghi */
+  border-radius: 10px;
+ /*  border: 1px solid #ddd; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
@@ -141,7 +140,8 @@
 }
 
 .delete-icon{
-  color: var(--secondary);
+  color: lightcoral;
+  padding: 2px;
 }
 
 .add-to-list-container {
