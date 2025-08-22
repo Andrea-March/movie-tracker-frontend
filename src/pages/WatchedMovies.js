@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
-import { useSwipeable } from "react-swipeable";
+import { Slidable } from "../components/Slidable";
 import "./WatchedMovies.css"; // File CSS dedicato
 import MovieDetailPopup from "../components/MovieDetailPopup";
 import Loader from "../components/Loader";
@@ -22,22 +22,6 @@ const WatchedMovies = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
   const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
 
-  const [dragX, setDragX] = useState(0);
-  const swipeHandlers = useSwipeable({
-  onSwipedLeft: () => {
-      setDragX(0); // reset
-      handleNextPage();
-    },
-    onSwipedRight: () => {
-      setDragX(0); // reset
-      handlePreviousPage();
-    },
-    onSwiping: ({ deltaX }) => {
-      // deltaX positivo = swipe verso destra, negativo = verso sinistra
-      setDragX(deltaX / 3); // riduci l'effetto per renderlo più naturale
-    },
-    trackMouse: true
-  });
   useEffect(() => {
     const loadWatchedMovies = async () => {
       setLoading(true);
@@ -118,13 +102,10 @@ const WatchedMovies = () => {
       {/* <h1 className="title">Film Visti</h1> */}
       {loading && <div className="movies-grid-placeholder"></div>}
       {!loading && movies.length > 0 && 
-        <div 
+        <Slidable 
           className="movie-grid" 
-          style={{
-            transform: `translateX(${dragX}px)`,
-            transition: dragX === 0 ? 'transform 0.3s ease-out' : 'none'
-          }}
-          {...swipeHandlers} 
+          onNext={handleNextPage} 
+          onPrev={handlePreviousPage} 
         >
           {movies.map((movie) => (
             <div className="movie-card" key={movie.movieId.id} onClick={()=>handleMovieClick(movie.movieId)}>
@@ -147,7 +128,7 @@ const WatchedMovies = () => {
             </div>
           ))}
           
-        </div>
+        </Slidable>
       }
        {!loading && movies.length < 1 && <p className="no-movies">Non hai ancora aggiunto film visti.</p>}
       <Error error={error} setError={setError}/>
