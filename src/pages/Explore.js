@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import CustomSelect from "../components/CustomSelect";
 import Error from "../components/Error";
 import SuccessPopup from "../components/SuccessPopup";
+import { Slidable } from "../components/Slidable";
 /* import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css"; */
 
@@ -111,7 +112,7 @@ const Explore = () => {
     return(
      <div className="watched-movies content">
       {loading && <Loader />}
-      <div style={{marginLeft: "15px"}}>
+      <div className="display-flex justify-center">
       <CustomSelect
                 options={options}
                 value={filter}
@@ -121,7 +122,11 @@ const Explore = () => {
       {loading && <div className="movies-grid-placeholder"></div>}
       {!loading && popularMovies.length > 0 ? (
         <>
-        <div className="movie-grid">
+        <Slidable 
+          className="movie-grid"
+          onNext={handleNextPage} 
+          onPrev={handlePreviousPage}
+        >
           {popularMovies.map((movie) => (
             <div className="movie-card" key={movie.id} onClick={() => handleMovieClick(movie)}>
               <img 
@@ -143,7 +148,7 @@ const Explore = () => {
             </div>
           ))}
           
-        </div>
+        </Slidable>
         <div className="pagination">
           <button 
             onClick={handlePreviousPage} 

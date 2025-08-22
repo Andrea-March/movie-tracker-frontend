@@ -76,6 +76,12 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
 
   }
 
+  const handleShowTrailer = () => {
+    if(!showTrailer){
+      setShowTrailer(true);
+    }
+  }
+
   // Icona basata sullo stato del film
   const statusIcon = movieStatus === 'watched'
       ? faEye // Film visto
@@ -109,7 +115,13 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           <p>{movie.runtime} min</p>
         </div>
         <p className='movie-overview'>{movie.overview}</p>
-        <p className='display-flex justify-center align-items-center'> <FontAwesomeIcon icon={faStar} className="detail-icon" />{movie.vote_average?.toFixed(1) ? movie.vote_average.toFixed(1) + "/ 10": "not rated"} </p>
+        <div className='display-flex justify-center align-items-center'>
+          <FontAwesomeIcon icon={faStar} className="detail-star-icon" size={"xl"}/>
+          <div className='movie-vote-container display-flex flex-row align-items-center'>
+            <p>{movie.vote_average?.toFixed(1) ? movie.vote_average.toFixed(1): "not rated"}</p>
+            <p>&nbsp;&nbsp;/10</p>
+          </div>
+        </div>
 
         <div className='section-divider'></div>
         <div className="movie-status flex-column align-items-center">
@@ -170,13 +182,9 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         {
           !showTrailer && 
           <div 
-            style={{width: "100%", height: "315px", marginTop: "20px"}} 
+            style={{width: "100%", height: "315px"}} 
             className='flex-column justify-center align-items-center'
-            onClick={()=>{
-              if(!showTrailer){
-                setShowTrailer(true);
-              }
-            }} 
+            onClick={()=>{handleShowTrailer()}} 
           >           
             {/* <FontAwesomeIcon 
               icon={faPlay} 
@@ -195,11 +203,11 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           <iframe 
             width="100%" 
             height="315" 
-            src={`${trailerurl}?autoplay=1`} 
+            src={`${trailerurl}?autoplay=1&rel=0&modestbranding=1&controls=1&autohide=1&showinfo=0`} 
             loading='lazy'
             title="YouTube video player" 
             frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin" 
             allowFullScreen
             style={{marginTop: '20px'}}
