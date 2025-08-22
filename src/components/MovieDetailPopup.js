@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faEye, faCheck, faTrash, faCalendarAlt, faStar, faList, faPlay } from "@fortawesome/free-solid-svg-icons";
@@ -95,7 +95,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
       ? "Segna come visto"
       : "Aggiungi alla lista";
   const backgroundImage = 
-     `linear-gradient(to top, rgba(7, 7, 7, 1) 65%, rgba(7, 7, 7, 0.7) 80%, rgba(7, 7, 7, 0.3) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
+     `linear-gradient(to top, rgba(7, 7, 7, 1) 70%, rgba(7, 7, 7, 0.8) 80%, rgba(7, 7, 7, 0.3) 100%), url(https://image.tmdb.org/t/p/original${movie.poster_path})`
 
   return (
     <div className="movie-popup-overlay">
@@ -107,27 +107,32 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             /* backdropFilter: 'blur(5px)' */
           }}
         >        
-        <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" size="2x" />
-        <h2>{movie.title}</h2>
-        <div className='movie-details display-flex justify-around align-items-center'>
-          <p>{movie.genres ? movie.genres[1] || movie.genres[0] : ""}</p>
-          <p>{new Date(movie.release_date).getFullYear()}</p>
-          <p>{movie.runtime? movie.runtime + " min" : ""}</p>
-        </div>
-        <p className='movie-overview'>{movie.overview}</p>
-        <div className='display-flex justify-center align-items-center'>
-          <FontAwesomeIcon icon={faStar} className="detail-star-icon" size={"xl"}/>
-          <div className='movie-vote-container display-flex flex-row align-items-center'>
-            <p>{movie.vote_average?.toFixed(1) ? movie.vote_average.toFixed(1): "not rated"}</p>
-            <p>&nbsp;&nbsp;/10</p>
+          <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" />
+          <div className='display-flex justify-center'>
+            <h2>{movie.title}</h2>
           </div>
+          <div className='movie-details display-flex justify-center align-items-center'>
+            <p>{movie.genres ? movie.genres[1] || movie.genres[0] : ""}</p>
+            <p>{new Date(movie.release_date).getFullYear()}</p>
+            <p>{movie.runtime? movie.runtime + " min" : ""}</p>
+          </div>
+          <div className='display-flex justify-center'>
+             <p className='movie-overview'>{movie.overview}</p>
+          </div>
+         
+          <div className='display-flex justify-center align-items-center'>
+            <FontAwesomeIcon icon={faStar} className="detail-star-icon" size={"xl"}/>
+            <div className='movie-vote-container display-flex flex-row align-items-center'>
+              <p>{movie.vote_average?.toFixed(1) ? movie.vote_average.toFixed(1): "not rated"}</p>
+              <p>&nbsp;/10</p>
+            </div>
         </div>
 
-        <div className='section-divider'></div>
+        
         <div className="movie-status flex-column align-items-center">
                     {movieStatus && 
                       <div className='flex-row width-90 justify-between margin-bottom-10'>
-                        <div className='flex-column align-items-center width-50'>
+                        <div className='flex-column align-items-center width-50 gap-10'>
                           <FontAwesomeIcon
                             icon={statusIcon}
                             onClick={handleStatusChange}
@@ -136,7 +141,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                           />
                           <span className="status-label padding-left-10">{statusLabel}</span>
                         </div>
-                        <div className='flex-column align-items-center width-50'>
+                        <div className='flex-column align-items-center width-50 gap-10'>
                           <FontAwesomeIcon 
                             className='delete-icon width-30' 
                             size="lg" 
@@ -218,7 +223,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         <div className='section-divider'></div>
         <Error error={error}  setError={setError}/>
         {providers &&
-          <div>
+          <div className='providers-container'>
             {
               ["buy", "flatrate", "rent"].map((category) => (
                   <div key={category} className={`provider-category ${category}`}>
