@@ -110,7 +110,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         <FontAwesomeIcon icon={faTimes} onClick={closePopup} className="close-popup-btn" size="2x" />
         <h2>{movie.title}</h2>
         <div className='movie-details display-flex justify-around align-items-center'>
-          <p>{movie.geners ? movie.genres[0] : ""}</p>
+          <p>{movie.genres ? movie.genres[1] || movie.genres[0] : ""}</p>
           <p>{new Date(movie.release_date).getFullYear()}</p>
           <p>{movie.runtime? movie.runtime + " min" : ""}</p>
         </div>

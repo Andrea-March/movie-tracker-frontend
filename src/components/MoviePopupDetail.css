@@ -13,8 +13,8 @@
   
   .movie-popup {
     position: relative;
-    background-size: cover;
-    background-position: center;
+    background-size: contain;
+    background-attachment: local;
     padding: 42px 0;
     max-width: 800px;
     width: 100%;
@@ -71,6 +71,7 @@
   .detail-star-icon {
     margin: 0 8px;
     color: var(--secondary);
+    padding-bottom: 7px;
   }
 
   .movie-vote-container p:first-child{
@@ -79,6 +80,7 @@
 
   .movie-vote-container p:last-child{
     font-size: 0.8em;
+    padding-top: 5px;
   }
 
   .movie-status {
