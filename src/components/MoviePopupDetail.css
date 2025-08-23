@@ -31,13 +31,18 @@
 
   .movie-details p{
     font-size: 0.8em;
-    letter-spacing: 2px;
-    opacity: 0.9;
+    letter-spacing: 1px;
+    opacity: 0.7;
     width: 17%;
   }
 
   .movie-popup .section-divider {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      width: 80%;
+      margin: 25px auto;
+      border: 0;
+      height: 2px;
+      opacity: 0.7;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
   }
   
   .close-popup-btn {
@@ -54,18 +59,22 @@
   
   .movie-popup h2 {
     margin-top: 30vh; 
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 550;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     width: 50%;
     margin-bottom: 0.5em;
+    opacity: 0.8;
   }
 
 
+
   .movie-overview{
-    width: 80%;
+    width: 85%;
+    max-width: 600px;
     font-size: 0.8em;
-    line-height: 1.9;
+    line-height: 2;
+    opacity: 0.85;
   }
 
   .detail-star-icon {
@@ -73,7 +82,6 @@
     font-size: 1.6em;
     color: #FFD700;
     padding-bottom: 5px;
-    
   }
 
   .movie-vote-container p:first-child{
@@ -87,10 +95,12 @@
     padding-top: 2px;
     letter-spacing: 1px;
     font-weight: 300;
+    opacity: 0.8;
   }
 
   .movie-status {
-    margin-top: 20px;
+    margin-top: 30px;
+    padding: 30px 0;
     gap: 10px;
 }
 
@@ -111,9 +121,9 @@
 }
 
 .status-choice-container{
-  margin-left: 30px;
-  margin-right: auto;
   transition: all 300ms ease-in-out;
+  position: absolute;
+  transform: translate(20px, -100%);
 }
 
 
@@ -130,16 +140,17 @@
 /* Titolo della categoria */
 .provider-category h4 {
   margin: 0;
+  letter-spacing: 2px; 
+  font-weight: 400;
 }
 
 /* Contenitore dei loghi */
 .provider-logos {
   display: flex;
   flex-wrap: wrap; /* I loghi vanno su una nuova riga se necessario */
-  gap: 10px; /* Spazio tra i loghi */
-  padding: 10px 0;
+  gap: 5px; /* Spazio tra i loghi */
+  padding: 5px 0;
   justify-content: center;
-  align-items: center;
 }
 
 /* Stile per ogni logo */
@@ -163,14 +174,16 @@
   padding: 2px;
 }
 
-.add-to-list-container {
-  margin-right: auto;
-}
 /* Stile per la categoria "Compra", "Abbonamento", "Noleggia" */
 
 
 @media screen and (max-width : 800px){
   .movie-popup{
     overflow: scroll;
+  }
+
+   .movie-popup h2 {
+    margin-top: 20vh; 
+    width: 75%;
   }
 }

@@ -82,6 +82,12 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
     }
   }
 
+  const formatDuration = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return hours > 0 ? `${hours}h ${mins}m` :  `${mins}m`;
+  }
+
   // Icona basata sullo stato del film
   const statusIcon = movieStatus === 'watched'
       ? faEye // Film visto
@@ -114,7 +120,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           <div className='movie-details display-flex justify-center align-items-center'>
             <p>{movie.genres ? movie.genres[1] || movie.genres[0] : ""}</p>
             <p>{new Date(movie.release_date).getFullYear()}</p>
-            <p>{movie.runtime? movie.runtime + " min" : ""}</p>
+            <p>{movie.runtime? formatDuration(movie.runtime) : ""}</p>
           </div>
           <div className='display-flex justify-center'>
              <p className='movie-overview'>{movie.overview}</p>
@@ -128,8 +134,10 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
             </div>
         </div>
 
+        <div className='section-divider'></div>
+
         
-        <div className="movie-status flex-column align-items-center">
+        <div className="movie-status display-flex justify-center align-items-center">
                     {movieStatus && 
                       <div className='flex-row width-90 justify-between margin-bottom-10'>
                         <div className='flex-column align-items-center width-50 gap-10'>
@@ -152,17 +160,18 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                         </div>
                       </div>
                     }
-                    {!movieStatus && 
-                    <div className='add-to-list-container display-flex align-items-center' onClick={()=>{setShowStatusChoice(!showStatusChoice)}}>
+                    {!movieStatus &&
+                    <div className='display-flex align-items-center' onClick={()=>{setShowStatusChoice(!showStatusChoice)}}>
                       <FontAwesomeIcon
                         icon={statusIcon}
                         className="status-icon"
                         title={statusLabel}
                       />
                       <span className="status-label padding-left-10">{statusLabel}</span>
+                     
                     </div>
                     }
-                    {showStatusChoice && 
+                     {showStatusChoice && 
                       <div className="flex-column status-choice-container">
                         <div className='flex-row margin-top-20' onClick={()=>{handleStatusChange("watched")}}>
                           <FontAwesomeIcon
@@ -182,12 +191,13 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                         </div>
                       </div>
                     }
+                    
         </div>
-        <div className='section-divider'></div>
+         <div className='section-divider'></div> 
         {
           !showTrailer && 
           <div 
-            style={{width: "100%", height: "315px"}} 
+            style={{width: "100%", paddingTop: "20px"}} 
             className='flex-column justify-center align-items-center'
             onClick={()=>{handleShowTrailer()}} 
           >           
@@ -200,14 +210,27 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
                 }
               }} 
               style={{color:"#79DBFF"}}/> */}
-              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="68" viewBox="0 0 576 512"><path fill="#79dbff" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
-            <p>Guarda il trailer</p>
+{/*             <svg xmlns="http://www.w3.org/2000/svg" height="60" width="68" viewBox="0 0 576 512"><path fill="#00bfff" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
+ */}
+              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="68" viewBox="0 0 576 512">
+                
+                <path 
+                  fill="#00bfff" 
+                  d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3z"
+                />
+                <path 
+                  fill="#fff" 
+                  d="M232.2 337.6V174.4L374.9 256l-142.7 81.6z"
+                />
+              </svg> 
+            
+              <p>Guarda il trailer</p>
          </div>
         }
         {trailerurl && showTrailer && 
           <iframe 
             width="100%" 
-            height="315" 
+            height="400" 
             src={`${trailerurl}?autoplay=1&rel=0&modestbranding=1&controls=1&autohide=1&showinfo=0`} 
             loading='lazy'
             title="YouTube video player" 
