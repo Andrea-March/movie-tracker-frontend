@@ -8,16 +8,12 @@ import { movieStore } from "../stores/MovieStore";
 
 const WatchedMovies = () => {
 
-  const { watched, error } = movieStore;
+  const { watched } = movieStore;
 
 
   useEffect(() => {
     movieStore.loadWatchedMovies();
   }, []);
-
-  if (error) {
-    return <p className="error-message">{error}</p>;
-  }
 
 
   const handleNextPage = () => {
@@ -53,8 +49,6 @@ const WatchedMovies = () => {
                 loading="lazy"
                 style={{ width: "150px"}} 
               />
-             {/*  <p className="movie-title">{movie.movieId.Title}</p>
-              <p className="movie-year">{new Date(movie.movieId.Year).getFullYear()}</p> */}
               
               <div className="hide-on-mobile">
                 <p className="movie-title">{movie.movieId.title}</p>

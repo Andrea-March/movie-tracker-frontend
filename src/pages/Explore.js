@@ -11,12 +11,14 @@ import { movieStore } from "../stores/MovieStore";
 const Explore = () => {
 
     const {popular, loading, setFilter} = movieStore;
-    const [currentFilter, setCurrentFilter] = useState("popular");
+
     const options = [
       { value: "popular", label: "Popolari" },
       { value: "top_rated", label: "Top Rated" },
       { value: "upcoming", label: "In arrivo"}
     ];
+    
+    const [currentFilter, setCurrentFilter] = useState(popular?.filter || options[0].value);
 
     useEffect(()=>{      
         movieStore.loadPopularMovies();
@@ -35,7 +37,7 @@ const Explore = () => {
         }
       };
     
-      const handleFilterChange = (filter) =>{console.log(filter);setFilter(filter);setCurrentFilter(filter)}
+      const handleFilterChange = (filter) =>{setFilter(filter);setCurrentFilter(filter)}
 
     return(
      <div className="watched-movies content">

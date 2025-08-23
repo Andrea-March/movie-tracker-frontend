@@ -17,23 +17,6 @@ function MovieSearch({onCloseClick}) {
     return () => clearTimeout(typingTimeout);
   }, [typingTimeout]);
 
-
-/*   // Funzione per cercare i film
-  const handleSearch = async (query) => {
-    if (!query.trim()) {
-      setMovies([]);
-      return;
-    }
-
-    setError(""); // Reset dell'errore precedente
-    try {
-      const data = await searchMovies(query); // Chiamata al servizio
-      setMovies(data); // Imposta i risultati dei film
-    } catch (err) {
-      setError("Errore durante la ricerca. Riprova.");
-    }
-  }; */
-
   const handleInputChange = (e) => {
     const query = e.target.value;
     clearTimeout(typingTimeout);

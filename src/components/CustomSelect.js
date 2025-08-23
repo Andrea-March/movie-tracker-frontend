@@ -19,7 +19,6 @@ const CustomSelect = ({ options, value, onChange }) => {
                 className={`custom-select ${isOpen ? 'open' : ''}`}
                 onClick={handleToggle}
                 tabIndex={0} // rende il div focusable
-                onBlur={() => setIsOpen(false)}
             >
                 {selectedLabel}
             </div>
@@ -29,7 +28,7 @@ const CustomSelect = ({ options, value, onChange }) => {
                         <div
                             key={option.value}
                             className="custom-option"
-                            onClick={() => handleOptionClick(option.value)}
+                            onClick={() => {handleOptionClick(option.value)}}
                         >
                             {option.label}
                         </div>

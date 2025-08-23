@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faEye, faCheck, faTrash, faStar, faList } from "@fortawesome/free-solid-svg-icons";
-import Error from './Error';
 import { observer } from "mobx-react-lite";
 import { movieStore } from "../stores/MovieStore";
 
@@ -43,7 +42,7 @@ const MovieDetailPopup = () => {
       ? "Segna come visto"
       : "Aggiungi alla lista";
   const backgroundImage = 
-     `linear-gradient(to top, rgba(7, 7, 7, 1) 70%, rgba(7, 7, 7, 0.8) 80%, rgba(7, 7, 7, 0.3) 100%), url(https://image.tmdb.org/t/p/original${selectedMovie?.movie?.poster_path})`
+     `linear-gradient(to bottom, rgba(7, 7, 7, 0) 0%, rgba(7, 7, 7, 0.6) 30vh, rgba(7, 7, 7, 1) 50vh), url(https://image.tmdb.org/t/p/original${selectedMovie?.movie?.poster_path})`
 
   return (
     <>{ movieStore.isPopupOpen &&
@@ -53,6 +52,7 @@ const MovieDetailPopup = () => {
           className="movie-popup"
           style={{
             backgroundImage: backgroundImage,
+            backgroundRepeat: "no-repeat"
             /* backdropFilter: 'blur(5px)' */
           }}
         >        
@@ -66,7 +66,7 @@ const MovieDetailPopup = () => {
             <p>{selectedMovie.movie.runtime? formatDuration(selectedMovie.movie.runtime) : ""}</p>
           </div>
           <div className='display-flex justify-center'>
-             <p className='movie-overview'>{selectedMovie.movie.overview}</p>
+             <p className="movie-overview">{selectedMovie.movie.overview}</p>
           </div>
          
           <div className='display-flex justify-center align-items-center'>
@@ -176,7 +176,6 @@ const MovieDetailPopup = () => {
         {!selectedMovie.trailerUrl && selectedMovie.showTrailer  && <p className="no-providers">Trailer non disponibile per questo film</p>}
 
         <div className='section-divider'></div>
-        <Error />
         {selectedMovie.providers &&
           <div className='providers-container'>
             {
@@ -184,18 +183,21 @@ const MovieDetailPopup = () => {
                   <div key={category} className={`provider-category ${category}`}>
                       {selectedMovie.providers[category] &&
                         <>
-                          <h4>{category === "buy" ? "Compra" : category === "flatrate" ? "Abbonamento" : "Noleggia"}</h4>
+                          <h4 key={category}>{category === "buy" ? "Compra" : category === "flatrate" ? "Abbonamento" : "Noleggia"}</h4>
                           <div className="provider-logos">
                               {selectedMovie.providers[category].map((provider) => (
                                 wantedProviders.includes(provider.provider_id) && 
-                                <img
-                                  key={provider.provider_id}
-                                  src={`/provider-logos/${provider.provider_id}.jpg`} // Percorso locale
-                                  alt={provider.provider_name}
-                                  title={provider.provider_name}
-                                  className="provider-logo"
-                                  loading='lazy'
-                                />
+                                (<div className='provider-card flex-column align-items-center' key={provider.provider_id+"_div"}>
+                                  <img
+                                    key={provider.provider_id}
+                                    src={`/provider-logos/${provider.provider_id}.jpg`} // Percorso locale
+                                    alt={provider.provider_name}
+                                    title={provider.provider_name}
+                                    className="provider-logo"
+                                    loading='lazy'
+                                  />
+                                  <p className='width-90'>{provider.provider_name.split(" ").slice(0,2).join(" ")}</p>
+                                </div>)
                               ))}          
                           </div>
                         </>

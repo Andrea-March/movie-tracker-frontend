@@ -167,8 +167,6 @@ class MovieStore {
     }
 
     async searchMovies(query) {
-        this.loading = true;
-        this.searchError = "";
         try {
         if (!query.trim()) {
             this.search.results = [];
@@ -180,22 +178,24 @@ class MovieStore {
         });
         } catch (err) {
             runInAction(() => {
-            this.searchError = "Errore durante la ricerca. Riprova.";
+            this.setError("Errore durante la ricerca. Riprova.");
         });
-        } finally {
-            runInAction(() => { this.loading = false; });
-        }
+        } 
     }
 
     async addMovie(movie, watched) {
         try {
             await addMovieToList(movie, watched);
+            if(watched) {
+                this.loadWatchedMovies();
+            }else this.loadToWatchMovies();
+            
             runInAction(() => {
-                this.successMessage = "Film aggiunto!";
+                this.setSuccess("Film aggiunto!");
             });
         } catch (err) {
             runInAction(() => {
-                this.error = err.message;
+                this.setError(err.message);
             });
         }
     } 
@@ -235,6 +235,14 @@ class MovieStore {
         this.selectedMovie = {};
     }
 
+    async setFilter (filter) {
+        this.popular.filter = filter;
+        this.popular.totalPages = undefined;
+        this.popular.page = 1;
+        this.popular.movies = []
+        this.loadPopularMovies()
+    }
+
     async changeStatus() {
         this.watched.loading = true;
         const watched = this.selectedMovie.status === 'watched' ? true : false;
@@ -243,13 +251,13 @@ class MovieStore {
             if (!token) throw new Error("Non sei autenticato.");
             await changeMovieStatus(token, this.selectedMovie.movie._id, !watched);
             this.selectedMovie.status = watched ? "to-watch" : "watched"
-            this.successMessage = "Film aggiornato!"
+            this.setSuccess("Film aggiornato!")
             this.loadWatchedMovies();
             this.loadToWatchMovies();
         } catch (err) {
-            runInAction(() => { this.error = err.message; });
+            runInAction(() => { this.setError(err.message); });
         } finally {
-            runInAction(() => { this.watched.loading = false; });
+            runInAction(() => { this.loading = false; });
         }
     }
 

@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
 import ResetPassword from "./components/ResetPassword";
+import Loader from "./components/Loader";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -69,8 +70,8 @@ function App() {
             <MovieDetailPopup  />
             <Error />
             <SuccessPopup />
-            </>
-          )
+            <Loader />
+          </>)
         }
           <Routes>
          {/*    <Route path="/test" element={<ProtectedRoute element={Test} />}/> */}

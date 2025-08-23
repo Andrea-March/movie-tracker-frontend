@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getChallengeDetails, markMovieAsWatched, getChallengeMovies } from "../services/challengesservice";
+import { useParams } from "react-router-dom";
+import { getChallengeDetails, getChallengeMovies } from "../services/challengesservice";
 import '../App.css';
 import './ChallengeDetails.css'
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import Error from "../components/Error";
 
 const ChallengeDetail = () => {
   const { challengeId } = useParams();
@@ -16,9 +15,7 @@ const ChallengeDetail = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const token = localStorage.getItem("jwtToken");
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChallengeDetails = async () => {
@@ -37,7 +34,7 @@ const ChallengeDetail = () => {
     };
 
     fetchChallengeDetails();
-  }, [challengeId, token]);
+  }, [challengeId, token, currentPage]);
 
   const markMovieAsWatched = async (movieId) => {
     try {
@@ -61,7 +58,7 @@ const ChallengeDetail = () => {
         setSuggestedMovies(moviesData.movies);
         setCurrentPage((prev) => prev + 1);
       }catch(err){
-        setError(err.message)
+        console.log(err.message)
       }finally{
         setLoading(false);
       }
@@ -76,7 +73,7 @@ const ChallengeDetail = () => {
         setSuggestedMovies(moviesData.movies);
         setCurrentPage((prev) => prev - 1);
       }catch(err){
-        setError(err.message)
+        console.log(err.message)
       }finally{
         setLoading(false);
       }
@@ -90,7 +87,7 @@ const ChallengeDetail = () => {
     );
     if(isAlreadyAdded){
       console.log("setting error")
-      setError("Hai già aggiunto "+ movie.title +" alla lista!")
+      console.log("Hai già aggiunto "+ movie.title +" alla lista!")
       return;
     }
     setSelectedMovies([...selectedMovies, {movieId: movie, watched: false}])
@@ -103,7 +100,6 @@ const ChallengeDetail = () => {
 
   return (
     <div className="content padding-lateral ch-detail-content">
-      <Error />
       {loading ? (
         <Loader loading={loading} />
       ) : (

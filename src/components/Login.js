@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Error from "./Error";
 import "./Login.css";  // Per importare gli stili
 import "../App.css"
-import SuccessPopup from "./SuccessPopup";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -68,8 +66,8 @@ function Login() {
             />
           </div>
           <button type="submit" className="submit-button">Accedi</button>
-          <Error />
-          {message && <SuccessPopup successMessage={message} setSuccessMessage={setMessage}/>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {message && <p>{message}</p>}
           <p className="register-link" onClick={(e)=>{handlePasswordReset(e)}}>Reset password</p>
           <p className="register-link" onClick={()=>{navigate("/register")}}>Non hai ancora un account? clicca qui per registrarti</p>
         </form>
