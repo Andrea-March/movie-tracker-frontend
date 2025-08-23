@@ -1,4 +1,4 @@
-.error-popup {
+.success-popup {
     position: fixed;
     right: 20px;
     bottom: 20px;
@@ -21,7 +21,7 @@
     display: flex;
 }
 
-.error-popup.show {
+.success-popup.show {
     opacity: 1;
     transform: translateY(0);
 }

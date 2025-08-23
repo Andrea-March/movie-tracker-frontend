@@ -103,7 +103,7 @@ const ChallengeDetail = () => {
 
   return (
     <div className="content padding-lateral ch-detail-content">
-      <Error error={error} setError={setError}/>
+      <Error />
       {loading ? (
         <Loader loading={loading} />
       ) : (

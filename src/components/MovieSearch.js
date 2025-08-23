@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { searchMovies, addMovieToList } from "../services/movieservice";
 import { faCheckCircle, faEye, faTimes } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './MovieSearch.css';
-import { useNavigate } from "react-router-dom";
-import MovieDetailPopup from "./MovieDetailPopup";
-import Error from './Error.js'
-import SuccessPopup from "./SuccessPopup.js";
+import { observer } from "mobx-react-lite";
+import { movieStore } from "../stores/MovieStore";
 
 function MovieSearch({onCloseClick}) {
-  /* const [query, setQuery] = useState(""); */
-  const [movies, setMovies] = useState([]);
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [movie, setMovie] = useState(undefined);
   const [typingTimeout, setTypingTimeout] = useState(null);
-  const [showDetail, setShowDetail] = useState(false);
 
-  const navigate = useNavigate();
+  const { search } = movieStore;
 
   const DEBOUNCE_TIME_MS = 500;
 
@@ -27,7 +18,7 @@ function MovieSearch({onCloseClick}) {
   }, [typingTimeout]);
 
 
-  // Funzione per cercare i film
+/*   // Funzione per cercare i film
   const handleSearch = async (query) => {
     if (!query.trim()) {
       setMovies([]);
@@ -41,52 +32,15 @@ function MovieSearch({onCloseClick}) {
     } catch (err) {
       setError("Errore durante la ricerca. Riprova.");
     }
-  };
+  }; */
 
   const handleInputChange = (e) => {
     const query = e.target.value;
-
     clearTimeout(typingTimeout);
-
-
     setTypingTimeout(
-      setTimeout(async () => handleSearch(query), DEBOUNCE_TIME_MS) // Attendi 500ms dopo che l'utente smette di scrivere
+      setTimeout(() => movieStore.searchMovies(query), DEBOUNCE_TIME_MS)
     );
   };
-
-  // Funzione per aggiungere un film alla lista dell'utente
-  const handleAddToList = async (movie, watched) => {
-      try {
-        await addMovieToList(movie, watched); // Usa il servizio per aggiungere il film
-        setSuccessMessage("Film aggiunto con successo!")
-        console.log("Called")
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-  const handleMovieClick = (movie) => {
-    setMovie(movie);
-    setShowDetail(true);
-  }
-
-  const closePopup = () => setShowDetail(false)
-
-  const changeStatus = async (selectedMovie, status) => {
-      const watched = status === 'watched' ? true : false;
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            setError("Non sei autenticato.");
-            return;
-          }
-  
-          await addMovieToList(selectedMovie,  watched);
-          closePopup();
-        } catch (err) {
-          setError(err.message);
-        }
-    }
 
   return (
     <div className="movie-search-container">
@@ -103,31 +57,25 @@ function MovieSearch({onCloseClick}) {
         />
           
       </div>
-      {/* <button className="button search-button"
-          onClick={handleSearch}
-        >
-        Cerca
-        </button> */}
       <div>
-         {/* Lista dei film */}
-      {movies.length > 0 && (
+      {search.results.length > 0 && (
         <div className="found-movies-container">
           <h2>Risultati della ricerca:</h2>
           <ul style={{ listStyle: "none", padding: 0 }} className="search-results-list">
-            {movies.map((movie) => (
+            {search.results.map((movie) => (
               <li
                 className="search-result"
                 key={movie.id}
               >
                   {movie.poster_path && (
                     <img
-                      onClick={()=>{handleMovieClick(movie)}}
+                      onClick={()=>{movieStore.setSelectedMovie(movie, undefined)}}
                       src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
                       alt={movie.title}
                       loading="lazy"
                     />
                   )}
-                  <div onClick={()=>{handleMovieClick(movie)}}>
+                  <div onClick={()=>{movieStore.setSelectedMovie(movie, undefined)}}>
                     <h3 style={{ margin: 0 }} className="movie-title-search">
                       {movie.title}{" "}
                       {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
@@ -136,7 +84,7 @@ function MovieSearch({onCloseClick}) {
                 <div style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
                 <FontAwesomeIcon
                       icon={faCheckCircle}
-                      onClick={(e) => {handleAddToList(movie, true)}}
+                      onClick={(e) => {movieStore.addMovie(movie, true)}}
                       style={{
                         cursor: "pointer",
                         color: "#4CAF50",
@@ -147,7 +95,7 @@ function MovieSearch({onCloseClick}) {
                     />
                     <FontAwesomeIcon
                       icon={faEye}
-                      onClick={(e) => {handleAddToList(movie, false)}}
+                      onClick={(e) => {movieStore.addMovie(movie, false)}}
                       style={{
                         cursor: "pointer",
                         color: "#FF9800",
@@ -159,21 +107,11 @@ function MovieSearch({onCloseClick}) {
               </li>
             ))}
           </ul>
-          {showDetail && 
-            <MovieDetailPopup 
-              movie={movie} 
-              closePopup={closePopup}
-              changeMovieStatus={changeStatus}
-            />
-            
-            }
         </div>
       )}
       </div>
-      <Error error={error} setError={setError}/>
-      <SuccessPopup successMessage={successMessage} setSuccessMessage={setSuccessMessage} />
     </div>
   );
 }
 
-export default MovieSearch;
+export default observer(MovieSearch);

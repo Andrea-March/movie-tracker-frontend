@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-/* import { onMessage, getToken } from 'firebase/messaging';
-import {messaging} from './config/firebaseConfig' */
 import WatchedMovies from "./pages/WatchedMovies";
 import ToWatchMovies from "./pages/ToWatchMovies";
 import Navbar from "./components/Navbar";
+import Error from "./components/Error";
+import SuccessPopup from "./components/SuccessPopup";
+import MovieDetailPopup from "./components/MovieDetailPopup";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -15,11 +15,7 @@ import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
 import ResetPassword from "./components/ResetPassword";
-/* import {jwtDecode} from "jwt-decode"; */
-
 function App() {
-
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api/"
 
   const token = localStorage.getItem('token');
 
@@ -67,7 +63,15 @@ function App() {
   return (
     <Router>
       <div>
-        {token && <Navbar />}
+        {token && 
+          (<>
+            <Navbar />
+            <MovieDetailPopup  />
+            <Error />
+            <SuccessPopup />
+            </>
+          )
+        }
           <Routes>
          {/*    <Route path="/test" element={<ProtectedRoute element={Test} />}/> */}
             <Route path="/login" element={<Login />} />

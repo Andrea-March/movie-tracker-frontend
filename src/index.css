@@ -28,7 +28,7 @@
   --error: #FF6B6B;
   --error-text: black;
   --success: lightgreen;
-  --success-text: white;
+  --success-text: green;
   
   --button: black;
   --button-hover: #B2D7B5;
@@ -56,7 +56,7 @@
     --error: #FF5555;           /* Un rosso tenue e accogliente */
     --error-text: #F8F8F2;      /* Bianco morbido per il testo di errore */
     --success: lightgreen;
-    --success-text: white;
+    --success-text: green;
 
     --button: #282A36;          /* Grigio scurissimo per i pulsanti */
     --button-hover: #44475A;    /* Grigio-blu per il passaggio del mouse */

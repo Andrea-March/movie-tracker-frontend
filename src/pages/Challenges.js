@@ -70,7 +70,7 @@ const Challenges = () => {
     <>
     <ChallengeSubNavbar setComponent={setComponent}/>
     <div className="content ch-content">
-      <Error error={error} setError={setError}/>
+      <Error />
       {loading ? (
         <Loader />
       ) : (
