@@ -174,7 +174,31 @@
   padding: 2px;
 }
 
-/* Stile per la categoria "Compra", "Abbonamento", "Noleggia" */
+.related-movies-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.related-movie-card {
+  min-width: 120px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.related-movie-card img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* .related-movie-card p {
+  max-height: 50px;
+  font-size: 0.8em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+ */
 
 
 @media screen and (max-width : 800px){

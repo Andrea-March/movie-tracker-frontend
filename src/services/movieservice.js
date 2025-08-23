@@ -186,3 +186,22 @@ export const getMoviesByDecade = async (decade, page) => {
     throw error;
   }
 };
+
+// Funzione per ottenere i related movies a partire dal movieId
+export const getRelatedMovies = async (movieId) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Utente non autenticato");
+
+    const response = await axios.get(`${API_URL}movies/${movieId}/related`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data.movies; // Restituisce i 10 film correlati
+  } catch (error) {
+    console.error("Errore durante il fetch dei film correlati:", error);
+    throw new Error("Errore durante il fetch dei film correlati");
+  }
+};

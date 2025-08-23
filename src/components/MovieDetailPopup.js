@@ -2,13 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faEye, faCheck, faTrash, faCalendarAlt, faStar, faList, faPlay } from "@fortawesome/free-solid-svg-icons";
-import { getMovieProviders, searchTrailerurl, deleteMovie } from '../services/movieservice';
+import { getMovieProviders, searchTrailerurl, deleteMovie, getRelatedMovies } from '../services/movieservice';
 import Error from './Error';
 
 
 const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus }) => {
 
   const [providers, setProviders] = useState(undefined);
+  const [relatedMovies, setRelatedMovies] = useState(undefined);
   const [trailerurl, setTrailerUrl] = useState(movie.trailer_url);
   const [showTrailer, setShowTrailer] = useState(false);
   const [error, setError] = useState(null);
@@ -30,9 +31,18 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           console.log(err);
         }
       }
+      const getRelated = async () => {
+        try{
+          const related = await getRelatedMovies(movie.id);
+          setRelatedMovies(related);
+        } catch (err) {
+          console.log(err);
+        }
+      }
 
       getProviders();
       getTrailerUrl();
+      getRelated();
 
   }, []);
 
@@ -230,7 +240,7 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
         {trailerurl && showTrailer && 
           <iframe 
             width="100%" 
-            height="400" 
+            height="500" 
             src={`${trailerurl}?autoplay=1&rel=0&modestbranding=1&controls=1&autohide=1&showinfo=0`} 
             loading='lazy'
             title="YouTube video player" 
@@ -276,8 +286,32 @@ const MovieDetailPopup = ({ movie, movieStatus, closePopup, changeMovieStatus })
           !providers && 
             <p className="no-providers">Ancora nessun provider disponibile per questo film</p>
         }
-          
+        <div className='section-divider'></div>
+         {/* Sezione Film Correlati */}
+        {relatedMovies && relatedMovies.length > 0 && (
+          <div className="related-movies-section">
+            <h3>Film correlati</h3>
+            <div className="related-movies-slider">
+              {relatedMovies.map((rm) => (
+                <div 
+                  key={rm.id} 
+                  className="related-movie-card"
+                  onClick={() => closePopup(rm)} // oppure apri nuovo popup
+                >
+                  <img 
+                    src={`https://image.tmdb.org/t/p/w200${rm.poster_path}`} 
+                    alt={rm.title} 
+                    loading="lazy"
+                  />
+                  {/* <p>{rm.title}</p> */}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+            
       </div>
+
     </div>
   );
 };
