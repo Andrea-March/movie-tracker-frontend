@@ -17,7 +17,7 @@ const SuccessPopup = () => {
     
           return () => clearTimeout(timer);
         }
-      }, [movieStore.successMessage]);
+      }, []);
     
       if (!movieStore.successMessage) return null;
     

@@ -18,7 +18,7 @@ const Error = observer(() => {
 
       return () => clearTimeout(timer);
     }
-  }, [movieStore.error]);
+  }, []);
 
   if (!movieStore.error) return null;
 

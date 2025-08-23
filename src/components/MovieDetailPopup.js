@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faEye, faCheck, faTrash, faStar, faList } from "@fortawesome/free-solid-svg-icons";
@@ -11,11 +11,17 @@ const MovieDetailPopup = () => {
 
   const[showStatusChoice, setShowStatusChoice] = useState(false);
 
+  const topRef = useRef(null);
+
   const wantedProviders = [119, 337, 359, 3, 8, 2, 10, 35, 39, 222, 1726, 188, 109];
   const {selectedMovie} = movieStore;
 
   const handleStatusChange = () => {
      movieStore.changeStatus()
+  };
+
+  const scrollToTop = () => {
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const formatDuration = (minutes) => {
@@ -50,7 +56,7 @@ const MovieDetailPopup = () => {
             /* backdropFilter: 'blur(5px)' */
           }}
         >        
-          <FontAwesomeIcon icon={faTimes} onClick={()=>{movieStore.closePopup()}} className="close-popup-btn" />
+          <FontAwesomeIcon icon={faTimes} onClick={()=>{movieStore.closePopup()}} className="close-popup-btn"  ref={topRef}/>
           <div className='display-flex justify-center'>
             <h2>{selectedMovie.movie.title}</h2>
           </div>
@@ -159,10 +165,10 @@ const MovieDetailPopup = () => {
             height="500" 
             src={`${selectedMovie.trailerUrl}?autoplay=1&rel=0&modestbranding=1&controls=1&autohide=1&showinfo=0`} 
             loading='lazy'
-            title="YouTube video player" 
-            frameborder="0" 
+            title="YouTube video player"
+            frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin" 
+            referrerPolicy="strict-origin-when-cross-origin" 
             allowFullScreen
             style={{marginTop: '20px'}}
           ></iframe>
@@ -212,7 +218,7 @@ const MovieDetailPopup = () => {
                 <div 
                   key={rm.id} 
                   className="related-movie-card"
-                  onClick={() => movieStore.setSelectedMovie(rm)} // oppure apri nuovo popup
+                  onClick={() => {movieStore.setSelectedMovie(rm); scrollToTop()}} // oppure apri nuovo popup
                 >
                   <img 
                     src={`https://image.tmdb.org/t/p/w200${rm.poster_path}`} 

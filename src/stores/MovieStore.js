@@ -27,9 +27,12 @@ class MovieStore {
     isPopupOpen = false;
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {}, { autoBind: true });
     }
 
+    openPopup(){
+        this.isPopupOpen= true;
+    }
     async loadWatchedMovies() {
         this.loading = true;
         try {
@@ -155,8 +158,7 @@ class MovieStore {
                 }
         });
         }catch{}
-        
-        this.isPopupOpen= true;
+        this.openPopup()
         } catch (err) {
             runInAction(() => {
                 this.error = err.message;
