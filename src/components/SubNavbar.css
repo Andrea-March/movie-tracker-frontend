@@ -18,8 +18,17 @@
     /* width: 200px; */
   }
   
-  .sub-navbar button.active {
+   /* Sostituire questo per lo stile con la lineetta sotto */
+/*   .sub-navbar button.active {
     font-weight: bold;
     border-bottom: 2px solid var(--secondary);
+  } */
+
+  /* Sostituire questo per lo stile con il background evidenziato */
+
+  .sub-navbar button.active {
+    font-weight: bold;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.4);
   }
     
