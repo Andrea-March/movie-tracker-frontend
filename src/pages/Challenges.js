@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getChallenges, getUserBadges, joinChallenge } from "../services/challengesservice";
+import { getChallenges, joinChallenge } from "../services/challengesservice";
 import '../App.css';
 import './Challenges.css'
-import Loader from "../components/Loader";
-import Error from "../components/Error";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHourglassEnd, faRocket } from "@fortawesome/free-solid-svg-icons";
 import ChallengeSubNavbar from "../components/ChallengesSubNavbar";
@@ -13,8 +11,7 @@ const Challenges = () => {
   const [availableChallenges, setAvailableChallenges] = useState([]);
   const [joinedChallenges, setJoinedChallenges] = useState([]);
   const [badges, setBadges] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   const navigate = useNavigate();
 
   const types = {
@@ -28,9 +25,9 @@ const Challenges = () => {
 
 
   useEffect(() => {
+    setBadges([])
     const fetchChallenges = async () => {
       try {
-        setLoading(true);
         const challengesData = await getChallenges(); // Usa il service per ottenere le sfide
         setAvailableChallenges(challengesData.availableChallenges);
         setJoinedChallenges(challengesData.joinedChallenges);
@@ -39,9 +36,7 @@ const Challenges = () => {
         setBadges(badgesData); */
       } catch (error) {
         console.error("Errore durante il recupero delle sfide e dei badge", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchChallenges();
@@ -54,15 +49,11 @@ const Challenges = () => {
   const handleJoinChallenge = async (event, challengeId) => {
     event.stopPropagation();
       try{
-        setLoading(true);
         await joinChallenge(challengeId);
         handleChallengeClick(challengeId);
         /* window.location.reload(); */
       }catch(err){
         console.log(err)
-        setError(err.message);
-      }finally{
-        setLoading(false);
       }
   }
 
@@ -70,12 +61,6 @@ const Challenges = () => {
     <>
     <ChallengeSubNavbar setComponent={setComponent}/>
     <div className="content ch-content">
-      <Error />
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-
           <div className="challenges">
 
           { component === types.JOINED_CHALLENGES && 
@@ -87,16 +72,12 @@ const Challenges = () => {
                       key={challenge.challengeId}
                       onClick={() => handleChallengeClick(challenge.challengeId)}
                     >
-                      <img src="https://picsum.photos/id/237/200/300" style={{width: "100px", height: "150px"}}/>
+                      <img src="https://picsum.photos/id/237/200/300" alt="challenge card" style={{width: "100px", height: "150px"}}/>
                       <div className="flex-column width-100 margin-left-10">
                         <h3>{challenge.title}</h3>
                         <p>{challenge.theme}</p>
                         <p><FontAwesomeIcon icon={faHourglassEnd} size="lg" className="margin-right-10"/> 
-                          {new Date(challenge.endDate).toLocaleDateString("it-IT", {
-                                                                                      day: "numeric",
-                                                                                      month: "long",
-                                                                                      year: "numeric",
-                                                                                    })}
+                          {new Date(challenge.endDate).toLocaleDateString("it-IT", {day: "numeric", month: "long", year: "numeric"})}
                         </p>
                       </div>  
                     </div>
@@ -116,7 +97,7 @@ const Challenges = () => {
                     key={challenge.challengeId}
                     onClick={() => handleChallengeClick(challenge.challengeId)}
                   >
-                     <img src="https://picsum.photos/id/237/200/300" style={{width: "100px", height: "150px"}}/>
+                     <img src="https://picsum.photos/id/237/200/300" alt="challenge card" style={{width: "100px", height: "150px"}}/>
                      <div className="flex-column width-100 margin-left-10">
                         <h3>{challenge.title}</h3>
                         <p>{challenge.theme}</p>
@@ -149,8 +130,6 @@ const Challenges = () => {
             </div>
           </div>
           }
-        </>
-      )}
     </div>
     </>
   );
