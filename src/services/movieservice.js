@@ -184,7 +184,7 @@ export const searchTrailerurl = async (movieId) => {
     });
     return response.data.trailer_url; // Restituisce il link del trailer su youtube
   } catch (error) {
-    throw new Error('Errore durante la ricerca del trailer');
+      console.log('Errore durante la ricerca del trailer');
   }
 };
 

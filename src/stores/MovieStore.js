@@ -117,6 +117,7 @@ class MovieStore {
     }
 
     setSelectedMovie = async (movieObj, status) => {
+        this.startLoading();
         if (!movieObj) {
             // Chiude il popup
             this.selectedMovie = null;
@@ -134,40 +135,36 @@ class MovieStore {
         };
 
         try {
-        const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
         // Carica providers
         if (token) {
-            const provs = await getMovieProviders(token, movieObj.id);
-            runInAction(() => {
-            if (this.selectedMovie?.movie?.id === movieObj.id) {
-                this.selectedMovie.providers = provs;
+            try {
+                const providersPromise = getMovieProviders(token, movieObj.id);
+                const relatedPromise = getRelatedMovies(movieObj.id);
+                const trailerPromise = searchTrailerurl(movieObj.id);
+                const [provs, related, trailer] = await Promise.all([providersPromise, relatedPromise, trailerPromise]);
+                
+                runInAction(() => {
+                    if (this.selectedMovie?.movie?.id === movieObj.id) {
+                    this.selectedMovie.providers = provs;
+                    this.selectedMovie.relatedMovies = related;
+                    this.selectedMovie.trailerUrl = trailer;
+                    }
+                });
+            } catch (err) {
+                console.error("Errore caricamento dettagli film:", err.message);
             }
-            });
         }
 
-        // Carica film correlati
-        const related = await getRelatedMovies(movieObj.id);
-        runInAction(() => {
-            if (this.selectedMovie?.movie?.id === movieObj.id) {
-            this.selectedMovie.relatedMovies = related;
-            }
-        });
-
-        // Carica trailer
-        try{
-            const trailer = await searchTrailerurl(movieObj.id);
-            runInAction(() => {
-                if (this.selectedMovie?.movie?.id === movieObj.id) {
-                    this.selectedMovie.trailerUrl = trailer;
-                }
-        });
-        }catch{}
         this.openPopup()
+
         } catch (err) {
             runInAction(() => {
                 this.error = err.message;
             });
+        } finally {
+            this.stopLoading();
         }
     }
 
@@ -331,6 +328,8 @@ class MovieStore {
     clearSuccess() { this.successMessage = "" }
     setError(msg) { this.error = msg }
     clearError() { this.error = "" }
+    startLoading(){this.loading=true;}
+    stopLoading(){this.loading=false;}
 }
 
 export const movieStore = new MovieStore();
