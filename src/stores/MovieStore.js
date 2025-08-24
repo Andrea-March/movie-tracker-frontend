@@ -184,15 +184,13 @@ class MovieStore {
         try {
             let personRole = personObj.known_for_department === "Directing" ? "Director" : "Crew"
             const response = await getPersonMovies(personObj.id, personRole);
-            console.log(response)
             runInAction(() => {
                 this.selectedPerson.person = response.personDetail;
                 this.selectedPerson.movies = response.credits;
             });
-            console.log(this.selectedPerson.person)
         } catch (err) {
             runInAction(() => {
-            console.error(err);
+                console.error(err);
             });
         }
         this.openPersonPopup();

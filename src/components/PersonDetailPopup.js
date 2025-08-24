@@ -34,9 +34,32 @@ const PersonDetailPopup = () => {
                 <div className='display-flex justify-center'>
                             <h2>{selectedPerson.person.name}</h2>
                 </div>
+                <div className='person-details display-flex justify-center align-items-center'>
+                    <div>
+                        <p style={{width: "100%"}}>Born</p>
+                        <p style={{width: "100%"}}>{new Date(selectedPerson.person.birthday)
+                                .toLocaleDateString("it-IT", {
+                                    month: "short",   // Mese abbreviato (Gen, Feb, Mar, Mag…)
+                                    day: "numeric",   // Giorno
+                                    year: "numeric"   // Anno
+                            })}
+                        </p>
+                    </div>
+                    <p>{new Date(selectedPerson.person.birthday).getFullYear()}</p>
+                    <div>
+                        <p style={{width: "100%"}}>Dead</p>
+                        <p style={{width: "100%"}}>{selectedPerson.person.death ? new Date(selectedPerson.person.death)
+                                .toLocaleDateString("it-IT", {
+                                    month: "short",   // Mese abbreviato (Gen, Feb, Mar, Mag…)
+                                    day: "numeric",   // Giorno
+                                    year: "numeric"   // Anno
+                            }) : "N/A"}
+                        </p>
+                    </div>
+                </div>
                     {selectedPerson.movies.length > 0 && (
                               <div className="known-for-movies-section">
-                                <h3>Conosciuto per:</h3>
+                                <p>Conosciuto per:</p>
                                 <div className="known-for-movies-slider">
                                   {selectedPerson.movies.map((movie) => (
                                     <div 
