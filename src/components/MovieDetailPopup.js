@@ -46,6 +46,7 @@ const MovieDetailPopup = () => {
 
   return (
     <>{ movieStore.isPopupOpen &&
+    <div className='movie-popup-border-desktop'>
     <div className="movie-popup-overlay">
       
         <div
@@ -235,6 +236,7 @@ const MovieDetailPopup = () => {
         )}
             
       </div>
+    </div>
     </div>
     }
       </>

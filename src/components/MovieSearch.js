@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { faCheckCircle, faEye, faTimes } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
+import { faTimes } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './MovieSearch.css';
 import { observer } from "mobx-react-lite";
@@ -10,7 +10,7 @@ function MovieSearch({onCloseClick}) {
 
   const { search } = movieStore;
 
-  const DEBOUNCE_TIME_MS = 500;
+  const DEBOUNCE_TIME_MS = 600;
 
   useEffect(() => {
     // Cleanup il timeout precedente se l'utente continua a scrivere
@@ -21,14 +21,15 @@ function MovieSearch({onCloseClick}) {
     const query = e.target.value;
     clearTimeout(typingTimeout);
     setTypingTimeout(
-      setTimeout(() => movieStore.searchMovies(query), DEBOUNCE_TIME_MS)
+      /* setTimeout(() => movieStore.searchMovies(query), DEBOUNCE_TIME_MS) */
+      setTimeout(() => movieStore.searchMulti(query), DEBOUNCE_TIME_MS)
     );
   };
 
   return (
     <div className="movie-search-container">
       <div className="flex-row justify-between align-items-center">
-        <h1>Ricerca Film</h1>
+        <h1>Ricerca</h1>
         <FontAwesomeIcon className="close-search-bar-icon" icon={faTimes} size="2x" onClick={onCloseClick}/>
       </div>
 
@@ -45,27 +46,46 @@ function MovieSearch({onCloseClick}) {
         <div className="found-movies-container">
           <h2>Risultati della ricerca:</h2>
           <ul style={{ listStyle: "none", padding: 0 }} className="search-results-list">
-            {search.results.map((movie) => (
+            {search.results.map((item) => (
               <li
                 className="search-result"
-                key={movie.id}
+                key={`${item.media_type}-${item.id}`}
+                onClick={() => {
+                    if (item.media_type === "movie") {
+                      movieStore.setSelectedMovie(item, undefined);
+                    } else if (item.media_type === "person") {
+                      movieStore.setSelectedPerson(item);
+                    }
+                  }}
               >
-                  {movie.poster_path && (
+                  {item.media_type === "movie" && (
                     <img
-                      onClick={()=>{movieStore.setSelectedMovie(movie, undefined)}}
-                      src={"https://image.tmdb.org/t/p/original"+movie.poster_path}
-                      alt={movie.title}
+                      src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
+                      alt={item.title}
                       loading="lazy"
+                      className="movie-poster-search"
                     />
                   )}
-                  <div onClick={()=>{movieStore.setSelectedMovie(movie, undefined)}}>
-                    <h3 style={{ margin: 0 }} className="movie-title-search">
-                      {movie.title}{" "}
-                      {movie.release_date && `(${movie.release_date.slice(0, 4)})`}
+                  {item.media_type === "person" && (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w200${item.profile_path}`}
+                      alt={item.name}
+                      loading="lazy"
+                      className="person-avatar"
+                    />
+                  )}
+                  <div >
+                    <h3 className="movie-title-search">
+                      {item.media_type === "movie" 
+                        ? `${item.title} ${item.release_date ? `(${item.release_date.slice(0, 4)})` : ""}` 
+                        : item.name}
                     </h3>
+                    <div className={`badge-tab ${item.media_type === "movie" ? "badge-film" : "badge-person"}`}>
+                          {item.media_type === "movie" ? "🎬 Film" : "👤 Persona"}
+                    </div>
                   </div>
                 <div style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
-                <FontAwesomeIcon
+               {/*  <FontAwesomeIcon
                       icon={faCheckCircle}
                       onClick={(e) => {movieStore.addMovie(movie, true)}}
                       style={{
@@ -75,8 +95,8 @@ function MovieSearch({onCloseClick}) {
                       }}
                       className="add-icon"
                       title="Aggiungi ai visti"
-                    />
-                    <FontAwesomeIcon
+                /> */}
+                  {/*   <FontAwesomeIcon
                       icon={faEye}
                       onClick={(e) => {movieStore.addMovie(movie, false)}}
                       style={{
@@ -85,7 +105,7 @@ function MovieSearch({onCloseClick}) {
                         fontSize: "24px",
                       }}
                       title="Aggiungi ai da vedere"
-                    />
+                    /> */}
                   </div>
               </li>
             ))}

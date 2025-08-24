@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import ChallengeDetail from "./pages/ChallengeDetails";
 import ResetPassword from "./components/ResetPassword";
 import Loader from "./components/Loader";
+import PersonDetailPopup from "./components/PersonDetailPopup";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -68,6 +69,7 @@ function App() {
           (<>
             <Navbar />
             <MovieDetailPopup  />
+            <PersonDetailPopup />
             <Error />
             <SuccessPopup />
             <Loader />

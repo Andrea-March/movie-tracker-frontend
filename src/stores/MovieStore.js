@@ -2,7 +2,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
 import { addMovieToList, searchMovies } from "../services/movieservice";
-import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies } from "../services/movieservice";
+import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti } from "../services/movieservice";
+import { getPersonMovies } from "../services/personsService";
 class MovieStore {
     watched = { movies: [], page: 1, totalPages: undefined};
     toWatch = { movies: [], page: 1, totalPages: undefined };
@@ -24,15 +25,19 @@ class MovieStore {
         status: undefined     // string watched or to-watch
     }
 
+    selectedPerson = {
+        person: null,        // oggetto persona
+        movies: []
+    }
+
+    isPersonPopupOpen = false;
     isPopupOpen = false;
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    openPopup(){
-        this.isPopupOpen= true;
-    }
+
     async loadWatchedMovies() {
         this.loading = true;
         try {
@@ -166,23 +171,71 @@ class MovieStore {
         }
     }
 
-    async searchMovies(query) {
-        try {
-        if (!query.trim()) {
-            this.search.results = [];
+    setSelectedPerson = async (personObj) => {
+        if (!personObj) {
+            this.selectedPerson = null;
+            this.isPersonPopupOpen = false;
             return;
         }
-        const data = await searchMovies(query);
+        this.selectedPerson = { 
+            person: personObj,
+            movies: [],
+        };
+        try {
+            let personRole = personObj.known_for_department === "Directing" ? "Director" : "Crew"
+            const response = await getPersonMovies(personObj.id, personRole);
+            console.log(response)
             runInAction(() => {
-            this.search.results = data;
-        });
+                this.selectedPerson.person = response.personDetail;
+                this.selectedPerson.movies = response.credits;
+            });
+            console.log(this.selectedPerson.person)
         } catch (err) {
             runInAction(() => {
-            this.setError("Errore durante la ricerca. Riprova.");
-        });
+            console.error(err);
+            });
+        }
+        this.openPersonPopup();
+    }
+
+    async searchMovies(query) {
+        try {
+            if (!query.trim()) {
+                this.search.results = [];
+                return;
+            }
+            const data = await searchMovies(query);
+                runInAction(() => {
+                this.search.results = data;
+            });
+        } catch (err) {
+            runInAction(() => {
+                this.setError("Errore durante la ricerca. Riprova.");
+            });
         } 
     }
 
+    async searchMulti(query) {
+        if (!query.trim()) {
+            this.search = { results: [] };
+            return;
+        }
+
+        try {
+             if (!query.trim()) {
+                this.search.results = [];
+                return;
+            }
+            const data = await searchMulti(query);
+                runInAction(() => {
+                this.search.results = data;
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.setError("Errore durante la ricerca. Riprova.");
+            });
+        }
+    }
     async addMovie(movie, watched) {
         try {
             await addMovieToList(movie, watched);
@@ -230,9 +283,24 @@ class MovieStore {
         this.selectedMovie.showTrailer = !this.selectedMovie.showTrailer;
         }
     }
+
+    
+    openPopup(){
+        this.isPopupOpen= true;
+    }
+
+    openPersonPopup(){
+        this.isPersonPopupOpen = true;
+    }
+
     closePopup() {
         this.isPopupOpen = false;
         this.selectedMovie = {};
+    }
+
+    closePersonPopup() {
+        this.isPersonPopupOpen = false;
+        this.selectedPerson = {};
     }
 
     async setFilter (filter) {

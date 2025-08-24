@@ -22,6 +22,21 @@ export const searchMovies = async (query) => {
   }
 };
 
+// Funzione per cercare i film, le serie e le persone tramite il backend
+export const searchMulti = async (query) => {
+  try {
+    const response = await axios.get(`${API_URL}movies/search/multi`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      params: { query },
+    });
+    return response.data; // Restituisce i film trovati
+  } catch (error) {
+    throw new Error('Errore durante la ricerca dei film');
+  }
+};
+
 // Funzione per cercare i film tramite il backend
 export const searchPopularMovies = async (page) => {
   try {
