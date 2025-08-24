@@ -5,9 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faFilm, faRightFromBracket, faSearch, faTrophy, faUsers, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import DarkModeToggle from './DarkModeToggle';
-import MovieSearch from './MovieSearch';
 import SubNavbar from './SubNavbar';
-import ChallengeSubNavbar from './ChallengesSubNavbar';
+import { movieStore } from '../stores/MovieStore';
 
 
 const Navbar = () => {
@@ -15,10 +14,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showSerachBar, setShowSearchBar] = useState(false);
   const [showSubNavbar, setShowSubNavbar] = useState(window.location.pathname.includes("movies"));
 
-  useEffect(()=>{setShowSubNavbar(window.location.pathname.includes("movies"))})
+  useEffect(()=>{setShowSubNavbar(window.location.pathname.includes("movies"))},[])
   
 const hideMenu = () => {
   setShowMobileMenu(false);
@@ -38,7 +36,7 @@ const logout = () => {
         <FontAwesomeIcon icon={faBars} size='xl' className='menu-icon' onClick={()=>{setShowMobileMenu(true)}}/>
         </div>
         {/* Logo a sinistra */}
-        <div className="logo-container" onClick={()=>{setShowSearchBar(false);navigate('/movies/watched');}}>
+        <div className="logo-container" onClick={()=>{navigate('/movies/watched');}}>
           <div className="logo-img">
               <img src="/logo.png" alt="movie-tracker Logo" />
           </div>
@@ -59,10 +57,7 @@ const logout = () => {
           <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout}/>
         </ul> */}
         <div className='icons-container'>
-        <FontAwesomeIcon icon={faSearch} size={"xl"} className='search-icon' onClick={() => setShowSearchBar(!showSerachBar)}/>
-                <div className={`movie-search-slider ${showSerachBar ? 'movie-search-slider-translate' : ''}`}>
-                    <MovieSearch onCloseClick={()=>setShowSearchBar(false)}/>
-                </div>
+        <FontAwesomeIcon icon={faSearch} size={"xl"} className='search-icon' onClick={() => movieStore.showSearchPopup()}/>
           <FontAwesomeIcon icon={faRightFromBracket} size="2x" onClick={logout} className='hide-on-mobile'/>
           <div className='hide-on-mobile'>
             <DarkModeToggle />

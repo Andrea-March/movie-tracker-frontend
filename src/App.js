@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Error from "./components/Error";
 import SuccessPopup from "./components/SuccessPopup";
 import MovieDetailPopup from "./components/MovieDetailPopup";
+import MovieSearch from "./components/MovieSearch";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -70,6 +71,7 @@ function App() {
             <Navbar />
             <MovieDetailPopup  />
             <PersonDetailPopup />
+            <MovieSearch />
             <Error />
             <SuccessPopup />
             <Loader />

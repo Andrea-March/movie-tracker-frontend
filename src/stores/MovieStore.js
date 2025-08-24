@@ -32,6 +32,7 @@ class MovieStore {
 
     isPersonPopupOpen = false;
     isPopupOpen = false;
+    isSearchPopupOpen = false;
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -328,8 +329,11 @@ class MovieStore {
     clearSuccess() { this.successMessage = "" }
     setError(msg) { this.error = msg }
     clearError() { this.error = "" }
-    startLoading(){this.loading=true;}
-    stopLoading(){this.loading=false;}
+    startLoading(){ this.loading=true }
+    stopLoading(){ this.loading=false }
+    resetSearch(){ this.search = {query: "", results: [], error: "",} }
+    showSearchPopup(){ this.isSearchPopupOpen=true }
+    hideSearchPopup(){ this.isSearchPopupOpen=false; this.resetSearch() }
 }
 
 export const movieStore = new MovieStore();
