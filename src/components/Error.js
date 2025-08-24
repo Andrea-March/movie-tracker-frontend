@@ -2,28 +2,36 @@ import React, { useEffect, useState } from 'react';
 import './Error.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { observer } from "mobx-react-lite";
+import { movieStore } from "../stores/MovieStore";
 
-const Error = ({ error, setError }) => {
-    const [showSelf, setShowSelf] = useState(false);
+const Error = () => {
 
-    useEffect(() => {
-        if (error) {
-            setShowSelf(true);
-            const timer = setTimeout(() => {
-                setShowSelf(false);
-                setTimeout(() => setError(''), 300); // Attendi la fine dell'animazione prima di pulire l'errore
-            }, 3000);
+  const { error } = movieStore; 
+  const [showSelf, setShowSelf] = useState(false);
 
-            return () => clearTimeout(timer);
-        }
-    }, [error, setError]);
+  useEffect(() => {
+    if (error) {
+      setShowSelf(true);
+    const timer = setTimeout(() => {
+        setShowSelf(false);
+        setTimeout(() => movieStore.clearError(), 300); // Attendi la fine dell'animazione
+      }, 3500);
 
-    return (
-        <div className={`error-popup ${showSelf ? 'show' : ''}`}>
-            <span style={{ marginRight: '8px', color: 'var(--error-text)' }}><FontAwesomeIcon icon={faCircleXmark} size="2x"/></span>
-            {error}
-        </div>
-    );
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
+  if (!error) return null;
+
+  return (
+    <div className={`error-popup ${showSelf ? 'show' : ''}`}>
+      <span style={{ marginRight: '8px', color: 'var(--error-text)' }}>
+        <FontAwesomeIcon icon={faCircleXmark} size="2x" />
+      </span>
+      {error}
+    </div>
+  );
 };
 
-export default Error;
+export default observer(Error);

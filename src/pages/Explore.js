@@ -1,134 +1,62 @@
 import React, {useEffect, useState} from "react";
 import './WatchedMovies.css'
 import './Explore.css'
-import {searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, addMovieToList} from '../services/movieservice'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MovieDetailPopup from "../components/MovieDetailPopup";
-import Loader from "../components/Loader";
 import CustomSelect from "../components/CustomSelect";
-import Error from "../components/Error";
-import SuccessPopup from "../components/SuccessPopup";
 import { Slidable } from "../components/Slidable";
-/* import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css"; */
+import { observer } from "mobx-react-lite";
+import { movieStore } from "../stores/MovieStore";
 
 const Explore = () => {
 
-    const [popularMovies, setPopularMovies] = useState([]);
-    const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+    const {popular, loading, setFilter} = movieStore;
 
-    const [filter, setFilter] = useState("popular"); // Stato per il filtro selezionato
     const options = [
       { value: "popular", label: "Popolari" },
       { value: "top_rated", label: "Top Rated" },
       { value: "upcoming", label: "In arrivo"}
-  ];
+    ];
     
-    const [loading, setLoading] = useState(false);
+    const [currentFilter, setCurrentFilter] = useState(popular?.filter || options[0].value);
 
-    const [selectedMovie, setSelectedMovie] = useState(null);  // Stato per il film selezionato
-    const [isPopupOpen, setIsPopupOpen] = useState(false);     // Stato per la visibilità del popup
-
-    useEffect(()=>{
-        const loadPopularMovies = async () => {
-          setLoading(true);
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                setError("Non sei autenticato.");
-                return;
-                }
-                setPopularMovies([]);
-                const res =
-                filter === "popular"
-                  ? await searchPopularMovies(currentPage)
-                  : filter === "top_rated" ? await searchTopRatedMovies(currentPage) : await searchUpcomingMovies(currentPage)
-                setPopularMovies(res.movies);
-                setTotalPages(res.totalPages)
-            } catch (err) {
-                setError(err.message);
-            }finally{
-              setLoading(false);
-            }
-        };
-        
-        loadPopularMovies();
+    useEffect(()=>{      
+        movieStore.loadPopularMovies();
     }
-    ,[currentPage, filter]);
+    ,[]);
 
-      // Funzione per aprire il popup con i dettagli del film
-    const handleMovieClick = (movie) => {
-      setSelectedMovie(movie);
-      setIsPopupOpen(true); // Apri il popup
-    };
-
-    // Funzione per chiudere il popup
-    const closePopup = () => {
-      setIsPopupOpen(false);
-      setSelectedMovie(null);
-    };
-
-
-    const handleNextPage = () => {
-      if (currentPage < totalPages) {
-        setCurrentPage((prev) => prev + 1);
-      }
-    };
-  
-    const handlePreviousPage = () => {
-      if (currentPage > 1) {
-        setCurrentPage((prev) => prev - 1);
-      }
-    };
-
-    const handleFilterChange = (newFilter) => {
-      setFilter(newFilter);
-      setCurrentPage(1);
-  };
-    
-  const changeStatus = async (selectedMovie, status) => {
-    setLoading(true);
-    const watched = status === 'watched' ? true : false;
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Non sei autenticato.");
-          return;
+      const handleNextPage = () => {
+        if (popular.page < popular.totalPages) {
+          movieStore.setPopularPage(popular.page + 1);
         }
-        await addMovieToList(selectedMovie,  watched);
-        setSuccessMessage("Film aggiunto con successo!")
-        closePopup();
-      } catch (err) {
-        setError(err.message);
-      }finally {
-        setLoading(false);
-      }
-  }
+      };
+    
+      const handlePreviousPage = () => {
+        if (popular.page > 1) {
+          movieStore.setPopularPage(popular.page - 1);
+        }
+      };
+    
+      const handleFilterChange = (filter) =>{setFilter(filter);setCurrentFilter(filter)}
 
     return(
      <div className="watched-movies content">
-      {loading && <Loader />}
       <div className="display-flex justify-center">
       <CustomSelect
                 options={options}
-                value={filter}
+                value={currentFilter}
                 onChange={handleFilterChange}
-            />
+      />
       </div>
-      {loading && <div className="movies-grid-placeholder"></div>}
-      {!loading && popularMovies.length > 0 ? (
+      {!loading && popular.movies.length > 0 ? (
         <>
         <Slidable 
           className="movie-grid"
           onNext={handleNextPage} 
           onPrev={handlePreviousPage}
         >
-          {popularMovies.map((movie) => (
-            <div className="movie-card" key={movie.id} onClick={() => handleMovieClick(movie)}>
+          {popular.movies.map((movie) => (
+            <div className="movie-card" key={movie.id} onClick={() => {movieStore.setSelectedMovie(movie, undefined)}}>
               <img 
                 srcSet={`https://image.tmdb.org/t/p/w200${movie.poster_path} 200w, 
                 https://image.tmdb.org/t/p/w400${movie.poster_path} 400w`} 
@@ -152,15 +80,15 @@ const Explore = () => {
         <div className="pagination">
           <button 
             onClick={handlePreviousPage} 
-            disabled={currentPage === 1}
+            disabled={popular.page === 1}
             className="pagination-button"
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
-          <span>{currentPage} / {totalPages}</span>
+          <span>{popular.page} / {popular.totalPages}</span>
           <button 
             onClick={handleNextPage} 
-            disabled={currentPage === totalPages}
+            disabled={popular.page === popular.totalPages}
             className="pagination-button"
           >
             <FontAwesomeIcon icon={faChevronRight} />
@@ -170,20 +98,9 @@ const Explore = () => {
       ) : (
         <p className="no-movies">Non ci sono film da visualizzare.</p>
       )}
-      <Error error={error} setError={setError} />
-      <SuccessPopup successMessage={successMessage} setSuccessMessage={setSuccessMessage} />
-
-      {/* Popup per i dettagli del film */}
-      {isPopupOpen && selectedMovie && (
-        <MovieDetailPopup
-          movie={selectedMovie}
-          closePopup={closePopup}
-          changeMovieStatus={changeStatus}
-        />
-      )}
-      
+    
     </div>
     );
 }
 
-export default Explore;
+export default observer(Explore);
