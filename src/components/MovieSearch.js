@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { faTimes, faRocket, faFilm, faUser, faArrowLeft } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
+import { faTimes, faRocket, faFilm, faUser, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './MovieSearch.css';
 import { observer } from "mobx-react-lite";

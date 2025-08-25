@@ -39,7 +39,7 @@
  
   --mobile-menu: #79DBFF;
   --mobile-menu-text: black; 
- 
+  --search-bar: #4ce3cf;
  
  }
  
@@ -68,6 +68,8 @@
 
     --mobile-menu: #282A36;     /* Grigio scurissimo per il menu mobile */
     --mobile-menu-text: #EAEAEA; /* Testo chiaro per il menu mobile */
+
+    --search-bar: #222
  }
 
 *{

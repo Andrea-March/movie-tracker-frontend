@@ -25,7 +25,7 @@
 
 /* indicatore attivo sotto il pulsante */
 .sub-navbar button.active {
-    background-color: var(--text-hover); /* pill colorata */
+    background-color: var(--navbar); /* pill colorata */
     color: black; /* testo nero */
     font-weight: 600;
 }

@@ -5,7 +5,6 @@ import Navbar from "./components/Navbar";
 import Error from "./components/Error";
 import SuccessPopup from "./components/SuccessPopup";
 import MovieDetailPopup from "./components/MovieDetailPopup";
-import MovieSearch from "./components/MovieSearch";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -19,6 +18,7 @@ import ResetPassword from "./components/ResetPassword";
 import Loader from "./components/Loader";
 import PersonDetailPopup from "./components/PersonDetailPopup";
 import SubNavbar from "./components/SubNavbar";
+import MoviesLists from "./pages/MoviesLists";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -69,10 +69,8 @@ function App() {
       <div>
         {token && 
           (<>
-            <SubNavbar />
             <MovieDetailPopup  />
             <PersonDetailPopup />
-            <MovieSearch />
             <Error />
             <SuccessPopup />
             <Loader />
@@ -84,9 +82,10 @@ function App() {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Navigate to="/movies/watched"/>} />
-            <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
+            {/* <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
-            <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
+            <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  /> */}
+            <Route path="/movies" element={<ProtectedRoute element={MoviesLists} />}  /> 
             <Route path="/challenges" element={<ProtectedRoute element={Challenges} />} />
             <Route path="/challenges/:challengeId" element={<ProtectedRoute element={ChallengeDetail} />} />
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />

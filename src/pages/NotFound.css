@@ -6,6 +6,11 @@
     background-color: var(--background); /* Colore di sfondo coerente con il resto dell'app */
     padding: 20px;
     text-align: center;
+    transition: none;
+  }
+
+  .error404-container * {
+    transition: none;
   }
   
   .error404-content {

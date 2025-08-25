@@ -4,7 +4,11 @@ import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
 import { addMovieToList, searchMovies } from "../services/movieservice";
 import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti } from "../services/movieservice";
 import { getPersonMovies } from "../services/personsService";
+
+
 class MovieStore {
+
+    activePage = 'watched'
     watched = { movies: [], page: 1, totalPages: undefined};
     toWatch = { movies: [], page: 1, totalPages: undefined };
     popular = { movies: [], filter: "popular", page: 1, totalPages: undefined };
@@ -334,6 +338,7 @@ class MovieStore {
     resetSearch(){ this.search = {query: "", results: [], error: "",} }
     showSearchPopup(){ this.isSearchPopupOpen=true }
     hideSearchPopup(){ this.isSearchPopupOpen=false; this.resetSearch() }
+    setActivePage(page){ this.activePage = page }
 }
 
 export const movieStore = new MovieStore();

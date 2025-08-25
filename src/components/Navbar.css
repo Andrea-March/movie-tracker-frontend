@@ -4,7 +4,7 @@
     color: var(--text);
     background-color: var(--navbar);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 100%;
   }
   
@@ -133,7 +133,7 @@
   .mobile-menu-icon-container{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     width: 100px;
   }
   
