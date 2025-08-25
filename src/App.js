@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import WatchedMovies from "./pages/WatchedMovies";
-import ToWatchMovies from "./pages/ToWatchMovies";
 import Navbar from "./components/Navbar";
 import Error from "./components/Error";
 import SuccessPopup from "./components/SuccessPopup";
@@ -8,7 +6,6 @@ import MovieDetailPopup from "./components/MovieDetailPopup";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Explore from "./pages/Explore";
 import Challenges from "./pages/Challenges";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
@@ -17,7 +14,6 @@ import ChallengeDetail from "./pages/ChallengeDetails";
 import ResetPassword from "./components/ResetPassword";
 import Loader from "./components/Loader";
 import PersonDetailPopup from "./components/PersonDetailPopup";
-import SubNavbar from "./components/SubNavbar";
 import MoviesLists from "./pages/MoviesLists";
 function App() {
 
@@ -81,7 +77,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Navigate to="/movies/watched"/>} />
+            <Route path="/" element={<Navigate to="/movies"/>} />
             {/* <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  /> */}

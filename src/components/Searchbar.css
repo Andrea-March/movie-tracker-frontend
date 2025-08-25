@@ -1,6 +1,7 @@
 .inline-search-bar-container {
   background-color: var(--secondary);
-  padding-top: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   position: relative;
 }
 
@@ -19,7 +20,7 @@
   padding: 10px 16px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   justify-self: center;
   width: 85%;
 }
