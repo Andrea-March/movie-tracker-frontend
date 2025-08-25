@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { faTimes, faRocket, faFilm, faUser } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
+import { faTimes, faRocket, faFilm, faUser, faArrowLeft } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './MovieSearch.css';
 import { observer } from "mobx-react-lite";
@@ -45,20 +45,36 @@ function MovieSearch() {
       <>
       <div className={`movie-search-blur-container ${isSearchPopupOpen ? "open" : "close"}`}/>
         <div className={`movie-search-container ${isSearchPopupOpen ? "open" : "close"}`}>
-          <div className="flex-row justify-between align-items-center search-bar-container">
+ {/*          <div className="flex-row justify-between align-items-center search-bar-container">
             <p>Ricerca</p>
             <FontAwesomeIcon className="close-search-bar-icon" icon={faTimes} size="2x" onClick={handleClosePopup}/>
-          </div>
+          </div> */}
 
-          <div className="search-wrapper padding-20">
-            <input
-              type="text"
-              placeholder="Cerca un film o una persona..."
-              onChange={handleInputChange}
-              value={query}
-            />
-              
-          </div>
+            <div className="search-bar">
+              {/* Freccia back per chiudere */}
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                className="back-btn"
+                onClick={handleClosePopup}
+              />
+              {/* Input */}
+              <input
+                type="text"
+                placeholder="Cerca un film o una persona..."
+                onChange={handleInputChange}
+                value={query}
+                autoFocus
+              />
+
+              {/* X per cancellare il testo */}
+              {query && (
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  className="clear-btn"
+                  onClick={() => setQuery('')}
+                />
+              )}
+            </div>
           <div>
           {search.results.length > 0 && (
             <div className="found-movies-container">
@@ -71,8 +87,10 @@ function MovieSearch() {
                     onClick={() => {
                         if (item.media_type === "movie") {
                           movieStore.setSelectedMovie(item, undefined);
+                          handleClosePopup();
                         } else if (item.media_type === "person") {
                           movieStore.setSelectedPerson(item);
+                          handleClosePopup();
                         }
                       }}
                   >

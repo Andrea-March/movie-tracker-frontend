@@ -17,6 +17,7 @@
     left: 0;
     width: 100%;
     max-height: 100vh;
+    min-height: 16vh;
     z-index: 2;
     transform: translateX(100%);
     opacity: 0;
@@ -43,27 +44,61 @@
     margin: 0;
  }
 
-.search-wrapper{
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  z-index: 100;
 }
 
-
-.search-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #222;
+  border-radius: 999px;
+  padding: 10px 16px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  justify-self: center;
+  margin-top: 40px;
+  width: 85%;
 }
 
-.search-wrapper input{
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+}
+
+.search-bar input::placeholder {
+  color: #aaa;
+}
+
+.back-btn,
+.clear-btn {
+  cursor: pointer;
+  color: #aaa;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover,
+.clear-btn:hover {
+  color: #fff;
+}
+
+.found-movies-container {
+      padding: 0 15px;
 }
 
 .found-movies-container li{
@@ -95,7 +130,7 @@
  }
 
 .search-results-list:last-child {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
  }
 
 .person-avatar {

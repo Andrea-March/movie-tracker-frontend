@@ -1,34 +1,31 @@
-/* subnavbar */ 
 .sub-navbar {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start; /* allinea i pulsanti a sinistra come Spotify */
+    gap: 20px; /* spazio tra i pulsanti */
     align-items: center;
-    background-color: var(--sub-navbar);
-    padding: 10px;
-  }
-  
-  .sub-navbar button {
-    background: none;
+    /* background-color: var(--sub-navbar); */
+    background-color: var(--secondary);
+    padding: 12px 20px; 
+    /*border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* linea sottile in basso */ 
+    position: relative;
+}
+
+/* pulsanti */
+.sub-navbar button {
+    background-color: rgba(0, 0, 0, 0.4); 
     border: none;
+    border-radius: 20px;
     color: var(--text);
     font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-    padding: 5px 10px;
-    transition: color 0.3s ease;
-    /* width: 200px; */
-  }
-  
-   /* Sostituire questo per lo stile con la lineetta sotto */
-  .sub-navbar button.active {
-    font-weight: bold;
-    border-bottom: 2px solid var(--secondary);
-  } 
+    padding: 8px 10px;
+    transition: all 0.2s ease;
+}
 
-  /* Sostituire questo per lo stile con il background evidenziato */
-/* 
-  .sub-navbar button.active {
-    font-weight: bold;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.4);
-  } */
-    
+/* indicatore attivo sotto il pulsante */
+.sub-navbar button.active {
+    background-color: var(--text-hover); /* pill colorata */
+    color: black; /* testo nero */
+    font-weight: 600;
+}

@@ -1,12 +1,11 @@
 /* Navbar principale */
 .navbar {
-    top: 0;
-    padding: 10px;  /* Navbar più spessa */
+    padding: 0 10px;  
     color: var(--text);
     background-color: var(--navbar);
     display: flex;
     justify-content: space-between;
-    z-index: 4;
+    height: 100%;
   }
   
   .logo-container { 
@@ -59,15 +58,15 @@
     color: balck;
   }
   
-  .navbar-container::after {
+/*   .navbar-container::after {
     content: '';
     display: block;
     width: 90%;
     transform: translate(5%, 0);
     height: 2px;
-    background-color: var(--secondary); /* Colore marrone chiaro */
+    background-color: var(--secondary);
   
-  }
+  } */
   
   .menu-icon{
     display: none;
@@ -93,6 +92,10 @@
 
   .navbar-container {
     background-color: var(--navbar);
+    position:sticky;
+    bottom: 0;
+    height: 50px;
+    z-index: 4;
   }
   
   .search-icon {

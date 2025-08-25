@@ -18,6 +18,7 @@ import ChallengeDetail from "./pages/ChallengeDetails";
 import ResetPassword from "./components/ResetPassword";
 import Loader from "./components/Loader";
 import PersonDetailPopup from "./components/PersonDetailPopup";
+import SubNavbar from "./components/SubNavbar";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -68,7 +69,7 @@ function App() {
       <div>
         {token && 
           (<>
-            <Navbar />
+            <SubNavbar />
             <MovieDetailPopup  />
             <PersonDetailPopup />
             <MovieSearch />
@@ -95,6 +96,11 @@ function App() {
              {/* La route 404 va alla fine per gestire tutte le altre URL non corrispondenti */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {token && 
+          (<>
+            <Navbar />
+          </>)
+        }
       </div>
     </Router>
   );
