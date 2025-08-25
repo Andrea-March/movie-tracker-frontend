@@ -45,8 +45,8 @@ function MovieSearch() {
       <>
       <div className={`movie-search-blur-container ${isSearchPopupOpen ? "open" : "close"}`}/>
         <div className={`movie-search-container ${isSearchPopupOpen ? "open" : "close"}`}>
-          <div className="flex-row justify-between align-items-center padding-20">
-            <h1>Ricerca</h1>
+          <div className="flex-row justify-between align-items-center search-bar-container">
+            <p>Ricerca</p>
             <FontAwesomeIcon className="close-search-bar-icon" icon={faTimes} size="2x" onClick={handleClosePopup}/>
           </div>
 
