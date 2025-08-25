@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import './WatchedMovies.css'
 import './Explore.css'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
