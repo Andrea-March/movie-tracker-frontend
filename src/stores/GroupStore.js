@@ -116,15 +116,7 @@ class GroupStore {
     try {
       const created = await groupsApi.createGroup(payload);
       runInAction(() => {
-        this.groups.unshift({
-          _id: created._id,
-          name: created.name,
-          ownerName: created.ownerName ?? "Tu",
-          membersCount: Number(created.membersCount ?? 1),
-          icon: created.icon ?? "/default-group.png",
-          category: created.category || "fa-users",
-          status: "owner"
-        });
+        this.fetchGroups()
         this.creating = false;
       });
     } catch (err) {
