@@ -1,156 +1,193 @@
-import { observer } from 'mobx-react-lite'
-import './Searchbar.css'
-import { faTimes, faRocket, faFilm, faUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"; // Importa le icone da FontAwesome
+import { observer } from "mobx-react-lite";
+import "./Searchbar.css";
+import {
+  faTimes,
+  faRocket,
+  faFilm,
+  faUser,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { movieStore } from '../stores/MovieStore';
-import { useState, useEffect } from 'react';
+import { movieStore } from "../stores/MovieStore";
+import { useState, useEffect, useRef, useCallback } from "react";
+
+/** Util per immagini TMDB */
+const TMDB = {
+  base: "https://image.tmdb.org/t/p/",
+  srcset: (path) => `${TMDB.base}w200${path} 200w, ${TMDB.base}w400${path} 400w`,
+  url: (path, size = "w200") => `${TMDB.base}${size}${path}`,
+};
+
+const MIN_QUERY = 2;         // sotto questa lunghezza non cerchiamo
+const DEBOUNCE_TIME_MS = 600;
 
 const SearchBar = () => {
+  const { isSearchPopupOpen, search, setSelectedMovie, setSelectedPerson } = movieStore;
 
-      const [typingTimeout, setTypingTimeout] = useState(null);
-      const {isSearchPopupOpen} = movieStore;
-    
-      const { search } = movieStore;
-      const [query, setQuery] = useState("");
-      const [isSearching, setIsSearching] = useState(true);
-    
-      const DEBOUNCE_TIME_MS = 600;
-    
-      useEffect(() => {
-        // Cleanup il timeout precedente se l'utente continua a scrivere
-        return () => clearTimeout(typingTimeout);
-      }, [typingTimeout]);
-    
-      const handleInputChange = (e) => {
-        const query = e.target.value;
-        setQuery(query);
-        clearTimeout(typingTimeout);
-    
-        setIsSearching(true); // l'utente sta scrivendo
-    
-        setTypingTimeout(
-          setTimeout(async () => {
-            await movieStore.searchMulti(query);
-            setIsSearching(false); // risultati arrivati
-          }, DEBOUNCE_TIME_MS)
-        );
-      };
+  const [query, setQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(true);
+  const typingTimeoutRef = useRef(null);
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
 
+  // cleanup su unmount
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, []);
 
-    return (
-        <>{
-          <>
-            <div className={`inline-search-bar-container justify-center display-flex ${isSearchPopupOpen ? "open" : "close"}`}>
+  const runSearch = useCallback(async (q) => {
+    if (!q || q.trim().length < MIN_QUERY) {
+      movieStore.resetSearch();
+      setIsSearching(false);
+      return;
+    }
+    setIsSearching(true);
+    await movieStore.searchMulti(q.trim());
+    setIsSearching(false);
+  }, []);
 
-                <div className="search-bar">
-                    <FontAwesomeIcon
-                                    icon={faMagnifyingGlass}
-                                    className="back-btn"
-                    />
-                  <input
-                    type="text"
-                    placeholder="Cerca un film o una persona..."
-                    onChange={handleInputChange}
-                    value={query}
-                    autoFocus
-                  />
-    
-                  {/* X per cancellare il testo */}
-                  {query && (
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      className="clear-btn"
-                      onClick={() => {setQuery(''); movieStore.resetSearch()}}
-                    />
-                  )}
-                </div>
-              <div>
-              {search.results.length > 0 && (
-                <div className="found-movies-container">
-                  <ul style={{ listStyle: "none", padding: 0 }} className="search-results-list">
-                    {search.results.map((item) => (
-                      <li
-                        className="search-result"
-                        key={`${item.media_type}-${item.id}`}
-                        onClick={() => {
-                            if (item.media_type === "movie") {
-                              movieStore.setSelectedMovie(item, undefined);
-                            } else if (item.media_type === "person") {
-                              movieStore.setSelectedPerson(item);
-                            }
-                          }}
+  const handleInputChange = (e) => {
+    const q = e.target.value;
+    setQuery(q);
+
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => runSearch(q), DEBOUNCE_TIME_MS);
+  };
+
+  const handleClear = () => {
+    setQuery("");
+    setIsSearching(false);
+    movieStore.resetSearch();
+    // facoltativo: rifocus sul campo
+    if (inputRef.current) inputRef.current.focus();
+  };
+
+  // Enter sui risultati
+  const handleResultKeyDown = (e, onActivate) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onActivate();
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={`inline-search-bar-container justify-center display-flex ${
+        isSearchPopupOpen ? "open" : "close"
+      }`}
+    >
+      <form className="search-bar" role="search" >
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="back-btn" />
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Cerca un film o una persona..."
+          onChange={handleInputChange}
+          value={query}
+          autoFocus
+          aria-label="Cerca"
+        />
+
+        {query && (
+          <button
+            type="button"
+            className="clear-btn clear-btn-button"
+            onClick={handleClear}
+            aria-label="Pulisci ricerca"
+            title="Pulisci"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
+      </form>
+
+      <div>
+        {search.results.length > 0 && (
+          <div className="found-movies-container" role="listbox" aria-label="Risultati della ricerca">
+            <ul className="search-results-list" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {search.results.map((item) => {
+                const isMovie = item.media_type === "movie";
+                const imgPath = isMovie ? item.poster_path : item.profile_path;
+                const title = isMovie
+                  ? `${item.title || "Senza titolo"}${
+                      item.release_date ? ` (${item.release_date.slice(0, 4)})` : ""
+                    }`
+                  : item.name || "Senza nome";
+
+                const onActivate = () => {
+                  if (isMovie) {
+                    handleClear()
+                    setSelectedMovie(item, undefined);
+                  } else {
+                    handleClear()
+                    setSelectedPerson(item);
+                  }
+                };
+
+                return (
+                  <li
+                    key={`${item.media_type}-${item.id}`}
+                    className="search-result"
+                    role="option"
+                    tabIndex={0}
+                    onClick={onActivate}
+                    onKeyDown={(e) => handleResultKeyDown(e, onActivate)}
+                    aria-label={title}
+                  >
+                    {imgPath ? (
+                      <img
+                        srcSet={TMDB.srcset(imgPath)}
+                        sizes="(max-width: 768px) 80px, 120px"
+                        src={TMDB.url(imgPath, "w200")}
+                        alt={title}
+                        loading="lazy"
+                        className={isMovie ? "movie-poster-search" : "person-avatar"}
+                      />
+                    ) : (
+                      <div
+                        className={isMovie ? "movie-poster-search" : "person-avatar"}
+                        aria-hidden="true"
+                        style={{
+                          display: "grid",
+                          placeItems: "center",
+                          background: "var(--surface-2, rgba(255,255,255,0.06))",
+                          border: "1px dashed var(--border, rgba(255,255,255,0.15))",
+                          fontSize: ".75rem",
+                          color: "var(--muted, #9aa5b1)",
+                        }}
                       >
-                          {item.media_type === "movie" && (
-                            <img
-                              src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
-                              alt={item.title}
-                              loading="lazy"
-                              className="movie-poster-search"
-                            />
-                          )}
-                          {item.media_type === "person" && (
-                            <img
-                              src={`https://image.tmdb.org/t/p/w200${item.profile_path}`}
-                              alt={item.name}
-                              loading="lazy"
-                              className="person-avatar"
-                            />
-                          )}
-                          <div >
-                            <h3 className="movie-title-search">
-                              {item.media_type === "movie" 
-                                ? `${item.title} ${item.release_date ? `(${item.release_date.slice(0, 4)})` : ""}` 
-                                : item.name}
-                            </h3>
-                            <div className={`badge-tab ${item.media_type === "movie" ? "badge-film" : "badge-person"}`}>
-                                <FontAwesomeIcon 
-                                  icon={item.media_type === "movie" ? faFilm : faUser} 
-                                  style={{ marginRight: "5px" }} 
-                                />
-                                {item.media_type === "movie" ? "Film" : "Persona"}
-                            </div>
-                          </div>
-                        <div style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
-                      {/*  <FontAwesomeIcon
-                              icon={faCheckCircle}
-                              onClick={(e) => {movieStore.addMovie(movie, true)}}
-                              style={{
-                                cursor: "pointer",
-                                color: "#4CAF50",
-                                fontSize: "24px",
-                              }}
-                              className="add-icon"
-                              title="Aggiungi ai visti"
-                        /> */}
-                          {/*   <FontAwesomeIcon
-                              icon={faEye}
-                              onClick={(e) => {movieStore.addMovie(movie, false)}}
-                              style={{
-                                cursor: "pointer",
-                                color: "#FF9800",
-                                fontSize: "24px",
-                              }}
-                              title="Aggiungi ai da vedere"
-                            /> */}
-                          </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {!isSearching && search.results.length === 0 && query.trim() && (
-                <div className="no-results">
-                  <FontAwesomeIcon icon={faRocket} size="3x" className="no-results-icon" />
-                  <p className="no-results-text">Ops… il film o la persona che cerchi è nello spazio!</p>
-                  <p className="no-results-text-small">Prova a cercare qualcos’altro.</p>
-                </div>
-              )}
-              </div>
-            </div>
-          </>
-      }</>
-      );
+                        —
+                      </div>
+                    )}
 
-}
+                    <div className="search-result-content">
+                      <h3 className="movie-title-search">{title}</h3>
+                    </div>
+
+                    <div className={`badge-tab ${isMovie ? "badge-film" : "badge-person"}`}>
+                      <FontAwesomeIcon icon={isMovie ? faFilm : faUser} />
+                      {isMovie ? "Film" : "Persona"}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
+        {!isSearching && search.results.length === 0 && query.trim().length >= MIN_QUERY && (
+          <div className="no-results" role="status" aria-live="polite">
+            <FontAwesomeIcon icon={faRocket} size="3x" className="no-results-icon" />
+            <p className="no-results-text">Ops… il film o la persona che cerchi è nello spazio!</p>
+            <p className="no-results-text-small">Prova a cercare qualcos’altro.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default observer(SearchBar);

@@ -1,83 +1,125 @@
 import React, { useEffect } from "react";
 import { Slidable } from "../components/Slidable";
-import "./WatchedMovies.css"; // File CSS dedicato
+import "./WatchedMovies.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { observer } from "mobx-react-lite";
 import { movieStore } from "../stores/MovieStore";
-import Searchbar from "../components/Searchbar";
+
 
 const WatchedMovies = () => {
-
-  const { watched } = movieStore;
-
+  const { watched, loading, loadWatchedMovies, setWatchedPage, setSelectedMovie } = movieStore;
 
   useEffect(() => {
-    movieStore.loadWatchedMovies();
+    loadWatchedMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   const handleNextPage = () => {
-    if (watched.page < watched.totalPages) {
-      movieStore.setWatchedPage(watched.page + 1);
-    }
+    if (watched.page < watched.totalPages) setWatchedPage(watched.page + 1);
   };
 
   const handlePreviousPage = () => {
-    if (watched.page > 1) {
-      movieStore.setWatchedPage(watched.page - 1);
-    }
+    if (watched.page > 1) setWatchedPage(watched.page - 1);
   };
-
 
   return (
     <div className="watched-movies content">
-      {movieStore.loading && <div className="movies-grid-placeholder"></div>}
-      {!movieStore.loading && watched.movies.length > 0 && 
-        <Slidable 
-          className="movie-grid" 
-          onNext={handleNextPage} 
-          onPrev={handlePreviousPage} 
+      {loading && <div className="movies-grid-placeholder" />}
+
+      {!loading && watched.movies.length > 0 && (
+        <Slidable
+          className="movie-grid"
+          onNext={handleNextPage}
+          onPrev={handlePreviousPage}
         >
-          {watched.movies.map((movie) => (
-            <div className="movie-card" key={movie.movieId.id} onClick={()=>movieStore.setSelectedMovie(movie.movieId, "watched")}>
-              <img 
-                srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
-                https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
-                sizes="(max-width: 768px) 200px, 400px"
-                alt={movie.movieId.title} 
-                className="movie-poster" 
-                loading="lazy"
-                style={{ width: "150px"}} 
-              />
-              
-              <div className="hide-on-mobile">
-                <p className="movie-title">{movie.movieId.title}</p>
-                <p className="movie-year">{new Date(movie.movieId.release_date).getFullYear()}</p>
+          {watched.movies.map((movie) => {
+            const path = movie.movieId?.poster_path || "";
+            const title = movie.movieId?.title || "Senza titolo";
+            const year = movie.movieId?.release_date
+              ? new Date(movie.movieId.release_date).getFullYear()
+              : "—";
+            const hasPoster = Boolean(path);
+
+            return (
+              <div
+                className="movie-card"
+                key={movie.movieId.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelectedMovie(movie.movieId, "watched")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedMovie(movie.movieId, "watched");
+                  }
+                }}
+                aria-label={`${title}${year !== "—" ? `, ${year}` : ""}`}
+              >
+                {hasPoster ? (
+                  <img
+                    srcSet={`https://image.tmdb.org/t/p/w200/${movie.movieId.poster_path.split("/")[6]} 200w, 
+                    https://image.tmdb.org/t/p/w400/${movie.movieId.poster_path.split("/")[6]} 400w`} 
+                    sizes="(max-width: 768px) 200px, 400px"
+                    alt={movie.title}
+                    className="movie-poster"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    className="movie-poster"
+                    aria-hidden="true"
+                    style={{
+                      display: "grid",
+                      placeItems: "center",
+                      background: "var(--surface-2)",
+                      border: "1px dashed var(--border)",
+                      height: "100%",
+                      width: "100%",
+                      borderRadius: "12px",
+                      fontSize: ".85rem",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    Nessuna immagine
+                  </div>
+                )}
+
+                <div className="hide-on-mobile">
+                  <p className="movie-title">{title}</p>
+                  <p className="movie-year">{year}</p>
+                </div>
               </div>
-            </div>
-          ))}
-          
+            );
+          })}
         </Slidable>
-      }
-       {!movieStore.loading && watched.movies.length < 1 && <p className="no-movies">Non hai ancora aggiunto film visti.</p>}
-        <div className="pagination">
-          <button 
-            onClick={handlePreviousPage} 
-            disabled={watched.page === 1}
-            className="pagination-button"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-          <span>{watched.page} / {watched.totalPages}</span>
-          <button 
-            onClick={handleNextPage} 
-            disabled={watched.page === watched.totalPages}
-            className="pagination-button"
-          >
-            <FontAwesomeIcon icon={faChevronRight} />
-          </button>
-         </div>
+      )}
+
+      {!loading && watched.movies.length < 1 && (
+        <p className="no-movies">Non hai ancora aggiunto film visti.</p>
+      )}
+
+      <div className="pagination" aria-label="Paginazione film visti">
+        <button
+          onClick={handlePreviousPage}
+          disabled={watched.page === 1}
+          className="pagination-button"
+          aria-label="Pagina precedente"
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <span aria-live="polite">
+          {watched.page} / {watched.totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={watched.page === watched.totalPages}
+          className="pagination-button"
+          aria-label="Pagina successiva"
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </div>
     </div>
   );
 };

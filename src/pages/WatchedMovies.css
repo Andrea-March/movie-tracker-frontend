@@ -1,94 +1,140 @@
-/* Stile generale */
+/* ===== Layout generale ===== */
 .watched-movies {
-    padding: 10px 0;
+  padding: 12px 0 24px;
+  width: 100%;
+  overflow: hidden;
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+/* Container slide/grid passato via Slidable */
+.movie-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 80vh;
+}
+
+/* Placeholder durante il loading */
+.movies-grid-placeholder{
+  width: 100%;
+  height: 80vh;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+/* ===== Card film ===== */
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--shadow);
+
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+  width: clamp(140px, 20%, 180px);
+  padding: 8px;
+  aspect-ratio: 2 / 3;
+  cursor: pointer;
+  outline: none; /* gestiamo focus noi */
+}
+
+.movie-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 16px var(--shadow);
+  background-color: var(--card-hover);
+}
+
+.movie-card:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-contrast), 0 0 0 5px var(--accent);
+}
+
+/* riduci motion se preferito dall’utente */
+@media (prefers-reduced-motion: reduce) {
+  .movie-card { transition: none; }
+  .movie-card:hover { transform: none; }
+}
+
+.movie-card p{
+  margin: 0;
+}
+
+.movie-poster {
+  width: 100% !important;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Testi */
+.movie-title {
+  font-size: .95rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.movie-year {
+  font-size: .9rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* Stati */
+.no-movies {
+  font-size: 1.1rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* Paginazione */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pagination-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color .15s ease, transform .15s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background: var(--accent-contrast);
+  transform: translateY(-1px);
+}
+
+.pagination-button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* Mobile tweaks */
+@media screen and (max-width : 800px){
+  .movie-card{
+    padding: 6px;
+    width: 20%
+  }
+
+  .movie-card img{
     width: 100%;
-    overflow: hidden;
   }
-  
-  /* Titolo */
-  .title {
-    font-size: 2rem;
-    text-align: center;
-    color: var(--text);
-    margin: 5px;
-  }
-  
-  /* Griglia dei film */
-  .movie-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 5px;
-    min-height: 50vh;
-  }
-
-  .movies-grid-placeholder{
-    width: 100%;
-    height: 75vh;
-  }
-  
-  /* Singola card del film */
-  .movie-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--secondary);
-    transition: transform 0.2s ease-in-out;
-    width: 23%;
-    max-width: 180px;
-    padding: 10px;
-    object-fit: cover;
-    aspect-ratio: 2/3;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  .movie-card p{
-    margin: 0;
-  }
-
-  .movie-card img {
-    margin-bottom: auto;
-  }
-  
-  /* Titolo del film */
-  .movie-title {
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .movie-poster {
-    max-width: 100%;
-    height: auto;
-    margin: 0;
-  }
-  
-  /* Anno di uscita del film */
-  .movie-year {
-    font-size: 1rem;
-    color: #666;
-    text-align: center;
-  }
-  
-  /* Messaggio di errore */
-  .error-message {
-    color: red;
-    text-align: center;
-  }
-  
-  /* Nessun film */
-  .no-movies {
-    font-size: 1.2rem;
-    color: #999;
-    text-align: center;
-  }
-
-  @media screen and (max-width : 800px){
-    .movie-card{
-      padding: 0;
-    }
-  }
+  .hide-on-mobile{ display: none; }
+}

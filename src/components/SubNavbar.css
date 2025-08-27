@@ -4,7 +4,7 @@
     gap: 20px; 
     align-items: center;
     background-color: var(--secondary);
-    padding: 5px 10px; 
+    padding: 5px 25px; 
     position: relative;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .sub-navbar button.active {
-    background-color: var(--navbar); /* pill colorata */
+    background-color: var(--brand); /* pill colorata */
     color: black; /* testo nero */
     font-weight: 600;
 }

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons'
 import DarkModeToggle from './DarkModeToggle';
 
 
@@ -20,6 +20,7 @@ const Navbar = () => {
       <nav className="navbar align-items-center">
           <FontAwesomeIcon icon={faHome} size='xl' className='menu-icon' onClick={()=>{navigate('/movies');}}/>        
           <FontAwesomeIcon icon={faUser} size='xl' className='menu-icon' onClick={()=>{navigate('/user');}}/>
+            <FontAwesomeIcon icon={faPeopleGroup} size='xl' className='menu-icon' onClick={()=>{navigate('/groups');}}/>
           <DarkModeToggle/>
       </nav>      
     </div>

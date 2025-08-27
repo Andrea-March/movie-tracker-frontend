@@ -9,7 +9,7 @@
 .content {
   transition: margin-left 0.3s ease;
   background-color: var(--secondary);
-  min-height: 85vh;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
 }

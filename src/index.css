@@ -1,75 +1,49 @@
-:root.light-theme {
-  /*LIGHT THEME*/
-/*   --background: #ffe0b2;
-  --secondary: #5d4037;
-  --text: #5d4037; 
-  --text-hover: #ffab40; 
-  --page-title-color: #48676d;
-  --navbar: #fff3e0;
-  
-  --button: #6d8681;
-  --button-hover: #97a598;
-  --button-text: #2f4858;
-  --button-hover-text: #ffab40; 
-  --footer: #48676d;
-  --footer-text: #97a598;
- 
-  --mobile-menu: #fff3e0;
-  --mobile-menu-text: #5d4037; */
+/* Tema chiaro */
 
-  --background: #FFFFFF;
-  /* --secondary: #B2D7B5; */
-  --secondary: #4ce3cf;
-  --text: black; 
-  --text-hover: #ffab40; 
-  --page-title-color: black;
-  --navbar: #79DBFF;
-  --sub-navbar: #78FDDF;
-  --error: #FF6B6B;
-  --error-text: black;
-  --success: lightgreen;
-  --success-text: green;
+[data-theme="light"]  {
+  --bg: #faf7f2;              /* beige chiaro */
+  --card: #ffffff;
+  --card-2: #f2efe9;
+  --text: #1a1a1a;
+  --muted: rgba(26,26,26,0.65);
+  --line: rgba(26,26,26,0.12);
+
+  --brand: #d4a373;           /* sabbia calda */
+  --brand-strong: #b07a4a;    /* terracotta */
+
+  --search-bar: #e7e5df;      /* grigio/beige morbido */
+  --navbar: #ffffff;
+
+  --success: #DFF2BF;  /* verde chiaro, positivo e morbido */
+  --error:   #FFBABA;  /* rosso chiaro, ben visibile ma non aggressivo */
   
-  --button: black;
-  --button-hover: #B2D7B5;
-  --button-text: white;
-  --button-hover-text: black; 
-  --footer: #48676d;
-  --footer-text: #97a598;
- 
-  --mobile-menu: #79DBFF;
-  --mobile-menu-text: black; 
-  --search-bar: #4ce3cf;
+  --radius-xl: 16px;
+  --shadow-2: 0 6px 20px rgba(0,0,0,0.08);
+  --transition: 160ms ease;
  
  }
  
- :root.dark-theme{
-   /*DARK THEME*/
-    --background: #1E1E2C;       /* Un blu notte profondo e soffice */
-    /* --secondary: #FFB86C;          Arancione pesca caldo */ 
-    --secondary: #1E1E2C;
-    --text: #EAEAEA;            /* Un bianco sporco per il testo principale */
-    --text-hover: #FFD700;      /* Giallo oro per il testo interattivo */
-    --page-title-color: #F8F8F2; /* Un bianco morbido per i titoli */
-    --navbar: #44475A;          /* Un grigio-blu scuro per la barra di navigazione */
-    --sub-navbar: #3E3A50;      /* Un blu desaturato per sezioni secondarie */
-    --error: #FF5555;           /* Un rosso tenue e accogliente */
-    --error-text: #F8F8F2;      /* Bianco morbido per il testo di errore */
-    --success: lightgreen;
-    --success-text: green;
 
-    --button: #282A36;          /* Grigio scurissimo per i pulsanti */
-    --button-hover: #44475A;    /* Grigio-blu per il passaggio del mouse */
-    --button-text: #FFB86C;     /* Arancione pesca */
-    --button-hover-text: #F8F8F2; /* Bianco morbido per il testo del pulsante al passaggio del mouse */
+[data-theme="dark"] {
+    --bg: #121212;              /* quasi nero, caldo */
+    --card: #1e1e1e;            /* grigio scuro elegante */
+    --card-2: #2a2a2a;          /* per variazioni */
+    --text: #f5f5f5;
+    --muted: rgba(245,245,245,0.65);
+    --line: rgba(245,245,245,0.12);
 
-    --footer: #21222C;          /* Grigio carbone per il footer */
-    --footer-text: #6272A4;     /* Blu desaturato per il testo del footer */
+    --brand: #d4a373;           /* stesso sabbia calda → accent */
+    --brand-strong: #e6b88f;    /* versione più luminosa su dark */
 
-    --mobile-menu: #282A36;     /* Grigio scurissimo per il menu mobile */
-    --mobile-menu-text: #EAEAEA; /* Testo chiaro per il menu mobile */
+    --search-bar: #2a2a2a;      /* simile Spotify */
+    --navbar: #181818;          /* tipico dark bar */
 
-    --search-bar: #222
+    --success-bg: #276749;  /* verde scuro (es. olive/forest), + contrasto su sfondo scuro */
+    --error-bg:   #922B21;  /* rosso scuro/terriccio, visibile su background #121212 */
+    
+    --radius-xl: 16px;
+    --shadow-2: 0 10px 40px rgba(0,0,0,0.55);
+    --transition: 160ms ease;
  }
 
 *{
@@ -81,6 +55,24 @@
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2);
+}
+
+h1, h2, h3 { color: var(--text); }
+p { color: var(--text); }
+
+.btn-primary {
+  background: var(--brand);
+  color: #0b0b0b;
+}
+.btn-primary:hover {
+  background: var(--brand-strong);
+}
+
 body {
   margin: 0;
   font-family: "Poppins",-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -89,6 +81,8 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+   background: var(--bg);
+   color: var(--text);
 }
 
 code {

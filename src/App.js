@@ -7,7 +7,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Challenges from "./pages/Challenges";
-import Groups from "./pages/Groups";
+import Groups from "./components/groups/Groups";
 import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
@@ -15,6 +15,7 @@ import ResetPassword from "./components/ResetPassword";
 import Loader from "./components/Loader";
 import PersonDetailPopup from "./components/PersonDetailPopup";
 import MoviesLists from "./pages/MoviesLists";
+import GroupDetail from "./pages/GroupDetail";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -85,7 +86,7 @@ function App() {
             <Route path="/challenges" element={<ProtectedRoute element={Challenges} />} />
             <Route path="/challenges/:challengeId" element={<ProtectedRoute element={ChallengeDetail} />} />
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
-
+            <Route path="/groups/:id" element={<ProtectedRoute element={GroupDetail} />} />
 
 
              {/* La route 404 va alla fine per gestire tutte le altre URL non corrispondenti */}
