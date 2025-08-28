@@ -109,7 +109,7 @@ const CreateGroupModal = ({ open, onClose, onSubmit, submitting = false, error =
           <div className="cg-actions">
             <button
               type="button"
-              className="btn btn-ghost"
+              className="gd-btn gd-btn-ghost"
               onClick={onClose}
               disabled={submitting}
             >
@@ -117,7 +117,7 @@ const CreateGroupModal = ({ open, onClose, onSubmit, submitting = false, error =
             </button>
             <button
               type="submit"
-              className="btn btn-primary"
+              className="gd-btn btn-primary"
               disabled={!name.trim() || submitting}
             >
               {submitting ? <span className="cg-spinner" aria-label="Creazione…" /> : "Crea"}

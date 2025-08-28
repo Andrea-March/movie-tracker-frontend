@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { generateInviteToken } from "../../services/groupsApi"; // <-- il file dove hai le API sopra
-import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function InviteIcon({ groupId }) {
@@ -28,8 +28,14 @@ export default function InviteIcon({ groupId }) {
   }
 
   return (
-    <div >
-      <FontAwesomeIcon icon={faShare} onClick={createInvite} disabled={loading} />
-    </div>
+    <button
+        className="gd-btn gd-btn-ghost"
+        onClick={createInvite}
+        title="Copia link invito"
+        disabled={loading}
+      >
+          <FontAwesomeIcon icon={faLink} />
+          <span>Invita</span>
+    </button>
   );
 }
