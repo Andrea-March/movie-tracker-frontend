@@ -1,112 +1,53 @@
 .groups-page {
-  min-height: 95vh;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  background: var(--bg);
 }
 
-/* ----- Header ----- */
 .groups-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  backdrop-filter: blur(8px);
-  background: rgba(0,0,0,0.6);
-  border-bottom: 1px solid var(--line);
-  padding: 16px 20px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-}
-
-.groups-title {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  padding: 2rem 1.5rem;
 }
 
-.title-icon {
-  height: 36px;
-  width: 36px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(52,211,153,0.25), rgba(34,211,238,0.25));
-  border: 1px solid var(--line);
-}
-
-.groups-header h2 {
+.groups-title h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
   margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.subtitle {
-  margin: 2px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.search {
-  display: none; /* attivala quando servirà */
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--line);
   color: var(--text);
-  padding: 10px 12px;
-  border-radius: 12px;
 }
 
-/* ----- Content ----- */
+.groups-title .subtitle {
+  font-size: 1rem;
+  color: var(--text);
+  margin-top: 0.2rem;
+}
+
+.header-actions .btn {
+  padding: 0.7rem 1.4rem;
+  border-radius: 14px;
+  background: var(--brand);
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.header-actions .btn:hover {
+  background: var(--brand-strong);
+}
+
 .groups-content {
-  padding: 20px;
+  flex: 1;
 }
 
 .groups-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0,1fr));
-  gap: 16px;
+  gap: 1rem;
 }
-@media (min-width: 640px) { .groups-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px){ .groups-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 1280px){ .groups-grid { grid-template-columns: repeat(4, 1fr); } }
-
-/* ----- Buttons (shared) ----- */
-.btn {
-  appearance: none;
-  border: none;
-  cursor: pointer;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-weight: 600;
-  transition: transform var(--transition), background var(--transition), box-shadow var(--transition), opacity var(--transition);
-  color: var(--text);
-}
-
-.btn:focus-visible { outline: 2px solid rgba(255,255,255,0.25); outline-offset: 2px; }
-
-.btn-primary {
-  background: var(--brand);
-  color: #0b0b0b;
-  box-shadow: 0 6px 18px rgba(34,197,94,0.25);
-}
-.btn-primary:hover { background: var(--brand-strong); transform: translateY(-1px); }
 
 .empty-state {
   text-align: center;
-  padding: 72px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-.empty-state p { color: var(--muted); margin: 4px 0 12px; }
-.empty-icon {
-  height: 64px; width: 64px; border-radius: 16px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--line);
-  margin-bottom: 10px;
+  padding: 3rem 1rem;
+  border: 2px dashed var(--line);
+  border-radius: 20px;
+  color: var(--muted);
 }

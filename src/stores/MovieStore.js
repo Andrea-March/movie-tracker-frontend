@@ -4,9 +4,13 @@ import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
 import { addMovieToList, searchMovies } from "../services/movieservice";
 import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti } from "../services/movieservice";
 import { getPersonMovies } from "../services/personsService";
+import { stateStore } from "./StateStore";
 
+const {startLoading, stopLoading, setError, setSuccess, clearError, clearSuccess } = stateStore;
 
 class MovieStore {
+
+ 
 
     activePage = 'watched'
     watched = { movies: [], page: 1, totalPages: undefined};
@@ -14,11 +18,6 @@ class MovieStore {
     popular = { movies: [], filter: "popular", page: 1, totalPages: undefined };
 
     search = {query: "", results: [], error: "",};
-
-    successMessage = "";  
-    error = "";
-
-    loading = false;
 
     selectedMovie = {
         movie: null,          // l’oggetto film
@@ -44,7 +43,7 @@ class MovieStore {
 
 
     async loadWatchedMovies() {
-        this.loading = true;
+        startLoading();
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Non sei autenticato.");
@@ -54,14 +53,14 @@ class MovieStore {
                 if(!this.watched.totalPages){this.watched.totalPages = res.totalPages;}
             });
         } catch (err) {
-            runInAction(() => { this.error = err.message; });
+            runInAction(() => { setError(err.message) });
         } finally {
-            runInAction(() => { this.loading = false; });
+            runInAction(() => { stopLoading() });
         }
     }
 
     async loadToWatchMovies () {
-        this.loading=true;
+        startLoading()
         try {
             const token = localStorage.getItem("token");
             if (!token)  throw new Error("Non sei autenticato.");
@@ -71,14 +70,14 @@ class MovieStore {
                     if(!this.toWatch.totalPages){this.toWatch.totalPages = res.totalPages;}
             });
         } catch (err) {
-            runInAction(() => { this.error = err.message; });
+            runInAction(() => { setError(err.message) });
         } finally {
-            runInAction(() => { this.loading = false; });
+            runInAction(() => { stopLoading() });
         }
     };
 
     async loadPopularMovies () {
-        this.loading = true;
+        startLoading()
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Non sei autenticato.")
@@ -92,9 +91,9 @@ class MovieStore {
                 if(!this.popular.totalPages){this.popular.totalPages = res.totalPages;}
             });
         } catch (err) {
-             runInAction(() => { this.error = err.message; });
+             runInAction(() => { setError(err.message) });
         }finally{
-            runInAction(() => { this.loading = false; });
+            runInAction(() => { stopLoading() });
         }
     };
     
@@ -122,7 +121,7 @@ class MovieStore {
     }
 
     setSelectedMovie = async (movieObj, status) => {
-        this.startLoading();
+        startLoading();
         if (!movieObj) {
             // Chiude il popup
             this.selectedMovie = null;
@@ -166,10 +165,10 @@ class MovieStore {
 
         } catch (err) {
             runInAction(() => {
-                this.error = err.message;
+                setError(err.message)
             });
         } finally {
-            this.stopLoading();
+            stopLoading();
         }
     }
 
@@ -210,7 +209,7 @@ class MovieStore {
             });
         } catch (err) {
             runInAction(() => {
-                this.setError("Errore durante la ricerca. Riprova.");
+                setError("Errore durante la ricerca. Riprova.");
             });
         } 
     }
@@ -232,11 +231,12 @@ class MovieStore {
             });
         } catch (error) {
             runInAction(() => {
-                this.setError("Errore durante la ricerca. Riprova.");
+                setError("Errore durante la ricerca. Riprova.");
             });
         }
     }
     async addMovie(movie, watched) {
+        console.log(movie, watched)
         try {
             await addMovieToList(movie, watched);
             if(watched) {
@@ -244,11 +244,11 @@ class MovieStore {
             }else this.loadToWatchMovies();
             
             runInAction(() => {
-                this.setSuccess("Film aggiunto!");
+                setSuccess("Film aggiunto!");
             });
         } catch (err) {
             runInAction(() => {
-                this.setError(err.message);
+                setError(err.message);
             });
         }
     } 
@@ -258,15 +258,15 @@ class MovieStore {
             const token = localStorage.getItem("token");
             if (!token) {
                 runInAction(() => {
-                this.error = "Devi essere loggato per eliminare un film dalla tua lista!";
+                setError("Devi essere loggato per eliminare un film dalla tua lista!");
                 });
                 return;
             }
             await deleteMovie(token, this.selectedMovie.movie._id);
-            this.successMessage = "Film eliminato dalla lista!";
+            setSuccess("Film eliminato dalla lista!");
         } catch (err) {
             runInAction(() => {
-                this.error = err.message;
+                setError(err.message)
             });
         } finally{
               runInAction(() => {
@@ -319,22 +319,17 @@ class MovieStore {
             if (!token) throw new Error("Non sei autenticato.");
             await changeMovieStatus(token, this.selectedMovie.movie._id, !watched);
             this.selectedMovie.status = watched ? "to-watch" : "watched"
-            this.setSuccess("Film aggiornato!")
+            setSuccess("Film aggiornato!")
             this.loadWatchedMovies();
             this.loadToWatchMovies();
         } catch (err) {
-            runInAction(() => { this.setError(err.message); });
+            runInAction(() => { setError(err.message); });
         } finally {
-            runInAction(() => { this.loading = false; });
+            runInAction(() => { stopLoading()});
         }
     }
 
-    setSuccess(msg) { this.successMessage = msg }
-    clearSuccess() { this.successMessage = "" }
-    setError(msg) { this.error = msg }
-    clearError() { this.error = "" }
-    startLoading(){ this.loading=true }
-    stopLoading(){ this.loading=false }
+
     resetSearch(){ this.search = {query: "", results: [], error: "",} }
     showSearchPopup(){ this.isSearchPopupOpen=true }
     hideSearchPopup(){ this.isSearchPopupOpen=false; this.resetSearch() }

@@ -19,7 +19,10 @@ export async function fetchGroups({ q } = {}) {
 
 export async function fetchGroupById(groupId) {
   try {
-    const res = await api.get(`/groups/${groupId}`);
+    const res = await api.get(`/groups/${groupId}`,
+       {params: { include: "members,watchlist" }}
+    );
+    console.log(res.data)
     return res.data;
   } catch (err) {
     throw normalizeError(err, "Errore nel recupero del gruppo");
@@ -98,10 +101,10 @@ export async function generateInviteToken(groupId, maxUses = 1, expiresAt = null
   }
 }
 
-// POST /invite/:token/join
+// POST /groups/join/:token
 export async function joinGroupByToken(inviteToken) {
   try {
-    const res = await api.post(`/invite/${inviteToken}/join`);
+    const res = await api.post(`/groups/join/${inviteToken}`);
     return res.data; // { message, group }
   } catch (err) {
     throw normalizeError(err, "Errore join gruppo");

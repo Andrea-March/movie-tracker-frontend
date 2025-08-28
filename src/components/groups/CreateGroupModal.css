@@ -32,9 +32,14 @@
 }
 
 .cg-modal__icon {
-  width: 36px; height: 36px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(52,211,153,0.26), rgba(34,211,238,0.26));
+  width: 64px; height: 64px; border-radius: 12px;
+  background: var(--brand);
   border: 1px solid var(--line);
+}
+
+.cg-modal__icon img {
+  width: 64px;
+  height: 64px;
 }
 
 .cg-modal__title {
@@ -47,7 +52,8 @@
 .cg-modal__subtitle {
   margin: 2px 0 0;
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text);
+  opacity: 0.8;
 }
 
 .cg-modal__form {
@@ -62,12 +68,11 @@
 
 .cg-label {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text);
 }
 
 .cg-input {
-  width: 100%;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.2);
   border: 1px solid var(--line);
   color: var(--text);
   padding: 12px 12px;
@@ -128,10 +133,15 @@
   border-radius: 12px;
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--line);
-  color: var(--muted);
+  color: var(--text);
   font-size: 14px;
   cursor: pointer;
   transition: background 160ms ease, transform 160ms ease;
+}
+
+.cg-icon-btn svg {
+  color: black;
+  opacity: 0.8;
 }
 .cg-icon-btn svg { font-size: 20px; }
 .cg-icon-btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }

@@ -42,9 +42,10 @@ class GroupStore {
         this.groups = (data.items || []).map(g => ({
           groupId: g.groupId,
           name: g.name,
-          ownerName: g.ownerName ?? "—",
+          ownerName: g.owner.username ?? "—",
+          owner: g.owner,
           membersCount: Number(g.membersCount ?? 0),
-          icon: g.icon ?? "/default-group.png",
+          icon: g.icon ?? "/popcorn.png",
           category: g.category || "fa-users",
           status: g.status || "invited", // es: invited | member
           myRole: g.myRole || undefined
@@ -58,17 +59,17 @@ class GroupStore {
   }
 
   async fetchGroup(groupId) {
-  this.currentLoading = true;
-  this.error = null;
-  try {
-    const data = await groupsApi.fetchGroupById(groupId);
-    runInAction(() => { this.currentGroup = data; });
-  } catch (err) {
-    runInAction(() => { this.error = err?.message || "Errore caricamento gruppo"; });
-  } finally {
-    runInAction(() => { this.currentLoading = false; });
+    this.currentLoading = true;
+    this.error = null;
+    try {
+      const data = await groupsApi.fetchGroupById(groupId);
+      runInAction(() => { this.currentGroup = data; });
+    } catch (err) {
+      runInAction(() => { this.error = err?.message || "Errore caricamento gruppo"; });
+    } finally {
+      runInAction(() => { this.currentLoading = false; });
+    }
   }
-}
 
   // Join con ottimismo visivo: aggiorno subito e poi ripristino se fallisce
   async joinGroup(groupId) {

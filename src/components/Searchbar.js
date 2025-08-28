@@ -112,9 +112,7 @@ const SearchBar = () => {
                 const isMovie = item.media_type === "movie";
                 const imgPath = isMovie ? item.poster_path : item.profile_path;
                 const title = isMovie
-                  ? `${item.title || "Senza titolo"}${
-                      item.release_date ? ` (${item.release_date.slice(0, 4)})` : ""
-                    }`
+                  ? `${item.title || "Senza titolo"}`
                   : item.name || "Senza nome";
 
                 const onActivate = () => {
@@ -164,13 +162,15 @@ const SearchBar = () => {
                     )}
 
                     <div className="search-result-content">
-                      <h3 className="movie-title-search">{title}</h3>
+                      <p className="movie-title-search">{title}</p>
+                      <p className="movie-year-search">{item.release_date ? ` (${item.release_date.slice(0, 4)})` : ""}</p>
+                       <div className={`badge-tab ${isMovie ? "badge-film" : "badge-person"}`}>
+                        <FontAwesomeIcon icon={isMovie ? faFilm : faUser} />
+                        {isMovie ? "Film" : "Persona"}
+                      </div>
                     </div>
 
-                    <div className={`badge-tab ${isMovie ? "badge-film" : "badge-person"}`}>
-                      <FontAwesomeIcon icon={isMovie ? faFilm : faUser} />
-                      {isMovie ? "Film" : "Persona"}
-                    </div>
+                   
                   </li>
                 );
               })}

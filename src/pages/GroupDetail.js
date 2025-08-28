@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { groupStore } from "../stores/GroupStore";
+import InvitePanel from "../components/groups/InvitePanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers, faFilm, faBook, faGamepad, faMusic, faUtensils, faChevronLeft
 } from "@fortawesome/free-solid-svg-icons";
 import "./GroupDetail.css";
+import InviteIcon from "../components/groups/InviteIcon";
 
 const ICONS_MAP = {
   users: faUsers,
@@ -52,12 +54,13 @@ const GroupDetail = observer(() => {
             <div className="gd-meta">
               <h1 className="gd-title">{g.name}</h1>
               <p className="gd-subtitle">
-                Creato da <strong>{g.myRole === "owner" ? "te" : g.owner || "—"}</strong> • {g.membersCount || 0} membri
+                Creato da <strong>{g.myRole === "owner" ? "te" : g.owner.username || "—"}</strong> • {g.membersCount || 0} membri
               </p>
 
               <div className="gd-actions">
-                <button className="btn btn-primary" onClick={() => groupStore.joinGroup(g._id)}>Join</button>
-                <button className="btn btn-ghost" onClick={() => groupStore.leaveGroup(g._id)}>Leave</button>
+                <InviteIcon groupId={g._id} />
+                {/* <button className="btn btn-primary" onClick={() => groupStore.joinGroup(g._id)}>Join</button>
+                <button className="btn btn-ghost" onClick={() => groupStore.leaveGroup(g._id)}>Leave</button> */}
               </div>
             </div>
           </section>
@@ -69,6 +72,14 @@ const GroupDetail = observer(() => {
               <div className="gd-card">Chat/Note…</div>
             </div>
           </section>
+
+          {(g.myRole === "owner" || g.myRole === "admin") && (
+           <section className="gd-section">
+             <h2 className="gd-h2">Inviti</h2>
+             <InvitePanel groupId={g._id} />
+           </section>
+          )}
+
         </>
       )}
     </div>

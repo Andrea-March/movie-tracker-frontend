@@ -185,7 +185,7 @@ const MovieDetailPopup = () => {
                       {selectedMovie.providers[category] &&
                         <>
                           <h4 key={category}>{category === "buy" ? "Compra" : category === "flatrate" ? "Abbonamento" : "Noleggia"}</h4>
-                          <div className="provider-logos">
+                          <div className="provider-logos flex-wrap">
                               {selectedMovie.providers[category].map((provider) => (
                                 wantedProviders.includes(provider.provider_id) && 
                                 (<div className='provider-card flex-column align-items-center' key={provider.provider_id+"_div"}>

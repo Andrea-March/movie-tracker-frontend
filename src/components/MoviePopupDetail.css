@@ -32,6 +32,10 @@
     height: 90vh;
   }
 
+  .movie-popup p{
+    color: white;
+  }
+
   .movie-details{
     gap: 2em;
     margin-bottom: 0.5em;
@@ -73,6 +77,10 @@
     width: 50%;
     margin-bottom: 0.5em;
     opacity: 0.8;
+    color: white;
+  }
+    .movie-popup h3 {
+    color: white;
   }
 
 
@@ -154,8 +162,6 @@
 
 /* Contenitore dei loghi */
 .provider-logos {
-  display: flex;
-  flex-wrap: wrap; /* I loghi vanno su una nuova riga se necessario */
   gap: 5px; /* Spazio tra i loghi */
   padding: 5px 0;
   justify-content: center;

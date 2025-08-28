@@ -9,9 +9,6 @@
 
 /* Container slide/grid passato via Slidable */
 .movie-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   gap: 5px;
   min-height: 80vh;
 }

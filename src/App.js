@@ -16,6 +16,9 @@ import Loader from "./components/Loader";
 import PersonDetailPopup from "./components/PersonDetailPopup";
 import MoviesLists from "./pages/MoviesLists";
 import GroupDetail from "./pages/GroupDetail";
+import JoinRedirect from "./components/groups/JoinRedirect";
+import SearchPage from "./pages/SearchPage";
+import HomePage from "./pages/HomePage";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -78,15 +81,17 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Navigate to="/movies"/>} />
+            <Route path="/" element={<ProtectedRoute element={HomePage} />} />
             {/* <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
             <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  /> */}
             <Route path="/movies" element={<ProtectedRoute element={MoviesLists} />}  /> 
+            <Route path="/search" element={<ProtectedRoute element={SearchPage} />}  /> 
             <Route path="/challenges" element={<ProtectedRoute element={Challenges} />} />
             <Route path="/challenges/:challengeId" element={<ProtectedRoute element={ChallengeDetail} />} />
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
             <Route path="/groups/:id" element={<ProtectedRoute element={GroupDetail} />} />
+            <Route path="/join/:token" element={<ProtectedRoute element={JoinRedirect} />} />
 
 
              {/* La route 404 va alla fine per gestire tutte le altre URL non corrispondenti */}

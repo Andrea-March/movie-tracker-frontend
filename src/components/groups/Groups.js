@@ -34,13 +34,13 @@ const Groups = observer(() => {
           <div className="title-icon" aria-hidden />
           <div>
             <h2>I tuoi gruppi</h2>
-            <p className="subtitle">Inviti in arrivo e gruppi a cui partecipi</p>
+            <p className="subtitle">Gruppi a cui partecipi</p>
           </div>
         </div>
 
         <div className="header-actions">
           <button className="btn btn-primary" onClick={() => groupStore.startCreating()}>
-            + Crea Gruppo
+            + Crea
           </button>
         </div>
       </header>
@@ -56,7 +56,7 @@ const Groups = observer(() => {
             </button>
           </div>
         ) : (
-          <div className="groups-grid">
+          <div className="groups-grid flex-wrap justify-center">
             {groupStore.groups.map((g) => (
               <GroupCard
                 key={g.groupId}

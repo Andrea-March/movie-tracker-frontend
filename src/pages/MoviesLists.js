@@ -26,7 +26,6 @@ const MoviesLists = () =>{
 
     return (
         <>
-            <Searchbar />
             <SubNavbar />
             <div>{renderContent()}</div>
         </>

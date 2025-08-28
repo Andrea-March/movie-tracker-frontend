@@ -29,7 +29,7 @@ const WatchedMovies = () => {
 
       {!loading && watched.movies.length > 0 && (
         <Slidable
-          className="movie-grid"
+          className="movie-grid flex-wrap justify-center"
           onNext={handleNextPage}
           onPrev={handlePreviousPage}
         >

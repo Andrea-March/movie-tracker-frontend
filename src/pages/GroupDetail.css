@@ -36,7 +36,7 @@
 .btn-ghost { background: transparent; border: 1px solid var(--line); }
 .btn-ghost:hover { background: var(--card-2); }
 
-.gd-section { width: min(1100px, 100%); margin: 16px auto; padding: 0 16px; }
+.gd-section { margin: 16px auto; padding: 0 16px; }
 .gd-h2 { margin: 12px 0 10px; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
 
 .gd-cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }

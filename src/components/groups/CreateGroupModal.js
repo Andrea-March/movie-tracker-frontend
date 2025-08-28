@@ -60,7 +60,9 @@ const CreateGroupModal = ({ open, onClose, onSubmit, submitting = false, error =
     >
       <div className="cg-modal__card" onMouseDown={(e) => e.stopPropagation()}>
         <header className="cg-modal__header">
-          <div className="cg-modal__icon" aria-hidden />
+          <div className="cg-modal__icon" aria-hidden >
+            <img src={"/popcorn.png"} />
+          </div>
           <div>
             <h3 id="create-group-title" className="cg-modal__title">Crea gruppo</h3>
             <p className="cg-modal__subtitle">Dai un nome al tuo nuovo gruppo</p>

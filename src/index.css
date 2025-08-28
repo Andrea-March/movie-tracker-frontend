@@ -1,21 +1,21 @@
 /* Tema chiaro */
 
 [data-theme="light"]  {
-  --bg: #faf7f2;              /* beige chiaro */
-  --card: #ffffff;
-  --card-2: #f2efe9;
+  --bg: #56f4de;              
+  --card: #83fbb9;
+  --card-2: #79dbff;
   --text: #1a1a1a;
-  --muted: rgba(26,26,26,0.65);
+  --muted: #56f4de;
   --line: rgba(26,26,26,0.12);
 
-  --brand: #d4a373;           /* sabbia calda */
-  --brand-strong: #b07a4a;    /* terracotta */
+  --brand: #79dbff;           
+  --brand-strong: #79dbff;    
 
-  --search-bar: #e7e5df;      /* grigio/beige morbido */
+  --search-bar: #e7e5df;      
   --navbar: #ffffff;
 
-  --success: #DFF2BF;  /* verde chiaro, positivo e morbido */
-  --error:   #FFBABA;  /* rosso chiaro, ben visibile ma non aggressivo */
+  --success: #bcfd91;  
+  --error:   #FFBABA;  
   
   --radius-xl: 16px;
   --shadow-2: 0 6px 20px rgba(0,0,0,0.08);
@@ -25,21 +25,21 @@
  
 
 [data-theme="dark"] {
-    --bg: #121212;              /* quasi nero, caldo */
-    --card: #1e1e1e;            /* grigio scuro elegante */
-    --card-2: #2a2a2a;          /* per variazioni */
-    --text: #f5f5f5;
-    --muted: rgba(245,245,245,0.65);
-    --line: rgba(245,245,245,0.12);
+    --bg: #0B0E14;              
+    --card: #121826;            
+    --card-2: #1B2230;          
+    --text: #E5E7EB;
+    --muted: #9CA3AF;
+    --line: #263042;
 
-    --brand: #d4a373;           /* stesso sabbia calda → accent */
-    --brand-strong: #e6b88f;    /* versione più luminosa su dark */
+    --brand: #6EE7B7;          
+    --brand-strong: #34D399;    
 
-    --search-bar: #2a2a2a;      /* simile Spotify */
-    --navbar: #181818;          /* tipico dark bar */
+    --search-bar: #2a2a2a;      
+    --navbar: #181818;          
 
-    --success-bg: #276749;  /* verde scuro (es. olive/forest), + contrasto su sfondo scuro */
-    --error-bg:   #922B21;  /* rosso scuro/terriccio, visibile su background #121212 */
+    --success-bg: #34D399;  
+    --error-bg:   #F87171; 
     
     --radius-xl: 16px;
     --shadow-2: 0 10px 40px rgba(0,0,0,0.55);
@@ -105,6 +105,11 @@ svg {
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
 }
 .justify-between {
   justify-content: space-between;

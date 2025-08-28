@@ -115,7 +115,7 @@ const ChallengeDetail = () => {
           { challenge.joined && 
               <>
               <h2>Film Selezionati</h2>
-              <div className="ch-details-movie-grid">
+              <div className="ch-details-movie-grid flex-wrap">
                 {selectedMovies.length > 0 ? (
                   selectedMovies.map((movie) => (
                     <div className="ch-details-movie-card-small flex-column" key={movie.movieId.id}>
