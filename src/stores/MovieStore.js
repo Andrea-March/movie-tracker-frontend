@@ -2,7 +2,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
 import { addMovieToList, searchMovies } from "../services/movieservice";
-import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti } from "../services/movieservice";
+import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti, getGenresAndRuntime } from "../services/movieservice";
 import { getPersonMovies } from "../services/personsService";
 import { stateStore } from "./StateStore";
 
@@ -137,6 +137,7 @@ class MovieStore {
             showTrailer: false,
             status: status
         };
+        this.selectedMovie.movie.tmdbId = movieObj.id;
 
         try {
             const token = localStorage.getItem("token");
@@ -147,15 +148,20 @@ class MovieStore {
                 const providersPromise = getMovieProviders(token, movieObj.id);
                 const relatedPromise = getRelatedMovies(movieObj.id);
                 const trailerPromise = searchTrailerurl(movieObj.id);
-                const [provs, related, trailer] = await Promise.all([providersPromise, relatedPromise, trailerPromise]);
+                const genreRuntimePromise = getGenresAndRuntime(movieObj.id)
+                const [provs, related, trailer, {genres, runtime}] = await Promise.all([providersPromise, relatedPromise, trailerPromise, genreRuntimePromise]);
                 
                 runInAction(() => {
                     if (this.selectedMovie?.movie?.id === movieObj.id) {
-                    this.selectedMovie.providers = provs;
-                    this.selectedMovie.relatedMovies = related;
-                    this.selectedMovie.trailerUrl = trailer;
+                        this.selectedMovie.providers = provs;
+                        this.selectedMovie.relatedMovies = related;
+                        this.selectedMovie.movie.trailerUrl = trailer;
+                        this.selectedMovie.trailerUrl = trailer;
+                        this.selectedMovie.movie.genres = genres;
+                        this.selectedMovie.movie.runtime = runtime;
                     }
                 });
+                console.log(this.selectedMovie)
             } catch (err) {
                 console.error("Errore caricamento dettagli film:", err.message);
             }
@@ -296,6 +302,7 @@ class MovieStore {
     closePopup() {
         this.isPopupOpen = false;
         this.selectedMovie = {};
+        this.selectedPerson = {};
     }
 
     closePersonPopup() {

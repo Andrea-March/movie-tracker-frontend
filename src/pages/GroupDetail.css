@@ -68,6 +68,7 @@
 .gd-subtitle { margin: 0; font-size: 0.8rem;}
 
 .gd-members {
+  width: 100px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -201,7 +202,7 @@
 .gd-list-item:hover { background: var(--surface-alt); }
 
 .gd-poster {
-  width: 44px; height: 66px; border-radius: 8px; object-fit: cover;
+  height: 100px; border-radius: 8px; object-fit: cover;
   background: #0f141f; border: 1px solid var(--line);
 }
 .gd-li-main { display: grid; gap: 2px; }

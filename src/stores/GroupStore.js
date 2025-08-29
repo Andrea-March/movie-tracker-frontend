@@ -1,8 +1,10 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import * as groupsApi from "../services/groupsApi";
+import { stateStore } from "./StateStore";
 
 class GroupStore {
   groups = [];
+  groupsDropdown = [];
   loading = false;
   error = null;
 
@@ -55,6 +57,23 @@ class GroupStore {
       runInAction(() => { this.error = err?.message || "Errore di rete"; });
     } finally {
       runInAction(() => { this.loading = false; });
+    }
+  }
+
+  async fetchGroupsDropdown() {
+    this.loadingDropdown = true;
+    try {
+      const groups = await groupsApi.fetchGroupsDropdown();
+      runInAction(() => {
+        this.groupsDropdown = groups;
+      });
+    } catch (err) {
+      runInAction(() => {
+        this.error = err.message;
+        
+      });
+    } finally {
+      this.loadingDropdown = false;
     }
   }
 
@@ -113,7 +132,6 @@ class GroupStore {
   // Facoltativo: crea un gruppo
   async createGroup(payload) {
     this.loading = true;
-    this.error = null;
     try {
       const created = await groupsApi.createGroup(payload);
       runInAction(() => {
@@ -122,6 +140,22 @@ class GroupStore {
       });
     } catch (err) {
       runInAction(() => { this.error = err?.message || "Errore creazione gruppo"; });
+    } finally {
+      runInAction(() => { this.loading = false; });
+    }
+  }
+
+  async addMovieToGroup(groupId, movie) {
+    this.loading = true;
+    try {
+      const created = await groupsApi.addMovieToGroup(groupId, movie);
+      runInAction(() => {
+        this.fetchGroups()
+        this.creating = false;
+        stateStore.setSuccess("Film aggiunto al gruppo")
+      });
+    } catch (err) {
+      runInAction(() => { stateStore.setError("Errore aggiunta film al gruppo") });
     } finally {
       runInAction(() => { this.loading = false; });
     }

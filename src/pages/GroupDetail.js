@@ -126,7 +126,6 @@ const GroupDetail = observer(() => {
                     onClick={() => navigate(`/groups/${g._id}/events/new`)}
                   >
                     <FontAwesomeIcon icon={faPlus} />
-                    <span>Crea evento</span>
                   </button>
                 )}
               </div>
@@ -150,11 +149,18 @@ const GroupDetail = observer(() => {
               <ul className="gd-list">
                 {g.watchlist.map((m, idx) => (
                   <li key={m.id || m._id || idx} className="gd-list-item" onClick={() => navigate(`/movie/${m.id || m._id}`)}>
-                    <img className="gd-poster" src={m.poster || "/poster.png"} alt="" />
+                    <img
+                      className="gd-poster"
+                      srcSet={`https://image.tmdb.org/t/p/w200/${m.snapshot.poster.split("/")[6]} 200w, 
+                      https://image.tmdb.org/t/p/w400/${m.snapshot.poster.split("/")[6]} 400w`} 
+                      sizes="(max-width: 768px) 200px, 400px"
+                      alt={m.title}
+                      loading="lazy"
+                    />
                     <div className="gd-li-main">
-                      <div className="gd-li-title">{m.title}</div>
+                      <div className="gd-li-title">{m.snapshot.title}</div>
                       <div className="gd-li-meta">
-                        {(m.year || '').toString()} {m.runtime ? `• ${m.runtime} min` : ''}
+                        {(m.snapshot.year || '').toString()} {m.snapshot.runtime ? `• ${m.snapshot.runtime} min` : ''}
                       </div>
                     </div>
                     <div className="gd-li-actions">

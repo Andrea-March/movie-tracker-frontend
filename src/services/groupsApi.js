@@ -17,6 +17,15 @@ export async function fetchGroups({ q } = {}) {
   }
 }
 
+export async function fetchGroupsDropdown({ q } = {}) {
+  try {
+    const res = await api.get("/groups/dropdown");
+    return res.data; // array di gruppi
+  } catch (err) {
+    throw normalizeError(err, "Errore nella chiamata gruppi");
+  }
+}
+
 export async function fetchGroupById(groupId) {
   try {
     const res = await api.get(`/groups/${groupId}`,
@@ -82,9 +91,9 @@ export async function fetchGroupMovies(groupId) {
 }
 
 // POST /groups/:id/movies { movieId }
-export async function addMovieToGroup(groupId, movieId) {
+export async function addMovieToGroup(groupId, movie) {
   try {
-    const res = await api.post(`/groups/${groupId}/movies`, { movieId });
+    const res = await api.post(`/groups/${groupId}/watchlist`, { movie });
     return res.data;
   } catch (err) {
     throw normalizeError(err, "Errore aggiunta film al gruppo");

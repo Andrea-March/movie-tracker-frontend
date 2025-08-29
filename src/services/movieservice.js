@@ -141,6 +141,15 @@ export const searchTrailerurl = async (movieId) => {
   }
 };
 
+export const getGenresAndRuntime = async (movieId) => {
+    try {
+    const res = await api.get(`/movies/${movieId}/genres-runtime`);
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca del trailer");
+  }
+}
+
 export const getMoviesByDecade = async (decade, page) => {
   try {
     const res = await api.get(`/movies/movies-by-decade`, { params: { decade, page } });
