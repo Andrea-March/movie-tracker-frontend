@@ -11,6 +11,7 @@ const MovieDetailPopup = () => {
 
   const[showStatusChoice, setShowStatusChoice] = useState(false);
   const [showGroups, setShowGroups] = useState(false);
+  const [pendingGroupId, setPendingGroupId] = useState(null);
 
   const topRef = useRef(null);
 
@@ -176,41 +177,67 @@ const MovieDetailPopup = () => {
                       <span className="status-label padding-left-10">Aggiungi ad un gruppo</span>
                      
                     </div>
-                    {showGroups && 
-                      <div className="group-dropdown">
-                        {groupStore.loadingDropdown && (
-                          <div className="dropdown-group-loader">
-                            <FontAwesomeIcon icon={faSpinner} spin />
-                            <span>Carico i tuoi gruppi…</span>
-                          </div>
-                        )}
+                    {showGroups && (
+                                    <div className="group-dropdown dd-surface" role="dialog" aria-label="Aggiungi ad un gruppo">
+                                                 
 
-                        {!groupStore.loadingDropdown && groupStore.groupsDropdown.length === 0 && (
-                          <p className="dropdown-group-empty">Non fai parte di alcun gruppo</p>
-                        )}
+                                      {/* Sezione loader */}
+                                      {groupStore.loadingDropdown && (
+                                        <>
+                                          <div className="dd-sep" aria-hidden="true"></div>
+                                          <div className="dropdown-group-loader">
+                                            <FontAwesomeIcon icon={faSpinner} spin />
+                                            <span>Carico i tuoi gruppi…</span>
+                                          </div>
+                                        </>
+                                      )}
 
-                        {!groupStore.loadingDropdown &&
-                          groupStore.groupsDropdown.map((g) => (
-                            <div key={g.groupId} className="dropdown-group-row">
-                              <img
-                                src={g.icon || "/popcorn.png"}
-                                alt={g.name}
-                                className="dropdown-group-avatar"
-                              />
-                              <span className="dropdown-group-name">{g.name}</span>
-                              <button
-                                className="dropdown-group-add-btn"
-                                onClick={() =>
-                                  groupStore.addMovieToGroup(g.groupId, selectedMovie.movie)
-                                }
-                                title="Aggiungi al gruppo"
-                              >
-                                <FontAwesomeIcon icon={faPlus} />
-                              </button>
-                            </div>
-                          ))}
-                      </div>
-                    }
+                                      {/* Sezione empty */}
+                                      {!groupStore.loadingDropdown && groupStore.groupsDropdown.length === 0 && (
+                                        <>
+                                          <div className="dd-sep" aria-hidden="true"></div>
+                                          <p className="dropdown-group-empty">Non fai parte di alcun gruppo</p>
+                                        </>
+                                      )}
+
+                                      {/* Lista gruppi */}
+                                      {!groupStore.loadingDropdown && groupStore.groupsDropdown.length > 0 && (
+                                        <>
+                                          <div className="dd-sep" aria-hidden="true"></div>
+                                          <div className="dd-list" role="listbox" aria-label="Scegli un gruppo">
+                                            {groupStore.groupsDropdown.map((g) => (
+                                              <div key={g.groupId} className="dropdown-group-row" role="option" tabIndex={0}
+                                                  onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                      groupStore.addMovieToGroup(g.groupId, selectedMovie.movie);
+                                                    }
+                                                  }}>
+                                                <img
+                                                  src={g.icon || "/popcorn.png"}
+                                                  alt=""
+                                                  className="dropdown-group-avatar"
+                                                  aria-hidden="true"
+                                                />
+                                                <span className="dropdown-group-name" title={g.name}>{g.name}</span>
+                                                <button
+                                                  className="dropdown-group-add-btn dd-chip"
+                                                  onClick={() => groupStore.addMovieToGroup(g.groupId, selectedMovie.movie)}
+                                                  title="Aggiungi al gruppo"
+                                                  aria-label={`Aggiungi a ${g.name}`}
+                                                >
+                                                  <FontAwesomeIcon icon={faPlus} />
+                                                  <span className="dd-chip-label">Aggiungi</span>
+                                                </button>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                    )}
+
+
+
          <div className='section-divider'></div> 
         {
           !selectedMovie.showTrailer && 

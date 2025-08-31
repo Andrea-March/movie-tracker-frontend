@@ -6,7 +6,7 @@ import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, sea
 import { getPersonMovies } from "../services/personsService";
 import { stateStore } from "./StateStore";
 
-const {startLoading, stopLoading, setError, setSuccess, clearError, clearSuccess } = stateStore;
+const {startLoading, stopLoading, setError, setSuccess } = stateStore;
 
 class MovieStore {
 
@@ -157,11 +157,10 @@ class MovieStore {
                         this.selectedMovie.relatedMovies = related;
                         this.selectedMovie.movie.trailerUrl = trailer;
                         this.selectedMovie.trailerUrl = trailer;
-                        this.selectedMovie.movie.genres = genres;
+                        this.selectedMovie.movie.genres = genres.split(",");
                         this.selectedMovie.movie.runtime = runtime;
                     }
                 });
-                console.log(this.selectedMovie)
             } catch (err) {
                 console.error("Errore caricamento dettagli film:", err.message);
             }

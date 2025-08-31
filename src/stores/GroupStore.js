@@ -5,6 +5,7 @@ import { stateStore } from "./StateStore";
 class GroupStore {
   groups = [];
   groupsDropdown = [];
+  loadingDropdown = false;
   loading = false;
   error = null;
 
@@ -73,7 +74,7 @@ class GroupStore {
         
       });
     } finally {
-      this.loadingDropdown = false;
+      runInAction(()=>{this.loadingDropdown = false})
     }
   }
 
@@ -133,7 +134,7 @@ class GroupStore {
   async createGroup(payload) {
     this.loading = true;
     try {
-      const created = await groupsApi.createGroup(payload);
+      await groupsApi.createGroup(payload);
       runInAction(() => {
         this.fetchGroups()
         this.creating = false;
@@ -148,14 +149,14 @@ class GroupStore {
   async addMovieToGroup(groupId, movie) {
     this.loading = true;
     try {
-      const created = await groupsApi.addMovieToGroup(groupId, movie);
+      await groupsApi.addMovieToGroup(groupId, movie);
       runInAction(() => {
         this.fetchGroups()
         this.creating = false;
         stateStore.setSuccess("Film aggiunto al gruppo")
       });
     } catch (err) {
-      runInAction(() => { stateStore.setError("Errore aggiunta film al gruppo") });
+      runInAction(() => { stateStore.setError(err.message) });
     } finally {
       runInAction(() => { this.loading = false; });
     }

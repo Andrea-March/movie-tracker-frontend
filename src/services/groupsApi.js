@@ -31,7 +31,6 @@ export async function fetchGroupById(groupId) {
     const res = await api.get(`/groups/${groupId}`,
        {params: { include: "members,watchlist" }}
     );
-    console.log(res.data)
     return res.data;
   } catch (err) {
     throw normalizeError(err, "Errore nel recupero del gruppo");

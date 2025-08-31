@@ -1,14 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { groupStore } from "../stores/GroupStore";
-import InvitePanel from "../components/groups/InvitePanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers, faFilm, faBook, faGamepad, faMusic, faUtensils, faChevronLeft, faCalendarDays, faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import "./GroupDetail.css";
 import InviteIcon from "../components/groups/InviteIcon";
+import GroupMovieDetail from "../components/groups/GroupMovieDetail";
 
 const ICONS_MAP = {
   users: faUsers,
@@ -22,6 +22,9 @@ const ICONS_MAP = {
 const GroupDetail = observer(() => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [showMovieDetail, setShowMovieDetail] = useState(false);
+  const [selectedSnapshot, setSelectedSnapshot] = useState(undefined);
 
   useEffect(() => { groupStore.fetchGroup(id); }, [id]);
 
@@ -148,7 +151,7 @@ const GroupDetail = observer(() => {
             ) : (
               <ul className="gd-list">
                 {g.watchlist.map((m, idx) => (
-                  <li key={m.id || m._id || idx} className="gd-list-item" onClick={() => navigate(`/movie/${m.id || m._id}`)}>
+                  <li key={m.id || m._id || idx} className="gd-list-item" onClick={() => {setSelectedSnapshot(m.snapshot); setShowMovieDetail(true)}} >
                     <img
                       className="gd-poster"
                       srcSet={`https://image.tmdb.org/t/p/w200/${m.snapshot.poster.split("/")[6]} 200w, 
@@ -171,6 +174,7 @@ const GroupDetail = observer(() => {
               </ul>
             )}
           </section>
+          {showMovieDetail && <GroupMovieDetail movie={selectedSnapshot} setShowMovieDetail={setShowMovieDetail}/>}
 
          {/* 
           {(g.myRole === "owner" || g.myRole === "admin") && (

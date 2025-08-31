@@ -146,66 +146,110 @@
   z-index: 4;
 }
 
+.dd-surface {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+  padding: 0; /* il padding lo gestiamo per sezioni */
+}
 
+
+/* Separatori orizzontali sottili */
+.dd-sep {
+  height: 1px;
+  background: var(--line);
+  margin: 0 8px;
+}
+
+/* Contenuto scrollabile (ricicla max height della tua .group-dropdown) */
 .group-dropdown {
-  max-height: 240px;          /* scroll se tanti gruppi */
+  max-height: 320px; /* un filo più alta, come nel mock */
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper lista (spaziatura uniforme) */
+.dd-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 8px;
 }
 
+/* Row: stesso layout, tono più “piatto” con hover morbido */
 .dropdown-group-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: var(--card);
-  border-radius: 10px;
-  transition: background 0.2s ease;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transition: background 0.18s ease, box-shadow 0.18s ease;
 }
-
 .dropdown-group-row:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.04);
+}
+.dropdown-group-row:focus-visible {
+  box-shadow: 0 0 0 2px var(--brand);
+  outline: none;
 }
 
+/* Avatar e nome con ellissi */
 .dropdown-group-avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 12px;
 }
-
 .dropdown-group-name {
-  flex-grow: 1;
-  font-size: 0.95rem;
+  flex: 1 1 auto;
+  min-width: 0;
   color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.dropdown-group-add-btn {
-  background: var(--brand);
-  border: none;
-  border-radius: 8px;
-  padding: 6px 10px;
+/* Chip “Aggiungi” (pulsante morbido come nel mock) */
+.dd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
   cursor: pointer;
-  color: #fff;
-  transition: background 0.2s ease;
+  transition: transform 0.08s ease, background 0.18s ease, border-color 0.18s ease, opacity 0.2s ease;
 }
-.dropdown-group-loader {
+.dd-chip:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+.dd-chip:active {
+  transform: translateY(0);
+}
+.dd-chip:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.dd-chip .dd-chip-label {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+/* Re-usa i tuoi stili loader/empty, ma centrati dentro la card */
+.dropdown-group-loader,
+.dropdown-group-empty {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   color: var(--text-muted);
   gap: 10px;
-}
-
-.dropdown-group-empty {
-  text-align: center;
-  padding: 16px;
-  color: var(--text-muted);
 }
 
 .choice-row {
