@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { joinGroupByToken } from "../../services/groupsApi";
+import { joinGroupByToken } from "../../services/groupsService";
 
 export default function JoinRedirect() {
   const { token } = useParams();

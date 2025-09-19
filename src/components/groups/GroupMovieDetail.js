@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faStar } from "@fortawesome/free-solid-svg-icons";
-import { getMovieProviders } from '../../services/movieservice';
+import { getMovieProviders } from '../../services/movieService';
 import { stateStore } from '../../stores/StateStore';
 
 const GroupMovieDetail = ({movie, setShowMovieDetail}) => {

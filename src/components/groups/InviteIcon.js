@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { generateInviteToken } from "../../services/groupsApi"; // <-- il file dove hai le API sopra
+import { generateInviteToken } from "../../services/groupsService"; // <-- il file dove hai le API sopra
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

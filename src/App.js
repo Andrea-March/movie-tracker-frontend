@@ -20,6 +20,7 @@ import JoinRedirect from "./components/groups/JoinRedirect";
 import SearchPage from "./pages/SearchPage";
 import HomePage from "./pages/HomePage";
 import CreateEventPage from "./pages/CreateEventPage";
+import EventDetail from "./pages/EventDetail";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -92,6 +93,7 @@ function App() {
             <Route path="/challenges/:challengeId" element={<ProtectedRoute element={ChallengeDetail} />} />
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
             <Route path="/groups/:id" element={<ProtectedRoute element={GroupDetail} />} />
+            <Route path="/events/:eventId" element={<ProtectedRoute element={EventDetail} />} />
             <Route path="/join/:token" element={<ProtectedRoute element={JoinRedirect} />} />
             <Route path="/groups/:groupId/events/new" element={<ProtectedRoute element={CreateEventPage} />} />
 

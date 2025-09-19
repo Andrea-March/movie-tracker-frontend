@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import * as groupsApi from "../services/groupsApi";
+import * as groupsApi from "../services/groupsService";
 import { stateStore } from "./StateStore";
 
 class GroupStore {

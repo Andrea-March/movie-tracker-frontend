@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getChallengeDetails, getChallengeMovies } from "../services/challengesservice";
+import { getChallengeDetails, getChallengeMovies } from "../services/challengesService";
 import '../App.css';
 import './ChallengeDetails.css'
 import Loader from "../components/Loader";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getChallenges, joinChallenge } from "../services/challengesservice";
+import { getChallenges, joinChallenge } from "../services/challengesService";
 import '../App.css';
 import './Challenges.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

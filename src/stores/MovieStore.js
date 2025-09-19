@@ -1,8 +1,8 @@
 // src/stores/MovieStore.js
 import { makeAutoObservable, runInAction } from "mobx";
-import { fetchUserMovies, changeMovieStatus } from "../services/movieservice";
-import { addMovieToList, searchMovies } from "../services/movieservice";
-import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti, getGenresAndRuntime } from "../services/movieservice";
+import { fetchUserMovies, changeMovieStatus } from "../services/movieService";
+import { addMovieToList, searchMovies } from "../services/movieService";
+import { getMovieProviders, getRelatedMovies, searchTrailerurl, deleteMovie, searchPopularMovies, searchTopRatedMovies, searchUpcomingMovies, searchMulti, getGenresAndRuntime } from "../services/movieService";
 import { getPersonMovies } from "../services/personsService";
 import { stateStore } from "./StateStore";
 
