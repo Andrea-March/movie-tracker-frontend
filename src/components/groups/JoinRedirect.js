@@ -22,7 +22,7 @@ export default function JoinRedirect() {
       }
     })();
     return () => { alive = false; };
-  }, [token, navigate]);
+  }, [token]);
 
   return <div style={{padding:16}}>Sto entrando nel gruppo…</div>;
 }

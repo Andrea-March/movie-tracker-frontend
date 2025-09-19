@@ -31,6 +31,18 @@ const GroupDetail = observer(() => {
   const g = groupStore.currentGroup;
   const faIcon = g?.icon && ICONS_MAP[g.icon];
 
+  function formatDateTime(isoString) {
+    const date = new Date(isoString);
+    return new Intl.DateTimeFormat("it-IT", {
+      weekday: "short",  // ven
+      day: "numeric",    // 26
+      month: "long",     // settembre
+      year: "numeric",   // 2025
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(date);
+  }
+
   return (
      <div className="group-detail">
       <header className="gd-header">
@@ -65,7 +77,7 @@ const GroupDetail = observer(() => {
               </p>
 
               <div className="gd-members">
-                {g.members.map((m, i) => (
+                {g.members.slice(0,3).map((m, i) => (
                   <img
                     key={m._id || i}
                     className="gd-member"
@@ -74,7 +86,7 @@ const GroupDetail = observer(() => {
                     title={m.username}
                   />
                 ))}
-                {true && <span className="gd-more">+{"2"}</span>}
+                {g.members.length > 3 && <span className="gd-more">+{g.members.length - 3}</span>}
               </div>
             </div>
 
@@ -90,32 +102,44 @@ const GroupDetail = observer(() => {
           {/* EVENTO IN EVIDENZA */}
           {g.nextEvent ? (
             <section className="gd-section">
-              <div className="gd-card gd-event">
-                <div className="gd-event-body" onClick={() => navigate(`/events/${g.nextEvent._id}`)}>
-                  <div className="gd-event-icon">
-                    <FontAwesomeIcon icon={faCalendarDays} />
+              <div className="gd-card gd-event" onClick={() => navigate(`/events/${g.nextEvent._id}`)}>
+                {g.nextEvent.movie?.poster_path && (
+                  <div className="gd-event-poster">
+                    <img src={g.nextEvent.movie.poster_path} alt={g.nextEvent.movie.title} />
                   </div>
-                  <div className="gd-event-info">
-                    <div className="gd-event-title">{g.nextEvent.name || "Prossimo evento"}</div>
-                    <div className="gd-event-meta">
-                      {g.nextEvent.datePretty || g.nextEvent.date || ""} • {g.nextEvent.time || ""}
+                )}
+
+                <div className="gd-event-content">
+                  <div className="gd-event-header">
+                    <h3 className="gd-event-title">
+                      {g.nextEvent.title || "Prossimo evento"}
+                    </h3>
+                    <div className="gd-event-date">
+                      <FontAwesomeIcon icon={faCalendarDays} /> {formatDateTime(g.nextEvent.startsAt)}
                     </div>
-                    {g.nextEvent.movieTitle && (
-                      <div className="gd-event-movie">In voto: <strong>{g.nextEvent.movieTitle}</strong></div>
+                  </div>
+
+                  <div className="gd-event-meta">
+                    {g.nextEvent.time && <span>{g.nextEvent.time}</span>}
+                    {g.nextEvent.location && (
+                      <span className="gd-event-location">📍 {g.nextEvent.location}</span>
                     )}
                   </div>
-                  {g.nextEvent.cover && (
-                    <img className="gd-event-cover" src={g.nextEvent.cover} alt="" />
-                  )}
-                </div>
 
-                <div className="gd-event-actions">
-                  <button
-                    className="gd-btn gd-btn-primary"
-                    onClick={() => navigate(`/events/${g.nextEvent._id}`)}
-                  >
-                    Vai all’evento
-                  </button>
+                  {g.nextEvent.movie?.title && (
+                    <div className="gd-event-movie">
+                      In programma: <strong>{g.nextEvent.movie.title}</strong>
+                    </div>
+                  )}
+
+                  <div className="gd-event-actions">
+                    <button
+                      className="gd-btn gd-btn-primary"
+                      onClick={() => navigate(`/events/${g.nextEvent._id}`)}
+                    >
+                      Vai all’evento
+                    </button>
+                  </div>
                 </div>
               </div>
             </section>

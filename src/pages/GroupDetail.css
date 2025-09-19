@@ -42,17 +42,18 @@
 
 /* Hero */
 .gd-hero {
-  display: grid;
+  display: flex;
   grid-template-columns: auto 1fr auto;
   gap: 16px;
-  padding: 20px 16px 8px;
   align-items: center;
+  justify-content: center;
 }
 
 .gd-avatar {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 16px;
+  margin: 10px 0;
   overflow: hidden;
   background: var(--card-2);
   display: grid;
@@ -141,32 +142,74 @@
 
 /* Evento in evidenza */
 .gd-event {
-  display: grid;
-  gap: 12px;
-}
-.gd-event-body {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow: hidden;
   cursor: pointer;
 }
-.gd-event-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: grid; place-items: center;
-  background: var(--card-2); color: var(--brand);
-}
-.gd-event-info { display: grid; gap: 2px; }
-.gd-event-title { font-weight: 500; }
-.gd-event-meta { font-size: 14px; }
-.gd-event-movie { font-size: 14px; }
 
-.gd-event-cover {
-  width: 64px; height: 64px; border-radius: 12px; object-fit: cover;
-  border: 1px solid var(--line);
+.gd-event-poster {
+  flex-shrink: 0;
+  width: 120px;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
 }
+
+.gd-event-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gd-event-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.gd-event-header {
+  margin-bottom: 8px;
+}
+
+.gd-event-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px 0;
+}
+
+.gd-event-date {
+  font-size: 0.8rem;
+  color: var(--text-muted, #888);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gd-event-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted, #888);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.gd-event-location {
+  white-space: nowrap;
+}
+
+.gd-event-movie {
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
 .gd-event-actions {
-  display: flex; justify-content: flex-end;
+  margin-top: auto;
 }
 
 /* Empty states */

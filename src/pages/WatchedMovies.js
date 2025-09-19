@@ -98,28 +98,29 @@ const WatchedMovies = () => {
       {!loading && watched.movies.length < 1 && (
         <p className="no-movies">Non hai ancora aggiunto film visti.</p>
       )}
-
-      <div className="pagination" aria-label="Paginazione film visti">
-        <button
-          onClick={handlePreviousPage}
-          disabled={watched.page === 1}
-          className="pagination-button"
-          aria-label="Pagina precedente"
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <span aria-live="polite">
-          {watched.page} / {watched.totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={watched.page === watched.totalPages}
-          className="pagination-button"
-          aria-label="Pagina successiva"
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
-        </button>
-      </div>
+      {watched.movies.length > 0 &&
+        <div className="pagination" aria-label="Paginazione film visti">
+          <button
+            onClick={handlePreviousPage}
+            disabled={watched.page === 1}
+            className="pagination-button"
+            aria-label="Pagina precedente"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <span aria-live="polite">
+            {watched.page} / {watched.totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={watched.page === watched.totalPages}
+            className="pagination-button"
+            aria-label="Pagina successiva"
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
+        </div>
+      }
     </div>
   );
 };

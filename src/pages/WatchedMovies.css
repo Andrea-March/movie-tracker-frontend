@@ -1,5 +1,6 @@
 /* ===== Layout generale ===== */
 .watched-movies {
+  min-height: 92vh;
   padding: 12px 0 24px;
   width: 100%;
   overflow: hidden;

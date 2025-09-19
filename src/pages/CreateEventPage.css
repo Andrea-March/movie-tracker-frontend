@@ -1,0 +1,81 @@
+/* Layout della pagina */
+.create-event-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Titolo */
+.create-event-page h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: var(--text);
+  text-align: center;
+}
+
+/* Form */
+.create-event-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Label + input/select */
+.create-event-page label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.create-event-page input,
+.create-event-page select,
+.create-event-page textarea {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border, #ccc);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.create-event-page input:focus,
+.create-event-page select:focus,
+.create-event-page textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Bottone submit */
+.create-event-page button[type="submit"] {
+  background: var(--primary);
+  color: var(--on-primary, #fff);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-event-page button[type="submit"]:hover {
+  background: var(--primary-hover, #2563eb);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .create-event-page {
+    padding: 16px;
+  }
+
+  .create-event-page h2 {
+    font-size: 1.3rem;
+  }
+}

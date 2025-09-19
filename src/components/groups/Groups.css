@@ -37,6 +37,7 @@
 }
 
 .groups-content {
+  min-height: 92vh;
   flex: 1;
 }
 

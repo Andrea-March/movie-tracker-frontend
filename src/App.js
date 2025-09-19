@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Error from "./components/Error";
 import SuccessPopup from "./components/SuccessPopup";
@@ -19,6 +19,7 @@ import GroupDetail from "./pages/GroupDetail";
 import JoinRedirect from "./components/groups/JoinRedirect";
 import SearchPage from "./pages/SearchPage";
 import HomePage from "./pages/HomePage";
+import CreateEventPage from "./pages/CreateEventPage";
 function App() {
 
   const token = localStorage.getItem('token');
@@ -92,7 +93,7 @@ function App() {
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
             <Route path="/groups/:id" element={<ProtectedRoute element={GroupDetail} />} />
             <Route path="/join/:token" element={<ProtectedRoute element={JoinRedirect} />} />
-
+            <Route path="/groups/:groupId/events/new" element={<ProtectedRoute element={CreateEventPage} />} />
 
              {/* La route 404 va alla fine per gestire tutte le altre URL non corrispondenti */}
             <Route path="*" element={<NotFound />} />

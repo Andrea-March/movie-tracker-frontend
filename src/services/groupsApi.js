@@ -29,7 +29,7 @@ export async function fetchGroupsDropdown({ q } = {}) {
 export async function fetchGroupById(groupId) {
   try {
     const res = await api.get(`/groups/${groupId}`,
-       {params: { include: "members,watchlist" }}
+       {params: { include: "members,watchlist,nextEvent" }}
     );
     return res.data;
   } catch (err) {
