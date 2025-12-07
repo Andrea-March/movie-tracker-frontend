@@ -4,16 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faListUl, faMagnifyingGlass, faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons'
 import DarkModeToggle from './DarkModeToggle';
 import { movieStore } from '../stores/MovieStore';
+import { useEffect } from 'react';
 
 
 const Navbar = () => {
 
   const navigate = useNavigate();
-
-/*   const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  } */
 
 
   return (
@@ -29,5 +25,6 @@ const Navbar = () => {
     </div>
   );
 };
+
 
 export default Navbar;

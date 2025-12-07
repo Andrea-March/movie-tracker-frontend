@@ -21,9 +21,11 @@ import SearchPage from "./pages/SearchPage";
 import HomePage from "./pages/HomePage";
 import CreateEventPage from "./pages/CreateEventPage";
 import EventDetail from "./pages/EventDetail";
+import { useEffect } from "react";
 function App() {
 
   const token = localStorage.getItem('token');
+
 
 /*   useEffect(()=>{
     console.log("called app.js useEffect")
