@@ -32,7 +32,7 @@ const ToWatchMovies = () => {
     <div className="watched-movies content">
       {!loading && toWatch.movies.length > 0 && 
         <Slidable 
-          className="movie-grid" 
+          className="movie-grid flex-wrap justify-center" 
           onNext={handleNextPage} 
           onPrev={handlePreviousPage}
         >
@@ -57,24 +57,25 @@ const ToWatchMovies = () => {
         </Slidable>
       }
       { !loading && toWatch.movies.length < 1 && <p className="no-movies">Non hai ancora aggiunto film da vedere.</p>}
-
-      <div className="pagination">
-                <button 
-                  onClick={handlePreviousPage} 
-                  disabled={toWatch.page === 1}
-                  className="pagination-button"
-                >
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-                <span>{toWatch.page} / {toWatch.totalPages}</span>
-                <button 
-                  onClick={handleNextPage} 
-                  disabled={toWatch.page === toWatch.totalPages}
-                  className="pagination-button"
-                >
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
-        </div> 
+      {toWatch.movies.length > 0 &&
+        <div className="pagination">
+                  <button 
+                    onClick={handlePreviousPage} 
+                    disabled={toWatch.page === 1}
+                    className="pagination-button"
+                  >
+                    <FontAwesomeIcon icon={faChevronLeft} />
+                  </button>
+                  <span>{toWatch.page} / {toWatch.totalPages}</span>
+                  <button 
+                    onClick={handleNextPage} 
+                    disabled={toWatch.page === toWatch.totalPages}
+                    className="pagination-button"
+                  >
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </button>
+        </div>
+      } 
     </div>
   );
   

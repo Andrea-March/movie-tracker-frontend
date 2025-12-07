@@ -1,222 +1,170 @@
-import axios from 'axios';
-import {jwtDecode} from "jwt-decode";
+// services/moviesApi.js
+import { jwtDecode } from "jwt-decode";
+import { api } from "./httpClient"; 
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/'; // Backend in esecuzione sulla porta 5000
+// --- Helpers ---
+function normalizeError(err, fallback) {
+  return new Error(
+    err?.response?.data?.error || err?.message || fallback || "Errore sconosciuto"
+  );
+}
 
+function requireToken(explicitToken) {
+  const t = explicitToken ?? localStorage.getItem("token");
+  if (!t) throw new Error("Devi essere loggato.");
+  return t;
+}
 
-const token = localStorage.getItem("token");
+function getUserIdFromToken(explicitToken) {
+  const t = requireToken(explicitToken);
+  const decoded = jwtDecode(t);
+  const userId = decoded?.userId;
+  if (!userId) throw new Error("Token non valido: userId mancante.");
+  return { token: t, userId };
+}
 
+// =====================
+//   SEARCH / DISCOVERY
+// =====================
 
-// Funzione per cercare i film tramite il backend
 export const searchMovies = async (query) => {
   try {
-    const response = await axios.get(`${API_URL}movies/search`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        },
-      params: { query },
-    });
-    return response.data; // Restituisce i film trovati
-  } catch (error) {
-    throw new Error('Errore durante la ricerca dei film');
+    const res = await api.get(`/movies/search`, { params: { query } });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca dei film");
   }
 };
 
-// Funzione per cercare i film, le serie e le persone tramite il backend
 export const searchMulti = async (query) => {
   try {
-    const response = await axios.get(`${API_URL}movies/search/multi`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        },
-      params: { query },
-    });
-    return response.data; // Restituisce i film trovati
-  } catch (error) {
-    throw new Error('Errore durante la ricerca dei film');
+    const res = await api.get(`/movies/search/multi`, { params: { query } });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca");
   }
 };
 
-// Funzione per cercare i film tramite il backend
 export const searchPopularMovies = async (page) => {
   try {
-    const response = await axios.get(`${API_URL}movies/popular`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        },
-      params: { page },
-    });
-    return response.data; // Restituisce i film trovati
-  } catch (error) {
-    throw new Error('Errore durante la ricerca dei film');
+    const res = await api.get(`/movies/popular`, { params: { page } });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca dei film popolari");
   }
 };
 
 export const searchTopRatedMovies = async (page) => {
   try {
-    const response = await axios.get(`${API_URL}movies/top_rated`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        },
-      params: { page },
-    });
-    return response.data; // Restituisce i film trovati
-  } catch (error) {
-    throw new Error('Errore durante la ricerca dei film');
+    const res = await api.get(`/movies/top_rated`, { params: { page } });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca dei film top rated");
   }
 };
 
-export const searchUpcomingMovies  = async (page) => {
+export const searchUpcomingMovies = async (page) => {
   try {
-    const response = await axios.get(`${API_URL}movies/upcoming`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        },
-      params: { page },
-    });
-    return response.data; // Restituisce i film trovati
-  } catch (error) {
-    throw new Error('Errore durante la ricerca dei film');
+    const res = await api.get(`/movies/upcoming`, { params: { page } });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca dei film in arrivo");
   }
 };
 
-// Funzione per aggiungere un film alla lista dell'utente (visti o da vedere)
+// =====================
+//     USER MOVIES
+// =====================
+
 export const addMovieToList = async (movie, watched) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Devi essere loggato per aggiungere il film.");
-    }
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.userId;
-  
-    try {
-      const response = await axios.post(
-        `${API_URL}users/${userId}/movies`,
-        {movie: movie, watched: watched},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      return response.data.message || "Film aggiunto con successo!";
-    } catch (err) {
-      throw new Error(err.response.data.error);
-    }
-  };
+  try {
+    const { userId } = getUserIdFromToken();
+    const res = await api.post(`/users/${userId}/movies`, { movie, watched });
+    return res.data?.message || "Film aggiunto con successo!";
+  } catch (err) {
+    throw normalizeError(err, "Errore nell'aggiunta del film");
+  }
+};
 
-// Recupera i film dell'utente
 export const fetchUserMovies = async (token, type, page = 1, countPages = false) => {
-    if (!token) {
-        throw new Error("Devi essere loggato per aggiungere il film.");
-      }
-      const decodedToken = jwtDecode(token);
-      const userId = decodedToken.userId;
-    try {
-      const response = await axios.get(`${API_URL}users/${userId}/movies/${type}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { page, countPages },
-      });
-      return response.data;
-    } catch (err) {
-      throw new Error(err.response?.data?.error || "Errore nella chiamata API");
-    }
-  };
+  try {
+    const { userId } = getUserIdFromToken(token);
+    const res = await api.get(`/users/${userId}/movies/${type}`, {
+      params: { page, countPages },
+    });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore nel recupero dei film utente");
+  }
+};
 
-// Cambia stato del film
 export const changeMovieStatus = async (token, movieId, status) => {
-  if (!token) {
-      throw new Error("Devi essere loggato per aggiungere il film.");
-    }
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.userId;
   try {
-    const response = await axios.put(`${API_URL}users/${userId}/movies/${movieId}`, 
-      { watched:status },
-      {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
+    const { userId } = getUserIdFromToken(token);
+    const res = await api.put(`/users/${userId}/movies/${movieId}`, { watched: status });
+    return res.data;
   } catch (err) {
-    throw new Error(err.response?.data?.error || "Errore nella chiamata API");
+    throw normalizeError(err, "Errore nell'aggiornamento dello stato del film");
   }
 };
 
-//Delete a movie from user's lists
 export const deleteMovie = async (token, movieId) => {
-  if (!token) {
-      throw new Error("Devi essere loggato per eliminare il film.");
-    }
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.userId;
   try {
-    const response = await axios.delete(`${API_URL}users/${userId}/movies/${movieId}`,
-      {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
+    const { userId } = getUserIdFromToken(token);
+    const res = await api.delete(`/users/${userId}/movies/${movieId}`);
+    return res.data;
   } catch (err) {
-    throw new Error(err.response?.data?.error || "Errore nella chiamata API");
+    throw normalizeError(err, "Errore nell'eliminazione del film");
   }
 };
 
+// =====================
+//       MOVIE EXTRAS
+// =====================
 
-// Recupera i providers per un film
-  export const getMovieProviders = async (token, movieId) => {
-    if (!token) {
-        throw new Error("Devi essere loggato per accedere ai provider del film.");
-      }
-    try {
-      const response = await axios.get(`${API_URL}movies/providers/${movieId}`, 
-        {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
-    } catch (err) {
-      throw new Error(err.response?.data?.error || "Errore nella chiamata API");
-    }
-  };
+export const getMovieProviders = async (token, movieId) => {
+  try {
+    requireToken(token);
+    const res = await api.get(`/movies/providers/${movieId}`);
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore nel recupero dei provider del film");
+  }
+};
 
-  // Funzione per cercare il trailer di un film tramite il backend
 export const searchTrailerurl = async (movieId) => {
   try {
-    const response = await axios.get(`${API_URL}movies/${movieId}/trailer`, 
-      {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data.trailer_url; // Restituisce il link del trailer su youtube
-  } catch (error) {
-      console.log('Errore durante la ricerca del trailer');
+    const res = await api.get(`/movies/${movieId}/trailer`);
+    return res.data?.trailer_url;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca del trailer");
   }
 };
 
-// Funzione per ottenere i film in base al decennio e alla pagina
+export const getGenresAndRuntime = async (movieId) => {
+    try {
+    const res = await api.get(`/movies/${movieId}/genres-runtime`);
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante la ricerca del trailer");
+  }
+}
+
 export const getMoviesByDecade = async (decade, page) => {
   try {
-    const response = await axios.get(`${API_URL}movies/movies-by-decade?decade=${decade}&page=${page}`, 
-      {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Errore nella chiamata all'API", error);
-    throw error;
+    const res = await api.get(`/movies/movies-by-decade`, { params: { decade, page } });
+    return res.data;
+  } catch (err) {
+    throw normalizeError(err, "Errore nel recupero dei film per decennio");
   }
 };
 
-// Funzione per ottenere i related movies a partire dal movieId
 export const getRelatedMovies = async (movieId) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Utente non autenticato");
-
-    const response = await axios.get(`${API_URL}movies/${movieId}/related`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return response.data.movies; // Restituisce i 10 film correlati
-  } catch (error) {
-    console.error("Errore durante il fetch dei film correlati:", error);
-    throw new Error("Errore durante il fetch dei film correlati");
+    requireToken();
+    const res = await api.get(`/movies/${movieId}/related`);
+    return res.data?.movies;
+  } catch (err) {
+    throw normalizeError(err, "Errore durante il fetch dei film correlati");
   }
 };

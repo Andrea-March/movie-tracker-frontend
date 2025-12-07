@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './SuccessPopup.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { movieStore } from "../stores/MovieStore";
 import { observer } from 'mobx-react-lite';
+import { stateStore } from '../stores/StateStore';
+
 const SuccessPopup = () => {
 
-      const { successMessage } = movieStore;
+      const { successMessage } = stateStore;
       const [showSelf, setShowSelf] = useState(false);
     
       useEffect(() => {
@@ -14,7 +15,7 @@ const SuccessPopup = () => {
           setShowSelf(true);
           const timer = setTimeout(() => {
             setShowSelf(false);
-            setTimeout(() => movieStore.clearSuccess(), 300); // Attendi la fine dell'animazione
+            setTimeout(() => stateStore.clearSuccess(), 300); // Attendi la fine dell'animazione
           }, 3500);
     
           return () => clearTimeout(timer);

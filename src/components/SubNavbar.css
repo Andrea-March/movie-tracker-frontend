@@ -1,34 +1,75 @@
-/* subnavbar */ 
-.sub-navbar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: var(--sub-navbar);
-    padding: 10px;
-  }
-  
-  .sub-navbar button {
-    background: none;
-    border: none;
-    color: var(--text);
-    font-size: 15px;
-    cursor: pointer;
-    padding: 5px 10px;
-    transition: color 0.3s ease;
-    /* width: 200px; */
-  }
-  
-   /* Sostituire questo per lo stile con la lineetta sotto */
-  .sub-navbar button.active {
-    font-weight: bold;
-    border-bottom: 2px solid var(--secondary);
-  } 
+.sub-navbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 16px;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+}
 
-  /* Sostituire questo per lo stile con il background evidenziato */
-/* 
-  .sub-navbar button.active {
-    font-weight: bold;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.4);
-  } */
-    
+/* Bottone ghost "Esplora" */
+.sub-navbar .ghost{
+  background:transparent;
+  border:1px solid transparent;
+  color:var(--text);
+  opacity:.8;
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:15px;
+  cursor:pointer;
+  transition:opacity .2s, transform .2s;
+}
+.sub-navbar .ghost:hover{ opacity:1; transform:translateY(-1px); }
+.sub-navbar .ghost.is-active{
+  border-color:var(--line);
+  opacity:1;
+}
+
+/* Segmented control */
+.segmented{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr;         /* 2 segmenti */
+  background:color-mix(in srgb, var(--muted) 85%, transparent);
+  border-radius:999px;
+  padding:4px;
+  gap:4px;
+  min-width:260px;
+}
+
+/* Thumb scorrevole */
+.segmented .thumb{
+  position:absolute;
+  inset:4px;
+  width:calc(50% - 4px);                 /* 2 segmenti => 50% */
+  background:var(--brand);
+  border-radius:999px;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transition:transform .25s ease;
+  pointer-events:none;
+}
+
+/* Bottoni interni */
+.segmented .seg-btn{
+  position:relative;
+  z-index:1;
+  background:transparent;
+  border:0;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  color:var(--muted);
+  transition:color .2s;
+}
+
+/* Stato attivo: testo scuro sul teal, come nel mockup */
+.segmented .seg-btn.is-active{
+  color:#0B0E14;                          /* testo scuro sopra --brand */
+}
+
+/* Stato inattivo: testo chiaro ma non dominante */
+.segmented .seg-btn:not(.is-active){
+  color:#C7CED9;                          /* puoi usare anche var(--text) con opacity */
+}

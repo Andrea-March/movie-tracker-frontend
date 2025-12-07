@@ -1,0 +1,62 @@
+.event-detail .gd-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.event-poster {
+  max-width: 240px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.event-poster img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.event-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 12px 0;
+  text-align: center;
+  color: var(--text);
+}
+
+.event-meta {
+  font-size: 0.95rem;
+  color: var(--text-muted, #888);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.event-meta svg {
+  margin-right: 6px;
+  color: var(--primary);
+}
+
+.event-owner {
+  font-size: 0.9rem;
+  text-align: right;
+  color: var(--text-muted, #aaa);
+}
+
+.gd-back {
+  border: none;
+  background: none;
+  color: var(--primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

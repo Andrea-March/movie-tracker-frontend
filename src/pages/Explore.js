@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import './WatchedMovies.css'
 import './Explore.css'
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -51,7 +51,7 @@ const Explore = () => {
       {!loading && popular.movies.length > 0 ? (
         <>
         <Slidable 
-          className="movie-grid"
+          className="movie-grid flex-wrap justify-center"
           onNext={handleNextPage} 
           onPrev={handlePreviousPage}
         >

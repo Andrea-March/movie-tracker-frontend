@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getChallengeDetails, getChallengeMovies } from "../services/challengesservice";
+import { getChallengeDetails, getChallengeMovies } from "../services/challengesService";
 import '../App.css';
 import './ChallengeDetails.css'
 import Loader from "../components/Loader";
@@ -115,7 +115,7 @@ const ChallengeDetail = () => {
           { challenge.joined && 
               <>
               <h2>Film Selezionati</h2>
-              <div className="ch-details-movie-grid">
+              <div className="ch-details-movie-grid flex-wrap">
                 {selectedMovies.length > 0 ? (
                   selectedMovies.map((movie) => (
                     <div className="ch-details-movie-card-small flex-column" key={movie.movieId.id}>

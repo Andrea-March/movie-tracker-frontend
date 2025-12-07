@@ -3,11 +3,11 @@ import './Error.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { observer } from "mobx-react-lite";
-import { movieStore } from "../stores/MovieStore";
+import { stateStore } from '../stores/StateStore';
 
 const Error = () => {
 
-  const { error } = movieStore; 
+  const { error } = stateStore; 
   const [showSelf, setShowSelf] = useState(false);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Error = () => {
       setShowSelf(true);
     const timer = setTimeout(() => {
         setShowSelf(false);
-        setTimeout(() => movieStore.clearError(), 300); // Attendi la fine dell'animazione
+        setTimeout(() => stateStore.clearError(), 300); // Attendi la fine dell'animazione
       }, 3500);
 
       return () => clearTimeout(timer);

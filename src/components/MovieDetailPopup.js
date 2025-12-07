@@ -1,14 +1,17 @@
 import React, { useState, useRef } from 'react';
 import './MoviePopupDetail.css'; // Puoi aggiungere uno stile per il popup
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEye, faCheck, faTrash, faStar, faList } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEye, faCheck, faTrash, faStar, faList, faUserPlus, faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { observer } from "mobx-react-lite";
 import { movieStore } from "../stores/MovieStore";
+import { groupStore } from '../stores/GroupStore';
 
 
 const MovieDetailPopup = () => {
 
   const[showStatusChoice, setShowStatusChoice] = useState(false);
+  const [showGroups, setShowGroups] = useState(false);
+  const [pendingGroupId, setPendingGroupId] = useState(null);
 
   const topRef = useRef(null);
 
@@ -105,7 +108,12 @@ const MovieDetailPopup = () => {
                       </div>
                     }
                     {!selectedMovie.status &&
-                    <div className='display-flex align-items-center' onClick={()=>{setShowStatusChoice(!showStatusChoice)}}>
+                    <div 
+                        className='flex-column align-items-center width-50 gap-10' 
+                        onClick={()=>{
+                            setShowStatusChoice(!showStatusChoice)
+                        }}
+                    >
                       <FontAwesomeIcon
                         icon={statusIcon}
                         className="status-icon"
@@ -115,28 +123,121 @@ const MovieDetailPopup = () => {
                      
                     </div>
                     }
-                     {showStatusChoice && 
+                     
+                    
+              </div>
+              {showStatusChoice && 
+                    <div className='width-100 justify-center display-flex'>
                       <div className="flex-column status-choice-container">
-                        <div className='flex-row margin-top-20' onClick={()=>{movieStore.addMovie(selectedMovie.movie, true); setShowStatusChoice(false)}}>
-                          <FontAwesomeIcon
-                            icon={faCheck}
-                            className="status-icon"
-                            title="Segna come visto"
-                          />
-                          <span className="status-label padding-left-10">Segna come visto</span>
-                        </div>
-                        <div className='flex-row margin-top-20' onClick={()=>{movieStore.addMovie(selectedMovie.movie, false); setShowStatusChoice(false)}}>
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className="status-icon"
-                            title="Segna come da vedere"
-                          />
-                          <span className="status-label padding-left-10">Segna come da vedere</span>
+                          <div
+                            className="choice-row"
+                            onClick={() => {
+                              movieStore.addMovie(selectedMovie.movie, true);
+                              setShowStatusChoice(false);
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="status-icon"
+                              title="Segna come visto"
+                            />
+                            <span className="status-label">Segna come visto</span>
+                          </div>
+
+                          <div
+                            className="choice-row"
+                            onClick={() => {
+                              movieStore.addMovie(selectedMovie.movie, false);
+                              setShowStatusChoice(false);
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="status-icon"
+                              title="Segna come da vedere"
+                            />
+                            <span className="status-label">Segna come da vedere</span>
+                          </div>
                         </div>
                       </div>
                     }
-                    
-        </div>
+                    <div className='flex-column align-items-center width-100 gap-10' 
+                          onClick={()=>{
+                            if(!groupStore.groupsDropdown || groupStore.groupsDropdown.length < 1){
+                              groupStore.fetchGroupsDropdown();
+                            }console.log(groupStore.groupsDropdown.length < 1)
+                              setShowGroups(!showGroups)
+                        }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faUserPlus}
+                        className="status-icon"
+                        title={"aggiungi ad un gruppo"}
+                      />
+                      <span className="status-label padding-left-10">Aggiungi ad un gruppo</span>
+                     
+                    </div>
+                    {showGroups && (
+                                    <div className="group-dropdown dd-surface" role="dialog" aria-label="Aggiungi ad un gruppo">
+                                                 
+
+                                      {/* Sezione loader */}
+                                      {groupStore.loadingDropdown && (
+                                        <>
+                                          <div className="dd-sep" aria-hidden="true"></div>
+                                          <div className="dropdown-group-loader">
+                                            <FontAwesomeIcon icon={faSpinner} spin />
+                                            <span>Carico i tuoi gruppi…</span>
+                                          </div>
+                                        </>
+                                      )}
+
+                                      {/* Sezione empty */}
+                                      {!groupStore.loadingDropdown && groupStore.groupsDropdown.length === 0 && (
+                                        <>
+                                          <div className="dd-sep" aria-hidden="true"></div>
+                                          <p className="dropdown-group-empty">Non fai parte di alcun gruppo</p>
+                                        </>
+                                      )}
+
+                                      {/* Lista gruppi */}
+                                      {!groupStore.loadingDropdown && groupStore.groupsDropdown.length > 0 && (
+                                        <>
+                                          <div className="dd-sep" aria-hidden="true"></div>
+                                          <div className="dd-list" role="listbox" aria-label="Scegli un gruppo">
+                                            {groupStore.groupsDropdown.map((g) => (
+                                              <div key={g.groupId} className="dropdown-group-row" role="option" tabIndex={0}
+                                                  onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                      groupStore.addMovieToGroup(g.groupId, selectedMovie.movie);
+                                                    }
+                                                  }}>
+                                                <img
+                                                  src={g.icon || "/popcorn.png"}
+                                                  alt=""
+                                                  className="dropdown-group-avatar"
+                                                  aria-hidden="true"
+                                                />
+                                                <span className="dropdown-group-name" title={g.name}>{g.name}</span>
+                                                <button
+                                                  className="dropdown-group-add-btn dd-chip"
+                                                  onClick={() => groupStore.addMovieToGroup(g.groupId, selectedMovie.movie)}
+                                                  title="Aggiungi al gruppo"
+                                                  aria-label={`Aggiungi a ${g.name}`}
+                                                >
+                                                  <FontAwesomeIcon icon={faPlus} />
+                                                  <span className="dd-chip-label">Aggiungi</span>
+                                                </button>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                    )}
+
+
+
          <div className='section-divider'></div> 
         {
           !selectedMovie.showTrailer && 
@@ -185,7 +286,7 @@ const MovieDetailPopup = () => {
                       {selectedMovie.providers[category] &&
                         <>
                           <h4 key={category}>{category === "buy" ? "Compra" : category === "flatrate" ? "Abbonamento" : "Noleggia"}</h4>
-                          <div className="provider-logos">
+                          <div className="provider-logos flex-wrap">
                               {selectedMovie.providers[category].map((provider) => (
                                 wantedProviders.includes(provider.provider_id) && 
                                 (<div className='provider-card flex-column align-items-center' key={provider.provider_id+"_div"}>

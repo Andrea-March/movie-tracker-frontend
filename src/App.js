@@ -1,6 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import WatchedMovies from "./pages/WatchedMovies";
-import ToWatchMovies from "./pages/ToWatchMovies";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Error from "./components/Error";
 import SuccessPopup from "./components/SuccessPopup";
@@ -8,18 +6,26 @@ import MovieDetailPopup from "./components/MovieDetailPopup";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Explore from "./pages/Explore";
 import Challenges from "./pages/Challenges";
-import Groups from "./pages/Groups";
+import Groups from "./components/groups/Groups";
 import NotFound from "./pages/NotFound";
 /* import Test from "./pages/Test"; */
 import ChallengeDetail from "./pages/ChallengeDetails";
 import ResetPassword from "./components/ResetPassword";
 import Loader from "./components/Loader";
 import PersonDetailPopup from "./components/PersonDetailPopup";
+import MoviesLists from "./pages/MoviesLists";
+import GroupDetail from "./pages/GroupDetail";
+import JoinRedirect from "./components/groups/JoinRedirect";
+import SearchPage from "./pages/SearchPage";
+import HomePage from "./pages/HomePage";
+import CreateEventPage from "./pages/CreateEventPage";
+import EventDetail from "./pages/EventDetail";
+import { useEffect } from "react";
 function App() {
 
   const token = localStorage.getItem('token');
+
 
 /*   useEffect(()=>{
     console.log("called app.js useEffect")
@@ -67,7 +73,6 @@ function App() {
       <div>
         {token && 
           (<>
-            <Navbar />
             <MovieDetailPopup  />
             <PersonDetailPopup />
             <Error />
@@ -80,19 +85,28 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Navigate to="/movies/watched"/>} />
-            <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
+            <Route path="/" element={<ProtectedRoute element={HomePage} />} />
+            {/* <Route path="movies/explore" element={<ProtectedRoute element={Explore} />} />
             <Route path="movies/watched" element={<ProtectedRoute element={WatchedMovies} />} />
-            <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  />
+            <Route path="movies/to-watch" element={<ProtectedRoute element={ToWatchMovies} />}  /> */}
+            <Route path="/movies" element={<ProtectedRoute element={MoviesLists} />}  /> 
+            <Route path="/search" element={<ProtectedRoute element={SearchPage} />}  /> 
             <Route path="/challenges" element={<ProtectedRoute element={Challenges} />} />
             <Route path="/challenges/:challengeId" element={<ProtectedRoute element={ChallengeDetail} />} />
             <Route path="/groups" element={<ProtectedRoute element={Groups} />} />
-
-
+            <Route path="/groups/:id" element={<ProtectedRoute element={GroupDetail} />} />
+            <Route path="/events/:eventId" element={<ProtectedRoute element={EventDetail} />} />
+            <Route path="/join/:token" element={<ProtectedRoute element={JoinRedirect} />} />
+            <Route path="/groups/:groupId/events/new" element={<ProtectedRoute element={CreateEventPage} />} />
 
              {/* La route 404 va alla fine per gestire tutte le altre URL non corrispondenti */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {token && 
+          (<>
+            <Navbar />
+          </>)
+        }
       </div>
     </Router>
   );

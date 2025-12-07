@@ -22,7 +22,7 @@ function Login() {
       // Memorizza il token in localStorage
       localStorage.setItem("token", response.data.token);
       setError("");
-      navigate("/movies/watched"); // Redirect dopo login
+      navigate("/movies"); // Redirect dopo login
       window.location.reload();
     } catch (err) {
       setError(err.response.data.error);
